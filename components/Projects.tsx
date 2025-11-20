@@ -1,66 +1,124 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { PROJECTS } from '../constants';
-import { ExternalLink } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Projects: React.FC = () => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const { current } = scrollContainerRef;
+      const scrollAmount = 400;
+      if (direction === 'left') {
+        current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      } else {
+        current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
-    <section id="projects" className="py-24 bg-darker">
+    <section id="projects" className="py-24 bg-darker relative overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
           <div>
             <h3 className="text-primary font-medium tracking-widest mb-2">PORTFOLIO</h3>
             <h2 className="text-4xl md:text-5xl font-heading font-bold text-white">
-              Featured <span className="text-white relative inline-block">
-                Projects
-                <span className="absolute bottom-1 left-0 w-full h-3 bg-primary/20 -z-10"></span>
-              </span>
+              Featured Projects
             </h2>
+            <p className="text-slate-400 mt-4 max-w-lg">
+               A selection of projects that showcase my skills in web development and design.
+            </p>
           </div>
-          <a href="#" className="hidden md:inline-block text-primary hover:text-white transition-colors font-medium">
-            View All Projects &rarr;
-          </a>
+          
+          {/* Navigation Buttons */}
+          <div className="hidden md:flex gap-4 mt-6 md:mt-0">
+            <button 
+              onClick={() => scroll('left')}
+              className="p-3 rounded-full border border-white/10 bg-card text-white hover:bg-primary hover:border-primary transition-all"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button 
+              onClick={() => scroll('right')}
+              className="p-3 rounded-full border border-white/10 bg-card text-white hover:bg-primary hover:border-primary transition-all"
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Horizontal Scroll Container */}
+        <div 
+          ref={scrollContainerRef}
+          className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          <style>
+            {`
+              div::-webkit-scrollbar {
+                display: none;
+              }
+            `}
+          </style>
           {PROJECTS.map((project) => (
-            <div key={project.id} className="group relative rounded-2xl overflow-hidden border border-white/5 bg-card">
-              <div className="aspect-video overflow-hidden">
+            <div 
+              key={project.id} 
+              className="min-w-[85vw] md:min-w-[450px] snap-center bg-card rounded-3xl overflow-hidden border border-white/5 group hover:border-primary/30 transition-all duration-300 flex flex-col h-full"
+            >
+              {/* Image Section */}
+              <div className="relative h-64 overflow-hidden">
+                <div className="absolute top-4 right-4 z-20">
+                   <span className="bg-dark/80 backdrop-blur-sm text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-white/10">
+                      {project.category}
+                   </span>
+                </div>
                 <img 
                   src={project.image} 
                   alt={project.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-darker via-darker/50 to-transparent opacity-90 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60"></div>
               </div>
               
-              <div className="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-primary text-sm font-bold uppercase tracking-wider">{project.category}</span>
-                  <div className="flex gap-2">
-                     {project.tech.map(t => (
-                        <span key={t} className="text-[10px] bg-white/10 text-white px-2 py-1 rounded backdrop-blur-sm">{t}</span>
-                     ))}
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
-                <p className="text-slate-400 text-sm line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity delay-100 duration-300">
+              {/* Content Section */}
+              <div className="p-8 flex-1 flex flex-col">
+                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-slate-400 mb-6 line-clamp-2 flex-1">
                   {project.description}
                 </p>
+                
+                {/* Tech Stack */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                   {project.tech.map(t => (
+                      <span key={t} className="text-xs font-medium text-slate-300 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
+                        {t}
+                      </span>
+                   ))}
+                </div>
+
+                {/* Link */}
                 <a 
                   href={project.link} 
-                  className="inline-flex items-center gap-2 text-white hover:text-primary transition-colors font-medium"
+                  className="inline-flex items-center gap-2 text-white font-medium group/link"
                 >
-                  View Case Study <ExternalLink size={16} />
+                  View Case Study 
+                  <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform text-primary" />
                 </a>
               </div>
             </div>
           ))}
         </div>
         
-        <div className="mt-12 text-center md:hidden">
-          <a href="#" className="inline-block bg-white/5 text-white px-6 py-3 rounded-full font-medium">
-            View All Projects
-          </a>
+        {/* Mobile Swipe Hint */}
+        <div className="md:hidden text-center mt-[-1rem]">
+          <p className="text-slate-500 text-sm flex items-center justify-center gap-2">
+            <ArrowRight size={14} className="animate-pulse" /> Swipe to view more
+          </p>
         </div>
       </div>
     </section>

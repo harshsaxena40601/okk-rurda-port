@@ -27,3 +27,43 @@ export interface ChatMessage {
   text: string;
   isError?: boolean;
 }
+
+export interface ShopifyProject {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  results: {
+    metric: string;
+    value: string;
+  }[];
+  link?: string;
+}
+
+export interface SEOStep {
+  id: string;
+  step: number;
+  title: string;
+  description: string;
+  tools: string[];
+}
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  content: string;
+  image: string;
+}
+
+export interface CaseStudy {
+  id: string;
+  title: string;
+  client: string;
+  category: string;
+  problem: string;
+  solution: string;
+  impact: string;
+}
