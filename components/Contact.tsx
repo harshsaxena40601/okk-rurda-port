@@ -1,100 +1,104 @@
 import React from 'react';
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
+import { AppMode } from '../types';
 
-const Contact: React.FC = () => {
+interface ContactProps {
+  mode: AppMode;
+}
+
+const Contact: React.FC<ContactProps> = ({ mode }) => {
+  const isVideo = mode === 'video';
+  
+  const accentText = isVideo ? 'text-red-600' : 'text-blue-500';
+  const btnColor = isVideo 
+    ? 'bg-red-600 hover:bg-red-700 shadow-red-600/20' 
+    : 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/20';
+  const focusBorder = isVideo 
+    ? 'focus:border-red-600 focus:ring-1 focus:ring-red-600/50' 
+    : 'focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50';
+  const iconBg = isVideo ? 'group-hover:bg-red-600 group-hover:text-white' : 'group-hover:bg-blue-600 group-hover:text-white';
+
   return (
-    <section id="contact" className="py-24 bg-dark">
+    <section id="contact" className="py-32 bg-darker">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           
           <div>
-            <h3 className="text-primary font-medium tracking-widest mb-2">GET IN TOUCH</h3>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
-              Let's Talk!
+            <h3 className={`${accentText} font-bold tracking-[0.2em] mb-4 uppercase text-sm`}>CONTACT</h3>
+            <h2 className="text-5xl md:text-6xl font-heading font-bold text-white mb-8">
+              {isVideo ? 'Start A Project' : "Let's Build It"}
             </h2>
-            <p className="text-slate-400 text-lg mb-12 max-w-md">
-              Have a project in mind? I'd love to hear from you. Let's build something amazing together.
+            <p className="text-slate-400 text-xl mb-12 max-w-md leading-relaxed">
+              {isVideo 
+                ? "Ready to transform your raw footage into a masterpiece? Let's create something cinematic." 
+                : "Have a complex technical challenge? I'm ready to help you engineer the perfect solution."}
             </p>
 
             <div className="space-y-8">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-card rounded-full flex items-center justify-center text-primary shrink-0 border border-white/5">
-                  <Mail size={20} />
+              {[
+                { icon: Mail, title: 'Email', value: 'rudra.saxena@example.com' },
+                { icon: Phone, title: 'Phone', value: '+1 (555) 123-4567' },
+                { icon: MapPin, title: 'Location', value: 'Available Worldwide (Remote)' }
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-start gap-6 group">
+                  <div className={`w-14 h-14 bg-card rounded-2xl flex items-center justify-center shrink-0 border border-white/5 text-slate-400 transition-all duration-300 ${iconBg}`}>
+                    <item.icon size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold text-lg mb-1">{item.title}</h4>
+                    <p className="text-slate-400">{item.value}</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-white font-bold text-lg">Email</h4>
-                  <p className="text-slate-400">rudra.saxena@example.com</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-card rounded-full flex items-center justify-center text-primary shrink-0 border border-white/5">
-                  <Phone size={20} />
-                </div>
-                <div>
-                  <h4 className="text-white font-bold text-lg">Phone</h4>
-                  <p className="text-slate-400">+1 (555) 123-4567</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-card rounded-full flex items-center justify-center text-primary shrink-0 border border-white/5">
-                  <MapPin size={20} />
-                </div>
-                <div>
-                  <h4 className="text-white font-bold text-lg">Location</h4>
-                  <p className="text-slate-400">Available Worldwide (Remote)</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
-          <div className="bg-card p-8 md:p-10 rounded-3xl border border-white/5">
+          <div className="bg-card p-10 md:p-12 rounded-[2rem] border border-white/5 shadow-2xl">
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-slate-300">Your Name</label>
+                  <label htmlFor="name" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Your Name</label>
                   <input 
                     type="text" 
                     id="name" 
-                    className="w-full bg-darker border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors"
+                    className={`w-full bg-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none transition-all ${focusBorder}`}
                     placeholder="John Doe"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-slate-300">Your Email</label>
+                  <label htmlFor="email" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Your Email</label>
                   <input 
                     type="email" 
                     id="email" 
-                    className="w-full bg-darker border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors"
+                    className={`w-full bg-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none transition-all ${focusBorder}`}
                     placeholder="john@example.com"
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium text-slate-300">Subject</label>
+                <label htmlFor="subject" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Subject</label>
                 <input 
                   type="text" 
                   id="subject" 
-                  className="w-full bg-darker border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors"
-                  placeholder="Project Inquiry"
+                  className={`w-full bg-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none transition-all ${focusBorder}`}
+                  placeholder={isVideo ? "Video Project Inquiry" : "Project Inquiry"}
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-slate-300">Your Message</label>
+                <label htmlFor="message" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Your Message</label>
                 <textarea 
                   id="message" 
-                  rows={4}
-                  className="w-full bg-darker border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors resize-none"
-                  placeholder="Tell me about your project..."
+                  rows={5}
+                  className={`w-full bg-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none transition-all resize-none ${focusBorder}`}
+                  placeholder={isVideo ? "Tell me about your vision..." : "Tell me about the problem..."}
                 ></textarea>
               </div>
 
-              <button type="submit" className="w-full bg-primary hover:bg-blue-600 text-white py-4 rounded-lg font-bold transition-colors flex items-center justify-center gap-2">
+              <button type="submit" className={`w-full text-white py-5 rounded-xl font-bold text-lg transition-all shadow-lg flex items-center justify-center gap-3 hover:-translate-y-1 ${btnColor}`}>
                 Send Message
-                <Send size={18} />
+                <Send size={20} />
               </button>
             </form>
           </div>

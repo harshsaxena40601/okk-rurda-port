@@ -1,9 +1,21 @@
 import React, { useRef } from 'react';
 import { PROJECTS } from '../constants';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { AppMode } from '../types';
 
-const Projects: React.FC = () => {
+interface ProjectsProps {
+  mode: AppMode;
+}
+
+const Projects: React.FC<ProjectsProps> = ({ mode }) => {
+  const projects = PROJECTS[mode];
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isVideo = mode === 'video';
+  
+  const accentText = isVideo ? 'text-red-600' : 'text-blue-500';
+  const hoverBorder = isVideo ? 'hover:border-red-600/30' : 'hover:border-blue-500/30';
+  const hoverBtn = isVideo ? 'hover:bg-red-600 hover:border-red-600' : 'hover:bg-blue-600 hover:border-blue-600';
+  const titleHover = isVideo ? 'group-hover:text-red-500' : 'group-hover:text-blue-400';
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -18,16 +30,16 @@ const Projects: React.FC = () => {
   };
 
   return (
-    <section id="projects" className="py-24 bg-darker relative overflow-hidden">
+    <section id="projects" className="py-32 bg-darker relative overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16">
           <div>
-            <h3 className="text-primary font-medium tracking-widest mb-2">PORTFOLIO</h3>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white">
-              Featured Projects
+            <h3 className={`${accentText} font-bold tracking-[0.2em] mb-4 uppercase text-sm`}>PORTFOLIO</h3>
+            <h2 className="text-4xl md:text-6xl font-heading font-bold text-white">
+              Featured {isVideo ? 'Edits' : 'Works'}
             </h2>
-            <p className="text-slate-400 mt-4 max-w-lg">
-               A selection of projects that showcase my skills in web development and design.
+            <p className="text-slate-400 mt-6 max-w-lg text-lg">
+               A selection of projects that showcase my skills in {isVideo ? 'cinematic storytelling and pacing' : 'web development and software engineering'}.
             </p>
           </div>
           
@@ -35,14 +47,14 @@ const Projects: React.FC = () => {
           <div className="hidden md:flex gap-4 mt-6 md:mt-0">
             <button 
               onClick={() => scroll('left')}
-              className="p-3 rounded-full border border-white/10 bg-card text-white hover:bg-primary hover:border-primary transition-all"
+              className={`p-4 rounded-full border border-white/10 bg-card text-white transition-all ${hoverBtn}`}
               aria-label="Scroll left"
             >
               <ChevronLeft size={24} />
             </button>
             <button 
               onClick={() => scroll('right')}
-              className="p-3 rounded-full border border-white/10 bg-card text-white hover:bg-primary hover:border-primary transition-all"
+              className={`p-4 rounded-full border border-white/10 bg-card text-white transition-all ${hoverBtn}`}
               aria-label="Scroll right"
             >
               <ChevronRight size={24} />
@@ -63,39 +75,48 @@ const Projects: React.FC = () => {
               }
             `}
           </style>
-          {PROJECTS.map((project) => (
+          {projects.map((project) => (
             <div 
               key={project.id} 
-              className="min-w-[85vw] md:min-w-[450px] snap-center bg-card rounded-3xl overflow-hidden border border-white/5 group hover:border-primary/30 transition-all duration-300 flex flex-col h-full"
+              className={`min-w-[85vw] md:min-w-[480px] snap-center bg-card rounded-3xl overflow-hidden border border-white/5 group transition-all duration-500 flex flex-col h-full ${hoverBorder}`}
             >
               {/* Image Section */}
-              <div className="relative h-64 overflow-hidden">
-                <div className="absolute top-4 right-4 z-20">
-                   <span className="bg-dark/80 backdrop-blur-sm text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-white/10">
+              <div className="relative h-72 overflow-hidden bg-black">
+                <div className="absolute top-4 left-4 z-20">
+                   <span className="bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/10">
                       {project.category}
                    </span>
                 </div>
                 <img 
                   src={project.image} 
                   alt={project.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0`}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-90"></div>
+                
+                {/* Play Button Overlay for Video Mode */}
+                {isVideo && (
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-50 group-hover:scale-100">
+                    <div className="w-20 h-20 bg-red-600/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-2xl shadow-red-900/50">
+                       <Play fill="white" className="ml-1 text-white" size={32} />
+                    </div>
+                  </div>
+                )}
               </div>
               
               {/* Content Section */}
               <div className="p-8 flex-1 flex flex-col">
-                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">
+                <h3 className={`text-2xl font-bold text-white mb-4 transition-colors ${titleHover}`}>
                   {project.title}
                 </h3>
-                <p className="text-slate-400 mb-6 line-clamp-2 flex-1">
+                <p className="text-slate-400 mb-8 line-clamp-2 flex-1 text-lg">
                   {project.description}
                 </p>
                 
                 {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2 mb-8">
                    {project.tech.map(t => (
-                      <span key={t} className="text-xs font-medium text-slate-300 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
+                      <span key={t} className="text-xs font-medium text-slate-500 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
                         {t}
                       </span>
                    ))}
@@ -104,10 +125,10 @@ const Projects: React.FC = () => {
                 {/* Link */}
                 <a 
                   href={project.link} 
-                  className="inline-flex items-center gap-2 text-white font-medium group/link"
+                  className={`inline-flex items-center gap-2 font-bold uppercase tracking-wider text-sm group/link transition-colors ${isVideo ? 'text-red-500 hover:text-red-400' : 'text-blue-500 hover:text-blue-400'}`}
                 >
-                  View Case Study 
-                  <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform text-primary" />
+                  {isVideo ? 'Watch Video' : 'View Project'}
+                  <ArrowRight size={18} className="group-hover/link:translate-x-1 transition-transform" />
                 </a>
               </div>
             </div>
@@ -115,9 +136,9 @@ const Projects: React.FC = () => {
         </div>
         
         {/* Mobile Swipe Hint */}
-        <div className="md:hidden text-center mt-[-1rem]">
-          <p className="text-slate-500 text-sm flex items-center justify-center gap-2">
-            <ArrowRight size={14} className="animate-pulse" /> Swipe to view more
+        <div className="md:hidden text-center">
+          <p className="text-slate-600 text-xs uppercase tracking-widest flex items-center justify-center gap-2">
+            <ArrowRight size={14} className="animate-pulse" /> Swipe to explore
           </p>
         </div>
       </div>
