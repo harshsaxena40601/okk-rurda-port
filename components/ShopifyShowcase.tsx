@@ -26,27 +26,27 @@ const ShopifyShowcase: React.FC<SpecializedProps> = ({ mode }) => {
   const borderHover = isVideo ? 'hover:border-red-500/30' : 'hover:border-blue-500/30';
 
   return (
-    <section id="shopify" className="py-32 bg-gradient-to-b from-darker to-card relative overflow-hidden">
+    <section id="shopify" className="py-20 md:py-32 bg-gradient-to-b from-darker to-card relative overflow-hidden">
       {/* Background Elements */}
       <div className={`absolute top-0 right-0 w-1/2 h-full skew-x-12 pointer-events-none opacity-5 ${isVideo ? 'bg-red-900' : 'bg-blue-900'}`}></div>
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center text-center mb-20">
-          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-bold tracking-widest uppercase mb-6 ${badgeColor}`}>
-            {isVideo ? <Film size={14} /> : <ShoppingBag size={14} />}
+        <div className="flex flex-col items-center text-center mb-12 md:mb-20">
+          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4 md:mb-6 ${badgeColor}`}>
+            {isVideo ? <Film size={12} className="md:w-3.5 md:h-3.5" /> : <ShoppingBag size={12} className="md:w-3.5 md:h-3.5" />}
             {isVideo ? 'Creative Solutions' : 'E-Commerce Experts'}
           </div>
-          <h2 className="text-4xl md:text-6xl font-heading font-bold text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold text-white mb-4 md:mb-6">
             <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradientText}`}>{data.title}</span>
           </h2>
-          <p className="text-slate-400 max-w-2xl text-lg">
+          <p className="text-slate-400 max-w-2xl text-base md:text-lg">
             {data.subtitle}
           </p>
         </div>
 
-        <div className="space-y-24">
+        <div className="space-y-16 md:space-y-24">
           {data.projects.map((project, index) => (
-            <div key={project.id} className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-16 items-center`}>
+            <div key={project.id} className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 lg:gap-16 items-center`}>
               
               {/* Image Side */}
               <div className="w-full lg:w-1/2 relative group perspective-1000">
@@ -55,14 +55,14 @@ const ShopifyShowcase: React.FC<SpecializedProps> = ({ mode }) => {
                   <img 
                     src={project.image} 
                     alt={project.title} 
-                    className={`w-full object-cover h-72 md:h-96 transition-all duration-700 grayscale group-hover:grayscale-0`}
+                    className={`w-full object-cover h-64 md:h-96 transition-all duration-700 grayscale group-hover:grayscale-0`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90"></div>
                   
-                  <div className="absolute bottom-8 left-8 right-8">
+                  <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8">
                      <div className="flex flex-wrap gap-2">
                         {project.technologies.map(tech => (
-                          <span key={tech} className="bg-black/70 backdrop-blur-md border border-white/10 text-white text-xs font-bold uppercase tracking-wide px-4 py-2 rounded-full">
+                          <span key={tech} className="bg-black/70 backdrop-blur-md border border-white/10 text-white text-[10px] md:text-xs font-bold uppercase tracking-wide px-3 py-1.5 md:px-4 md:py-2 rounded-full">
                             {tech}
                           </span>
                         ))}
@@ -72,25 +72,25 @@ const ShopifyShowcase: React.FC<SpecializedProps> = ({ mode }) => {
               </div>
 
               {/* Content Side */}
-              <div className="w-full lg:w-1/2 space-y-8">
-                <h3 className="text-3xl md:text-4xl font-heading font-bold text-white">{project.title}</h3>
-                <p className="text-slate-400 text-lg leading-relaxed">
+              <div className="w-full lg:w-1/2 space-y-6 md:space-y-8">
+                <h3 className="text-2xl md:text-4xl font-heading font-bold text-white">{project.title}</h3>
+                <p className="text-slate-400 text-base md:text-lg leading-relaxed">
                   {project.description}
                 </p>
 
-                <div className="grid grid-cols-3 gap-4 md:gap-6">
+                <div className="grid grid-cols-3 gap-3 md:gap-6">
                   {project.results.map((result, idx) => (
-                    <div key={idx} className={`bg-[#080808] border border-white/5 p-6 rounded-2xl text-center transition-colors ${borderHover}`}>
-                      <div className={`text-2xl md:text-4xl font-bold mb-2 ${metricColor}`}>{result.value}</div>
-                      <div className="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest font-bold">{result.metric}</div>
+                    <div key={idx} className={`bg-[#080808] border border-white/5 p-4 md:p-6 rounded-xl md:rounded-2xl text-center transition-colors ${borderHover}`}>
+                      <div className={`text-xl md:text-4xl font-bold mb-1 md:mb-2 ${metricColor}`}>{result.value}</div>
+                      <div className="text-[8px] md:text-xs text-slate-500 uppercase tracking-widest font-bold truncate">{result.metric}</div>
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-4">
-                  <button className={`flex items-center gap-2 text-white font-bold text-sm uppercase tracking-wider group/btn transition-colors ${hoverBtn}`}>
+                <div className="pt-2 md:pt-4">
+                  <button className={`flex items-center gap-2 text-white font-bold text-xs md:text-sm uppercase tracking-wider group/btn transition-colors ${hoverBtn}`}>
                     View Details
-                    <TrendingUp size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                    <TrendingUp size={14} className="group-hover/btn:translate-x-1 transition-transform md:w-4 md:h-4" />
                   </button>
                 </div>
               </div>
