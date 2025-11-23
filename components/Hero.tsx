@@ -33,12 +33,12 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
   const frameBorder = isVideo ? 'border-red-500/20' : 'border-blue-500/20';
 
   return (
-    <section id="home" className="relative pt-28 pb-12 md:pt-48 md:pb-32 overflow-hidden min-h-screen flex items-center transition-colors duration-700 bg-darker">
+    <section id="home" className="relative pt-24 pb-12 md:pt-40 md:pb-24 overflow-hidden min-h-screen flex items-center transition-colors duration-700 bg-darker">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
          {/* Dynamic Orbs */}
-         <div className={`absolute top-[5%] -right-[10%] md:top-[10%] md:right-[5%] w-64 h-64 md:w-96 md:h-96 rounded-full border border-white/5 animate-[spin_20s_linear_infinite] transition-all duration-1000 opacity-30 ${isVideo ? 'border-red-500/20' : 'border-blue-500/20'}`}></div>
-         <div className="absolute top-[10%] right-[0%] md:top-[15%] md:right-[10%] w-48 h-48 md:w-72 md:h-72 rounded-full border border-white/5 animate-[spin_25s_linear_infinite_reverse] opacity-30"></div>
+         <div className={`absolute top-[5%] -right-[10%] md:top-[10%] md:right-[5%] w-64 h-64 md:w-80 md:h-80 rounded-full border border-white/5 animate-[spin_20s_linear_infinite] transition-all duration-1000 opacity-30 ${isVideo ? 'border-red-500/20' : 'border-blue-500/20'}`}></div>
+         <div className="absolute top-[10%] right-[0%] md:top-[15%] md:right-[10%] w-48 h-48 md:w-64 md:h-64 rounded-full border border-white/5 animate-[spin_25s_linear_infinite_reverse] opacity-30"></div>
          
          {/* Color Glows */}
          <div className={`absolute top-0 left-0 md:left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blur-[80px] md:blur-[120px] transition-colors duration-1000 opacity-20 ${isVideo ? 'bg-red-900' : 'bg-blue-900'}`}></div>
@@ -49,8 +49,8 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
       </div>
 
       <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          <div className="flex-1 space-y-6 md:space-y-8 z-10 w-full">
+        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+          <div className="flex-1 space-y-5 md:space-y-6 z-10 w-full">
             
             {/* Toggle Switch */}
             <div className="inline-flex items-center bg-black/50 backdrop-blur-sm border border-white/10 rounded-full p-1.5 relative shadow-lg">
@@ -84,11 +84,11 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
             </div>
             
             {/* Text Content */}
-            <div className={`space-y-2 md:space-y-4 transition-opacity duration-500 ${isAnimating ? 'opacity-50' : 'opacity-100'}`}>
-              <h2 className={`font-bold tracking-[0.2em] text-sm md:text-lg transition-colors duration-500 ${primaryText}`}>
+            <div className={`space-y-2 transition-opacity duration-500 ${isAnimating ? 'opacity-50' : 'opacity-100'}`}>
+              <h2 className={`font-bold tracking-[0.2em] text-xs md:text-sm transition-colors duration-500 ${primaryText}`}>
                 {content.greeting}
               </h2>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-heading font-black text-white tracking-tighter leading-[0.95] md:leading-[0.9]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black text-white tracking-tighter leading-[0.95] md:leading-[0.9]">
                 {content.titleLine1} <br />
                 <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradientText} transition-all duration-1000 drop-shadow-sm`}>
                   {content.titleLine2}
@@ -96,20 +96,20 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
               </h1>
             </div>
 
-            <h3 className={`text-xl md:text-3xl text-slate-400 font-light transition-opacity duration-500 ${isAnimating ? 'opacity-50' : 'opacity-100'}`}>
+            <h3 className={`text-lg md:text-2xl text-slate-400 font-light transition-opacity duration-500 ${isAnimating ? 'opacity-50' : 'opacity-100'}`}>
               {content.subtitle} <br className="hidden md:block" /> 
               <span className="text-white font-medium block md:inline mt-1 md:mt-0">{content.subtitleHighlight}</span>
             </h3>
             
-            <p className={`text-slate-400 text-base md:text-lg max-w-xl leading-relaxed border-l-2 pl-4 md:pl-6 transition-all duration-500 ${isAnimating ? 'opacity-50 translate-x-2' : 'opacity-100 translate-x-0'} ${isVideo ? 'border-red-600/50' : 'border-blue-500/50'}`}>
+            <p className={`text-slate-400 text-sm md:text-base max-w-lg leading-relaxed border-l-2 pl-4 md:pl-6 transition-all duration-500 ${isAnimating ? 'opacity-50 translate-x-2' : 'opacity-100 translate-x-0'} ${isVideo ? 'border-red-600/50' : 'border-blue-500/50'}`}>
               {content.description}
             </p>
             
             {/* Buttons & Socials */}
-            <div className="flex flex-wrap gap-4 md:gap-5 pt-2 md:pt-4">
+            <div className="flex flex-wrap gap-4 md:gap-5 pt-2">
               <a 
                 href="#contact" 
-                className={`text-white px-6 py-3 md:px-8 md:py-4 text-sm md:text-base rounded-full font-bold transition-all flex items-center gap-2 group shadow-lg hover:-translate-y-1 ${primaryBg} hover:brightness-110 ${glowColor}`}
+                className={`text-white px-6 py-3 md:px-7 md:py-3.5 text-sm md:text-base rounded-full font-bold transition-all flex items-center gap-2 group shadow-lg hover:-translate-y-1 ${primaryBg} hover:brightness-110 ${glowColor}`}
               >
                 {content.primaryButtonText}
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform md:w-5 md:h-5" />
@@ -120,9 +120,9 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
                   <a 
                     key={idx}
                     href={social.href} 
-                    className="p-3 md:p-4 bg-card hover:bg-white/10 border border-white/5 rounded-full text-slate-400 hover:text-white transition-all hover:-translate-y-1 hover:border-white/20"
+                    className="p-3 bg-card hover:bg-white/10 border border-white/5 rounded-full text-slate-400 hover:text-white transition-all hover:-translate-y-1 hover:border-white/20"
                   >
-                    <social.icon size={18} className="md:w-[22px] md:h-[22px]" />
+                    <social.icon size={18} className="md:w-5 md:h-5" />
                   </a>
                 ))}
               </div>
