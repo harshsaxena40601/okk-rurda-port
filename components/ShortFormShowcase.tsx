@@ -22,6 +22,7 @@ const VideoCard: React.FC<{ video: ShortFormVideo }> = ({ video }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [volume, setVolume] = useState(1);
 
   const handleMouseEnter = () => {
     if (videoRef.current) {
@@ -66,8 +67,25 @@ const VideoCard: React.FC<{ video: ShortFormVideo }> = ({ video }) => {
   const toggleMute = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
+      const newMuted = !videoRef.current.muted;
+      videoRef.current.muted = newMuted;
+      setIsMuted(newMuted);
+    }
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    const newVol = parseFloat(e.target.value);
+    setVolume(newVol);
+    if (videoRef.current) {
+      videoRef.current.volume = newVol;
+      if (newVol > 0 && isMuted) {
+        videoRef.current.muted = false;
+        setIsMuted(false);
+      } else if (newVol === 0 && !isMuted) {
+        videoRef.current.muted = true;
+        setIsMuted(true);
+      }
     }
   };
 
@@ -109,15 +127,31 @@ const VideoCard: React.FC<{ video: ShortFormVideo }> = ({ video }) => {
       </div>
 
       {/* Custom Controls Overlay (Visible on hover/play) */}
-      <div className={`absolute top-4 right-4 z-40 flex flex-col gap-3 transition-all duration-300 ${isPlaying ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}`}>
-         <button 
-           onClick={toggleMute}
-           className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all shadow-lg group/btn"
-           aria-label={isMuted ? "Unmute" : "Mute"}
-           title={isMuted ? "Unmute" : "Mute"}
-         >
-            {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-         </button>
+      <div className={`absolute top-4 right-4 z-40 flex flex-col items-end gap-3 transition-all duration-300 ${isPlaying ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}`}>
+         
+         {/* Volume Controls */}
+         <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md rounded-full border border-white/10 p-1 pr-3 transition-all hover:bg-black/60">
+             <button 
+               onClick={toggleMute}
+               className="w-8 h-8 rounded-full flex items-center justify-center text-white hover:text-red-400 transition-colors"
+               aria-label={isMuted ? "Unmute" : "Mute"}
+               title={isMuted ? "Unmute" : "Mute"}
+             >
+                {isMuted || volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
+             </button>
+             <input 
+                type="range" 
+                min="0" 
+                max="1" 
+                step="0.05" 
+                value={isMuted ? 0 : volume} 
+                onChange={handleVolumeChange}
+                className="w-16 h-1 bg-white/30 rounded-lg appearance-none cursor-pointer focus:outline-none 
+                [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:hover:bg-red-500 [&::-webkit-slider-thumb]:transition-colors"
+             />
+         </div>
+
+         {/* Play Toggle */}
          <button 
            onClick={togglePlay}
            className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all shadow-lg"
