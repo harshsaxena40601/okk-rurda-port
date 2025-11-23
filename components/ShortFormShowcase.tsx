@@ -73,7 +73,7 @@ const VideoCard: React.FC<{ video: ShortFormVideo }> = ({ video }) => {
 
   return (
     <div 
-      className="min-w-[240px] md:min-w-[280px] aspect-[9/16] relative rounded-2xl overflow-hidden group border border-white/10 shadow-2xl snap-center bg-card cursor-pointer hover:z-50 transition-all duration-300"
+      className="min-w-[240px] md:min-w-[280px] aspect-[9/16] relative rounded-3xl overflow-hidden group border border-white/[0.08] shadow-2xl snap-center bg-card cursor-pointer hover:z-50 transition-all duration-300 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:border-white/20"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -82,7 +82,7 @@ const VideoCard: React.FC<{ video: ShortFormVideo }> = ({ video }) => {
         <img 
           src={video.image} 
           alt={video.title} 
-          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 absolute inset-0 z-10 ${isPlaying && video.videoUrl ? 'opacity-0' : 'opacity-100'}`}
+          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0 absolute inset-0 z-10 ${isPlaying && video.videoUrl ? 'opacity-0' : 'opacity-100'}`}
         />
         
         {video.videoUrl && (
@@ -99,12 +99,12 @@ const VideoCard: React.FC<{ video: ShortFormVideo }> = ({ video }) => {
       </div>
       
       {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 z-20 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90 z-20 pointer-events-none"></div>
       
       {/* Big Play Button (Initial State) */}
       <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 transform ${isPlaying ? 'scale-150 opacity-0' : 'scale-100 opacity-100'} z-30 pointer-events-none`}>
-         <div className="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.6)]">
-            <Play fill="white" className="ml-1 text-white" size={24} />
+         <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 shadow-xl group-hover:scale-110 transition-transform duration-500">
+            <Play fill="white" className="ml-1 text-white" size={28} />
          </div>
       </div>
 
@@ -112,7 +112,7 @@ const VideoCard: React.FC<{ video: ShortFormVideo }> = ({ video }) => {
       <div className={`absolute top-4 right-4 z-40 flex flex-col gap-3 transition-all duration-300 ${isPlaying ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}`}>
          <button 
            onClick={toggleMute}
-           className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-red-600 hover:border-red-600 transition-all shadow-lg group/btn"
+           className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all shadow-lg group/btn"
            aria-label={isMuted ? "Unmute" : "Mute"}
            title={isMuted ? "Unmute" : "Mute"}
          >
@@ -120,7 +120,7 @@ const VideoCard: React.FC<{ video: ShortFormVideo }> = ({ video }) => {
          </button>
          <button 
            onClick={togglePlay}
-           className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-red-600 hover:border-red-600 transition-all shadow-lg"
+           className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all shadow-lg"
            aria-label={isPlaying ? "Pause" : "Play"}
            title={isPlaying ? "Pause" : "Play"}
          >
@@ -129,13 +129,13 @@ const VideoCard: React.FC<{ video: ShortFormVideo }> = ({ video }) => {
       </div>
 
       {/* Stats & Title Bottom */}
-      <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 z-30 pointer-events-none">
-        <span className="inline-block px-2.5 py-0.5 bg-red-600/20 border border-red-600/30 text-red-500 text-[9px] font-bold uppercase tracking-wider rounded-full mb-2 backdrop-blur-md">
+      <div className="absolute bottom-0 left-0 w-full p-5 md:p-6 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300 z-30 pointer-events-none">
+        <span className="inline-block px-3 py-1 bg-red-600/90 text-white text-[10px] font-bold uppercase tracking-widest rounded-full mb-3 backdrop-blur-md shadow-lg">
            {video.category}
         </span>
-        <h3 className="text-lg font-bold text-white mb-1 leading-tight">{video.title}</h3>
-        <p className="text-xs text-slate-300 flex items-center gap-2">
-           <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+        <h3 className="text-lg font-heading font-bold text-white mb-1.5 leading-tight">{video.title}</h3>
+        <p className="text-xs text-slate-300 flex items-center gap-2 font-medium">
+           <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_5px_rgba(34,197,94,0.6)]"></span>
            {video.views}
         </p>
       </div>
@@ -167,22 +167,22 @@ const ShortFormShowcase: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 relative">
           <div>
             {/* Background Text - Fixed positioning to not be cut off */}
-            <h2 className="text-3xl md:text-6xl font-heading font-black text-white/5 absolute top-0 left-0 select-none pointer-events-none scale-150 origin-top-left -translate-y-4 md:-translate-y-8 z-0">
+            <h2 className="text-3xl md:text-[8rem] font-heading font-black text-white/[0.02] absolute top-0 left-0 select-none pointer-events-none leading-none -translate-y-16 z-0">
               SHORT FORM
             </h2>
-            <h2 className="text-3xl md:text-5xl font-heading font-bold text-white relative z-10">
+            <h2 className="text-3xl md:text-5xl font-heading font-black text-white relative z-10 tracking-tight">
               Short Form <span className="text-red-600">Edits</span>
             </h2>
-            <p className="text-slate-400 mt-4 max-w-lg relative z-10 text-sm md:text-base">
+            <p className="text-slate-400 mt-4 max-w-lg relative z-10 text-sm md:text-base font-light">
               High-retention vertical content optimized for Reels, TikTok, and Shorts.
             </p>
           </div>
           
           <div className="hidden md:flex gap-4 relative z-10">
-             <button onClick={() => scroll('left')} className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-red-600 hover:border-red-600 transition-all text-white">
+             <button onClick={() => scroll('left')} className="p-4 rounded-full bg-white/[0.03] border border-white/10 hover:bg-red-600 hover:border-red-600 transition-all text-white hover:scale-110">
                <ChevronLeft size={24} />
              </button>
-             <button onClick={() => scroll('right')} className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-red-600 hover:border-red-600 transition-all text-white">
+             <button onClick={() => scroll('right')} className="p-4 rounded-full bg-white/[0.03] border border-white/10 hover:bg-red-600 hover:border-red-600 transition-all text-white hover:scale-110">
                <ChevronRight size={24} />
              </button>
           </div>
@@ -191,7 +191,7 @@ const ShortFormShowcase: React.FC = () => {
         {/* Carousel */}
         <div 
           ref={scrollContainerRef}
-          className="flex gap-5 md:gap-8 overflow-x-auto pb-12 snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0"
+          className="flex gap-5 md:gap-8 overflow-x-auto pb-16 snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 pt-4"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {SHORT_FORM_VIDEOS.map((video) => (
