@@ -2,8 +2,24 @@ import React, { useRef } from 'react';
 import { SHORT_FORM_VIDEOS } from '../constants';
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
 
+// Helper to convert Google Drive share links to streamable direct links
+const getPlayableUrl = (url: string) => {
+  if (!url) return '';
+  // Check if it's a google drive share link
+  if (url.includes('drive.google.com')) {
+    // Extract ID (matches both /d/ID/ and id=ID formats)
+    const match = url.match(/\/d\/(.+?)\/|id=(.+?)&|id=(.+?)$/);
+    const id = match ? (match[1] || match[2] || match[3]) : null;
+    if (id) {
+      return `https://drive.google.com/uc?export=download&id=${id}`;
+    }
+  }
+  return url;
+};
+
 const ShortFormShowcase: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -14,6 +30,21 @@ const ShortFormShowcase: React.FC = () => {
       } else {
         current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
+    }
+  };
+
+  const handleMouseEnter = (id: string) => {
+    const video = videoRefs.current[id];
+    if (video) {
+      video.play().catch(e => console.log('Autoplay prevented', e));
+    }
+  };
+
+  const handleMouseLeave = (id: string) => {
+    const video = videoRefs.current[id];
+    if (video) {
+      video.pause();
+      video.currentTime = 0; // Reset to start
     }
   };
 
@@ -55,33 +86,49 @@ const ShortFormShowcase: React.FC = () => {
           {SHORT_FORM_VIDEOS.map((video) => (
             <div 
               key={video.id} 
-              className="min-w-[280px] md:min-w-[320px] aspect-[9/16] relative rounded-2xl overflow-hidden group border border-white/10 shadow-2xl snap-center bg-card"
+              className="min-w-[220px] md:min-w-[260px] aspect-[9/16] relative rounded-2xl overflow-hidden group border border-white/10 shadow-2xl snap-center bg-card cursor-pointer"
+              onMouseEnter={() => handleMouseEnter(video.id)}
+              onMouseLeave={() => handleMouseLeave(video.id)}
             >
-              {/* Image */}
-              <img 
-                src={video.image} 
-                alt={video.title} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-              />
+              {/* Media Layer */}
+              <div className="w-full h-full relative">
+                <img 
+                  src={video.image} 
+                  alt={video.title} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 absolute inset-0 z-10 group-hover:opacity-0"
+                />
+                
+                {video.videoUrl && (
+                  <video
+                    ref={el => videoRefs.current[video.id] = el}
+                    src={getPlayableUrl(video.videoUrl)}
+                    className="w-full h-full object-cover absolute inset-0 z-0"
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                  />
+                )}
+              </div>
               
               {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 z-20 pointer-events-none"></div>
               
-              {/* Play Button Center */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-50 group-hover:scale-100">
-                 <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.6)]">
-                    <Play fill="white" className="ml-1 text-white" />
+              {/* Play Button Center (Visible when not playing) */}
+              <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 transform scale-50 group-hover:scale-100 group-hover:opacity-0 z-30 pointer-events-none">
+                 <div className="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.6)]">
+                    <Play fill="white" className="ml-1 text-white" size={24} />
                  </div>
               </div>
 
               {/* Stats & Title Bottom */}
-              <div className="absolute bottom-0 left-0 w-full p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                <span className="inline-block px-3 py-1 bg-red-600/20 border border-red-600/30 text-red-500 text-[10px] font-bold uppercase tracking-wider rounded-full mb-2 backdrop-blur-md">
+              <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 z-30 pointer-events-none">
+                <span className="inline-block px-2.5 py-0.5 bg-red-600/20 border border-red-600/30 text-red-500 text-[9px] font-bold uppercase tracking-wider rounded-full mb-2 backdrop-blur-md">
                    {video.category}
                 </span>
-                <h3 className="text-xl font-bold text-white mb-1">{video.title}</h3>
-                <p className="text-sm text-slate-300 flex items-center gap-2">
-                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <h3 className="text-lg font-bold text-white mb-1 leading-tight">{video.title}</h3>
+                <p className="text-xs text-slate-300 flex items-center gap-2">
+                   <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
                    {video.views}
                 </p>
               </div>

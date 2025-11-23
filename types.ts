@@ -123,6 +123,7 @@ export interface ShortFormVideo {
   id: string;
   title: string;
   image: string;
+  videoUrl: string;
   views: string;
   category: string;
 }

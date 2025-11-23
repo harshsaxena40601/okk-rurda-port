@@ -338,28 +338,32 @@ export const SHORT_FORM_VIDEOS: ShortFormVideo[] = [
     title: 'Typographic Promo',
     category: 'Motion Graphics',
     views: '45K+ Views',
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop', // Abstract Grid/Typography style
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-vertical-video-of-a-woman-dancing-40019-large.mp4', // Sample Video
   },
   {
     id: 'sf2',
     title: 'Software Tutorial',
     category: 'Educational',
     views: '120K+ Views',
-    image: 'https://images.unsplash.com/photo-1550439062-609e1531270e?q=80&w=1000&auto=format&fit=crop', // UI/Screen style
+    image: 'https://images.unsplash.com/photo-1550439062-609e1531270e?q=80&w=1000&auto=format&fit=crop',
+    videoUrl: '', // Add your drive link here
   },
   {
     id: 'sf3',
     title: 'Before & After Color',
     category: 'Color Grading',
     views: '85K+ Views',
-    image: 'https://images.unsplash.com/photo-1535451801241-b5395e1d4a1b?q=80&w=1000&auto=format&fit=crop', // Split screen vibe
+    image: 'https://images.unsplash.com/photo-1535451801241-b5395e1d4a1b?q=80&w=1000&auto=format&fit=crop',
+    videoUrl: '', // Add your drive link here
   },
   {
     id: 'sf4',
     title: 'Financial VSL',
     category: 'Commercial',
     views: '200K+ Views',
-    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=1000&auto=format&fit=crop', // Money/Business
+    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=1000&auto=format&fit=crop',
+    videoUrl: '', // Add your drive link here
   }
 ];
 
