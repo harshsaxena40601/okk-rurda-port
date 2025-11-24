@@ -1,18 +1,45 @@
-import React from 'react';
-import { ABOUT_DATA, FULL_TIMELINE, SKILLS_MATRIX } from '../constants';
+import React, { useEffect, useState } from 'react';
 import { AppMode } from '../types';
 import { Film, Calendar, Users, Code, Award, CheckCircle, Briefcase } from 'lucide-react';
+import { getAboutData, getTimeline, getSkills } from '../services/api';
+import { ABOUT_DATA, FULL_TIMELINE, SKILLS_MATRIX } from '../constants';
 
 interface AboutPageProps {
   mode: AppMode;
 }
 
 const AboutPage: React.FC<AboutPageProps> = ({ mode }) => {
-  const content = ABOUT_DATA[mode];
+  const [content, setContent] = useState(ABOUT_DATA[mode]);
+  const [timeline, setTimeline] = useState(FULL_TIMELINE);
+  const [skills, setSkills] = useState(SKILLS_MATRIX[mode]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      const [aboutRes, timelineRes, skillsRes] = await Promise.all([
+        getAboutData(mode),
+        getTimeline(),
+        getSkills(mode)
+      ]);
+      
+      // In a real scenario, you'd replace state entirely. 
+      // Here we rely on the service fallback logic mostly.
+      if (aboutRes) setContent(aboutRes);
+      if (timelineRes) setTimeline(timelineRes);
+      if (skillsRes) setSkills(skillsRes);
+      
+      setLoading(false);
+    };
+    loadData();
+  }, [mode]);
+
   const isVideo = mode === 'video';
   const accentText = isVideo ? 'text-cine-red' : 'text-blue-500';
   const accentBg = isVideo ? 'bg-cine-red' : 'bg-blue-600';
   const gradientText = isVideo ? 'from-cine-red to-orange-500' : 'from-blue-500 to-cyan-400';
+
+  if (loading) return <div className="min-h-screen bg-[#050505] pt-32 flex justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div></div>;
 
   return (
     <div className="min-h-screen bg-[#050505]">
@@ -67,7 +94,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ mode }) => {
               <div>
                 <h3 className={`text-sm font-bold tracking-[0.2em] uppercase mb-8 ${accentText}`}>JOURNEY</h3>
                 <div className="space-y-12 border-l border-white/10 ml-3 pl-10 relative">
-                  {FULL_TIMELINE.map((item, index) => (
+                  {timeline.map((item, index) => (
                     <div key={index} className="relative group">
                       <div className={`absolute -left-[49px] w-7 h-7 rounded-full border-4 border-[#050505] ${accentBg} flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.5)]`}></div>
                       <span className={`block text-xs font-bold mb-2 px-3 py-1 rounded-full bg-white/5 w-max text-white`}>{item.year}</span>
@@ -85,10 +112,10 @@ const AboutPage: React.FC<AboutPageProps> = ({ mode }) => {
                {/* Photo Card */}
                <div className="relative rounded-3xl overflow-hidden aspect-[4/5] mb-8 group">
                   <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10`}></div>
-                  <img src={HERO_DATA[mode].profileImage} alt="Rudra" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src={content.profileImage || "https://picsum.photos/800/1000"} alt="Rudra" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute bottom-6 left-6 z-20">
                      <h3 className="text-white font-bold text-2xl">Rudra Saxena</h3>
-                     <p className={`text-sm font-medium ${accentText}`}>{HERO_DATA[mode].subtitle}</p>
+                     <p className={`text-sm font-medium ${accentText}`}>{content.subtitle || (isVideo ? "Video Editor" : "Full Stack Dev")}</p>
                   </div>
                </div>
 
@@ -100,11 +127,11 @@ const AboutPage: React.FC<AboutPageProps> = ({ mode }) => {
                   </h3>
                   
                   <div className="space-y-6">
-                    {SKILLS_MATRIX[mode].map((cat, idx) => (
+                    {skills.map((cat: any, idx: number) => (
                        <div key={idx}>
                           <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">{cat.category}</h5>
                           <div className="flex flex-wrap gap-2">
-                             {cat.items.map(skill => (
+                             {cat.items.map((skill: string) => (
                                 <span key={skill} className="px-3 py-1.5 bg-white/5 border border-white/5 rounded-md text-xs text-slate-300 font-medium hover:bg-white/10 transition-colors cursor-default">
                                    {skill}
                                 </span>
@@ -131,8 +158,5 @@ const AboutPage: React.FC<AboutPageProps> = ({ mode }) => {
     </div>
   );
 };
-
-// Need to import HERO_DATA locally since it's used here
-import { HERO_DATA } from '../constants';
 
 export default AboutPage;

@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
 import { AppMode } from '../types';
-import { Mail, Phone, MapPin, Send, Instagram, Linkedin, Twitter, Youtube, Plus, Minus, Clock, CheckCircle } from 'lucide-react';
+import { Mail, Phone, Send, Loader2, CheckCircle2, AlertCircle, Plus, Minus, Clock } from 'lucide-react';
 import { FAQ_DATA, AVAILABILITY_STATUS } from '../constants';
+import { submitContactForm, ContactFormData } from '../services/contactService';
 
 interface ContactPageProps {
   mode: AppMode;
@@ -13,6 +15,43 @@ const ContactPage: React.FC<ContactPageProps> = ({ mode }) => {
   const accentText = isVideo ? 'text-cine-red' : 'text-blue-500';
   
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  
+  // Form State
+  const [formData, setFormData] = useState<ContactFormData>({
+    name: '',
+    email: '',
+    service: 'Video Editing',
+    budget: '$1k - $3k',
+    details: ''
+  });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.details) return;
+    
+    setStatus('loading');
+    try {
+      await submitContactForm(formData);
+      setStatus('success');
+      // Reset form after success
+      setFormData({
+        name: '',
+        email: '',
+        service: 'Video Editing',
+        budget: '$1k - $3k',
+        details: ''
+      });
+      // Reset status after 5 seconds
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error) {
+      setStatus('error');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#050505] pt-32 pb-20">
@@ -90,48 +129,113 @@ const ContactPage: React.FC<ContactPageProps> = ({ mode }) => {
               <div className="bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
                  <div className={`absolute top-0 right-0 w-64 h-64 ${isVideo ? 'bg-orange-600/10' : 'bg-blue-600/10'} rounded-full blur-[80px] -z-10`}></div>
                  
-                 <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                       <div>
-                          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Name</label>
-                          <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors placeholder-white/20" placeholder="John Doe" />
+                 {status === 'success' ? (
+                    <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center animate-fade-in-up">
+                       <div className={`w-20 h-20 rounded-full ${accentBg} flex items-center justify-center mb-6 shadow-2xl`}>
+                          <CheckCircle2 size={40} className="text-white" />
                        </div>
-                       <div>
-                          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Email</label>
-                          <input type="email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors placeholder-white/20" placeholder="john@example.com" />
-                       </div>
+                       <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
+                       <p className="text-slate-400 max-w-xs">Thanks for reaching out. I'll review your project details and get back to you shortly.</p>
+                       <button 
+                          onClick={() => setStatus('idle')}
+                          className="mt-8 text-sm font-bold text-white hover:underline"
+                       >
+                          Send another message
+                       </button>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                       <div>
-                          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Service</label>
-                          <select className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors appearance-none">
-                             <option>Video Editing</option>
-                             <option>Full Stack Dev</option>
-                             <option>Shopify Store</option>
-                             <option>Consultation</option>
-                          </select>
+                 ) : (
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Name</label>
+                             <input 
+                                type="text" 
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors placeholder-white/20" 
+                                placeholder="John Doe" 
+                                required
+                             />
+                          </div>
+                          <div>
+                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Email</label>
+                             <input 
+                                type="email" 
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors placeholder-white/20" 
+                                placeholder="john@example.com" 
+                                required
+                             />
+                          </div>
                        </div>
-                       <div>
-                          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Budget</label>
-                          <select className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors appearance-none">
-                             <option>$500 - $1k</option>
-                             <option>$1k - $3k</option>
-                             <option>$3k - $5k</option>
-                             <option>$5k+</option>
-                          </select>
+
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Service</label>
+                             <select 
+                                name="service"
+                                value={formData.service}
+                                onChange={handleChange}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors appearance-none"
+                             >
+                                <option>Video Editing</option>
+                                <option>Full Stack Dev</option>
+                                <option>Shopify Store</option>
+                                <option>Consultation</option>
+                             </select>
+                          </div>
+                          <div>
+                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Budget</label>
+                             <select 
+                                name="budget"
+                                value={formData.budget}
+                                onChange={handleChange}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors appearance-none"
+                             >
+                                <option>$500 - $1k</option>
+                                <option>$1k - $3k</option>
+                                <option>$3k - $5k</option>
+                                <option>$5k+</option>
+                             </select>
+                          </div>
                        </div>
-                    </div>
 
-                    <div>
-                       <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Project Details</label>
-                       <textarea rows={5} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors resize-none placeholder-white/20" placeholder="Tell me about your goals, timeline, and vision..."></textarea>
-                    </div>
+                       <div>
+                          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Project Details</label>
+                          <textarea 
+                             rows={5} 
+                             name="details"
+                             value={formData.details}
+                             onChange={handleChange}
+                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors resize-none placeholder-white/20" 
+                             placeholder="Tell me about your goals, timeline, and vision..."
+                             required
+                          ></textarea>
+                       </div>
 
-                    <button className={`w-full py-5 rounded-xl text-white font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center gap-3 ${accentBg}`}>
-                       Send Proposal <Send size={18} />
-                    </button>
-                 </form>
+                       {status === 'error' && (
+                          <div className="flex items-center gap-2 text-red-500 text-sm bg-red-500/10 p-3 rounded-lg border border-red-500/20">
+                             <AlertCircle size={16} />
+                             <span>Something went wrong. Please try again.</span>
+                          </div>
+                       )}
+
+                       <button 
+                          type="submit"
+                          disabled={status === 'loading'}
+                          className={`w-full py-5 rounded-xl text-white font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center gap-3 ${accentBg} ${status === 'loading' ? 'opacity-70 cursor-wait' : ''}`}
+                       >
+                          {status === 'loading' ? (
+                             <>Sending <Loader2 size={18} className="animate-spin" /></>
+                          ) : (
+                             <>Send Proposal <Send size={18} /></>
+                          )}
+                       </button>
+                    </form>
+                 )}
               </div>
            </div>
         </div>

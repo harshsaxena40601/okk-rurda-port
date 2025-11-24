@@ -8,6 +8,9 @@ import SolutionsPage from './pages/Solutions';
 import ShortsPage from './pages/Shorts';
 import ProjectsPage from './pages/Projects';
 import ContactPage from './pages/Contact';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import RequireAuth from './components/RequireAuth';
 import { AppMode } from './types';
 
 // Scroll to top component
@@ -39,17 +42,24 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Layout mode={mode}>
-        <Routes>
-          <Route path="/" element={<Home mode={mode} setMode={handleModeChange} />} />
-          <Route path="/about" element={<AboutPage mode={mode} />} />
-          <Route path="/services" element={<ServicesPage mode={mode} />} />
-          <Route path="/solutions" element={<SolutionsPage mode={mode} />} />
-          <Route path="/shorts" element={<ShortsPage />} />
-          <Route path="/projects" element={<ProjectsPage mode={mode} />} />
-          <Route path="/contact" element={<ContactPage mode={mode} />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        {/* Public Routes wrapped in Layout */}
+        <Route path="/" element={<Layout mode={mode}><Home mode={mode} setMode={handleModeChange} /></Layout>} />
+        <Route path="/about" element={<Layout mode={mode}><AboutPage mode={mode} /></Layout>} />
+        <Route path="/services" element={<Layout mode={mode}><ServicesPage mode={mode} /></Layout>} />
+        <Route path="/solutions" element={<Layout mode={mode}><SolutionsPage mode={mode} /></Layout>} />
+        <Route path="/shorts" element={<Layout mode={mode}><ShortsPage /></Layout>} />
+        <Route path="/projects" element={<Layout mode={mode}><ProjectsPage mode={mode} /></Layout>} />
+        <Route path="/contact" element={<Layout mode={mode}><ContactPage mode={mode} /></Layout>} />
+        
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={
+          <RequireAuth>
+            <AdminDashboard />
+          </RequireAuth>
+        } />
+      </Routes>
     </BrowserRouter>
   );
 };
