@@ -382,7 +382,7 @@ export const SPECIALIZED_SOLUTIONS: DataByMode<{ title: string; subtitle: string
         id: 'vs2',
         title: 'Fashion Brand Reels Transformation',
         description: 'Adding motion text, cuts & style for high-impact social content.',
-        image: 'https:/images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop',
+        image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop',
         technologies: ['Motion Text', 'Transitions', 'Hooks'],
         results: [
           { metric: 'Engagement', value: '+90%' },
@@ -393,7 +393,7 @@ export const SPECIALIZED_SOLUTIONS: DataByMode<{ title: string; subtitle: string
         id: 'vs3',
         title: 'YouTube Channel Improvement',
         description: 'Complete structural overhaul including thumbnails, pacing, and hooks.',
-        image: 'https:/images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop',
+        image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop',
         technologies: ['Thumbnails', 'Structure', 'Pacing'],
         results: [
           { metric: 'Subs Growth', value: '+120%' },
@@ -410,7 +410,7 @@ export const ALL_SOLUTIONS: DataByMode<SolutionDetail[]> = {
       id: 'sol_v1',
       title: 'The Retention Engine',
       description: 'A proprietary editing framework designed to keep viewers watching past the 30-second mark. Uses pattern interrupts and audio cues.',
-      image: 'https:/images.unsplash.com/photo-1574717024653-61fd2cf4d44c?q=80&w=1000&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44c?q=80&w=1000&auto=format&fit=crop',
       metrics: [{ label: 'Avg Retention', value: '+45%' }, { label: 'CTR Boost', value: '+12%' }],
       features: ['Pacing Audit', 'Hook Optimization', 'Sound Design Layering'],
       comparison: { before: 'Flat, linear storytelling with drop-offs.', after: 'Dynamic, multi-layered narrative with high retention.' }
@@ -419,7 +419,7 @@ export const ALL_SOLUTIONS: DataByMode<SolutionDetail[]> = {
       id: 'sol_v2',
       title: 'Brand Identity System',
       description: 'Establishing a cohesive visual language for your brand through custom LUTs, motion graphics templates, and sound signatures.',
-      image: 'https:/images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=1000&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=1000&auto=format&fit=crop',
       metrics: [{ label: 'Brand Recall', value: 'High' }, { label: 'Consistency', value: '100%' }],
       features: ['Custom LUTs', 'Motion Templates', 'Sonic Branding'],
       comparison: { before: 'Inconsistent visual style across videos.', after: 'Unified, instantly recognizable brand aesthetic.' }
@@ -430,7 +430,7 @@ export const ALL_SOLUTIONS: DataByMode<SolutionDetail[]> = {
       id: 'sol_d1',
       title: 'Shopify Speed & Conversion',
       description: 'Optimization of Shopify stores to pass Core Web Vitals and reduce checkout friction.',
-      image: 'https:/images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=1000&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=1000&auto=format&fit=crop',
       metrics: [{ label: 'Load Time', value: '< 2s' }, { label: 'Conversion', value: '+30%' }],
       features: ['Code Splitting', 'Image Optimization', 'App Audit'],
       comparison: { before: 'Slow load times and high bounce rates.', after: 'Blazing fast navigation and seamless checkout.' }
@@ -439,7 +439,7 @@ export const ALL_SOLUTIONS: DataByMode<SolutionDetail[]> = {
       id: 'sol_d2',
       title: 'Headless SEO Architecture',
       description: 'Building SEO-first Next.js frontends for content-heavy sites to dominate search rankings.',
-      image: 'https:/images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1000&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1000&auto=format&fit=crop',
       metrics: [{ label: 'Organic Traffic', value: '+200%' }, { label: 'Crawl Budget', value: 'Optimized' }],
       features: ['SSR/SSG', 'Structured Data', 'Semantic HTML'],
       comparison: { before: 'Invisible to search engines.', after: 'Ranking for high-intent keywords.' }
@@ -579,7 +579,7 @@ export const EXTENDED_PROJECTS: DataByMode<ProjectDetail[]> = {
       id: 'd4',
       title: 'NLP AI Tool',
       category: 'AI/SaaS',
-      image: 'https://My images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop',
       description: 'Natural Language Processing tool for sentiment analysis of customer reviews.',
       tech: ['Python', 'React', 'FastAPI'],
       link: '#',
@@ -592,7 +592,7 @@ export const EXTENDED_PROJECTS: DataByMode<ProjectDetail[]> = {
       id: 'd5',
       title: 'Luxury Real Estate Portal',
       category: 'Web App',
-      image: 'https://My images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1000&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1000&auto=format&fit=crop',
       description: 'High-end property listing site with virtual tour integration.',
       tech: ['Next.js', 'Mapbox', 'Sanity CMS'],
       link: '#',
