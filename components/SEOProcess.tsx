@@ -1,6 +1,5 @@
 import React from 'react';
 import { WORKFLOW_PROCESS } from '../constants';
-import { Search, BarChart2, Settings, PenTool, LineChart, Film, Scissors, MonitorPlay, Zap } from 'lucide-react';
 import { AppMode } from '../types';
 
 interface ProcessProps {
@@ -11,26 +10,25 @@ const SEOProcess: React.FC<ProcessProps> = ({ mode }) => {
   const data = WORKFLOW_PROCESS[mode];
   const isVideo = mode === 'video';
 
-  const icons = isVideo 
-    ? [Film, Scissors, MonitorPlay, Zap, MonitorPlay] 
-    : [Search, Settings, PenTool, BarChart2, LineChart];
-
-  const accentColor = isVideo ? 'text-red-600' : 'text-blue-500';
-  const timelineColor = isVideo ? 'bg-red-600' : 'bg-blue-500';
-  const gradientLine = isVideo 
-    ? 'from-red-600/0 via-red-600/50 to-red-600/0' 
-    : 'from-blue-500/0 via-blue-500/50 to-blue-500/0';
-  
-  const glowShadow = isVideo 
-    ? 'shadow-[0_0_20px_rgba(220,38,38,0.4)]' 
-    : 'shadow-[0_0_20px_rgba(59,130,246,0.4)]';
+  const accentColor = isVideo ? 'text-cine-red' : 'text-blue-500';
+  const glowColor = isVideo 
+    ? 'shadow-[0_0_20px_rgba(255,74,25,0.5)] bg-cine-red' 
+    : 'shadow-[0_0_20px_rgba(59,130,246,0.5)] bg-blue-500';
+    
+  const numberGradient = isVideo 
+    ? 'from-cine-red/20 to-transparent' 
+    : 'from-blue-600/20 to-transparent';
 
   return (
-    <section className="py-20 md:py-32 bg-dark relative">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16 md:mb-24">
-          <h3 className={`${accentColor} font-bold tracking-[0.2em] mb-4 uppercase text-sm`}>{isVideo ? 'WORKFLOW' : 'METHODOLOGY'}</h3>
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold text-white mb-4 md:mb-6">
+    <section className="py-24 md:py-32 bg-[#050505] relative overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10">
+        
+        {/* Section Header */}
+        <div className="text-center mb-20">
+          <h3 className={`${accentColor} font-bold tracking-[0.2em] mb-3 uppercase text-xs md:text-sm`}>
+            {isVideo ? 'WORKFLOW' : 'METHODOLOGY'}
+          </h3>
+          <h2 className="text-3xl md:text-5xl font-heading font-black text-white mb-6">
             {data.title}
           </h2>
           <p className="text-slate-400 max-w-2xl mx-auto text-base md:text-lg">
@@ -38,49 +36,53 @@ const SEOProcess: React.FC<ProcessProps> = ({ mode }) => {
           </p>
         </div>
 
-        <div className="relative">
-          {/* Vertical Line for Desktop */}
-          <div className={`hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b ${gradientLine}`}></div>
+        <div className="max-w-5xl mx-auto relative">
+          {/* Central Connecting Line */}
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-white/10 md:-translate-x-1/2"></div>
 
-          <div className="space-y-12 md:space-y-28">
+          <div className="flex flex-col gap-12 md:gap-0">
             {data.steps.map((step, index) => {
-              const Icon = icons[index % icons.length];
-              const isEven = index % 2 === 0;
+              const isEven = index % 2 !== 0;
+              const stepNumber = `0${step.step}`;
 
               return (
-                <div key={step.id} className={`flex flex-col md:flex-row items-center gap-6 md:gap-0 relative group`}>
+                <div key={step.id} className={`flex flex-col md:flex-row items-start md:items-center relative ${isEven ? 'md:flex-row-reverse' : ''}`}>
                   
                   {/* Timeline Dot */}
-                  <div className={`hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-darker border border-white/10 rounded-full items-center justify-center z-10 transition-all duration-500 group-hover:scale-110 ${glowShadow}`}>
-                    <div className={`w-3 h-3 rounded-full ${timelineColor}`}></div>
-                  </div>
+                  <div className={`absolute left-4 md:left-1/2 w-3 h-3 md:w-4 md:h-4 rounded-full border-2 border-[#050505] z-10 -translate-x-1.5 md:-translate-x-1/2 mt-2 md:mt-0 ${glowColor}`}></div>
 
-                  {/* Content Left (for Even) or Right (for Odd) - Desktop */}
-                  <div className={`w-full md:w-1/2 px-0 md:px-6 ${isEven ? 'md:text-right md:pr-24' : 'md:order-2 md:pl-24'}`}>
-                    <div className="flex flex-col md:block items-center md:items-end">
-                      <div className={`w-14 h-14 rounded-xl ${isVideo ? 'bg-red-600/10 text-red-500' : 'bg-blue-500/10 text-blue-500'} flex items-center justify-center mb-4 md:hidden border border-white/5`}>
-                         <Icon size={28} />
-                      </div>
-                      <span className={`${accentColor} font-black text-5xl md:text-7xl opacity-10 mb-2 md:mb-4 block`}>0{step.step}</span>
-                      <h3 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 group-hover:text-white transition-colors">{step.title}</h3>
-                      <p className="text-slate-400 leading-relaxed mb-4 md:mb-6 text-center md:text-inherit text-sm md:text-base">
-                        {step.description}
-                      </p>
-                      
-                      {/* Tools Tags */}
-                      {step.tools && step.tools.length > 0 && (
-                        <div className={`flex flex-wrap gap-2 ${isEven ? 'md:justify-end justify-center' : 'justify-center md:justify-start'}`}>
-                          {step.tools.map(tool => (
-                            <span key={tool} className="text-[10px] uppercase font-bold tracking-wider text-slate-500 border border-white/10 px-3 py-1.5 rounded-full bg-white/5">
-                              {tool}
-                            </span>
-                          ))}
+                  {/* Content Card */}
+                  <div className={`w-full md:w-1/2 pl-12 md:pl-0 ${isEven ? 'md:pr-20 md:text-right' : 'md:pl-20 md:text-left'}`}>
+                     <div className="relative group">
+                        {/* Big Watermark Number */}
+                        <div className={`absolute -top-6 md:-top-8 ${isEven ? 'right-0 md:right-auto md:left-0' : 'left-0'} text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b ${numberGradient} opacity-20 select-none pointer-events-none z-0`}>
+                           {stepNumber}
                         </div>
-                      )}
-                    </div>
+                        
+                        {/* Text Content */}
+                        <div className="relative z-10 pt-4">
+                           <h3 className={`text-xl md:text-2xl font-bold text-white mb-3 group-hover:${accentColor} transition-colors duration-300`}>
+                              {step.title}
+                           </h3>
+                           <p className="text-slate-400 text-sm md:text-base leading-relaxed">
+                              {step.description}
+                           </p>
+                           
+                           {/* Tools Tags (Optional, small) */}
+                           {step.tools && step.tools.length > 0 && (
+                             <div className={`flex flex-wrap gap-2 mt-4 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
+                               {step.tools.map(tool => (
+                                 <span key={tool} className="text-[10px] uppercase tracking-wider font-bold text-white/20 border border-white/5 px-2 py-1 rounded">
+                                   {tool}
+                                 </span>
+                               ))}
+                             </div>
+                           )}
+                        </div>
+                     </div>
                   </div>
 
-                  {/* Empty side for alignment */}
+                  {/* Spacer for 50% width on opposite side */}
                   <div className="hidden md:block w-1/2"></div>
                 </div>
               );

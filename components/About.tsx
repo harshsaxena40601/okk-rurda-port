@@ -1,6 +1,7 @@
 import React from 'react';
 import { ABOUT_DATA } from '../constants';
 import { AppMode } from '../types';
+import { Film, Calendar, Users, Play, Quote, CheckCircle2, ArrowRight } from 'lucide-react';
 
 interface AboutProps {
   mode: AppMode;
@@ -10,81 +11,119 @@ const About: React.FC<AboutProps> = ({ mode }) => {
   const content = ABOUT_DATA[mode];
   const isVideo = mode === 'video';
   
-  const accentColor = isVideo ? 'text-red-600' : 'text-blue-500';
-  const gradient = isVideo ? 'from-red-500 to-orange-500' : 'from-blue-500 to-cyan-400';
-  const buttonClass = isVideo 
-    ? 'bg-red-600 hover:bg-red-700 shadow-lg shadow-red-600/20' 
-    : 'bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20';
-  
-  const skillHover = isVideo
-    ? 'hover:border-red-500 hover:text-red-400'
-    : 'hover:border-blue-500 hover:text-blue-400';
-    
-  const quoteIconBg = isVideo ? 'bg-red-500/10 text-red-500' : 'bg-blue-500/10 text-blue-500';
+  // Dynamic Color System
+  const accentText = isVideo ? 'text-cine-red' : 'text-blue-500';
+  const accentBg = isVideo ? 'bg-cine-red' : 'bg-blue-600';
+  const gradientText = isVideo ? 'from-cine-red to-orange-500' : 'from-blue-500 to-cyan-400';
+  const glowShadow = isVideo ? 'shadow-cine-red/20' : 'shadow-blue-500/20';
+  const borderColor = isVideo ? 'group-hover:border-cine-red/50' : 'group-hover:border-blue-500/50';
+
+  // Icon mapping for stats
+  const getStatIcon = (index: number) => {
+    if (index === 0) return isVideo ? <Film size={20} /> : <CheckCircle2 size={20} />;
+    if (index === 1) return <Calendar size={20} />;
+    return <Users size={20} />;
+  };
 
   return (
-    <section id="about" className="py-20 md:py-32 bg-darker relative">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
-          <div className="lg:w-1/2">
-            <h3 className={`${accentColor} font-bold tracking-[0.2em] mb-4 uppercase text-sm`}>ABOUT ME</h3>
-            <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold text-white mb-6 md:mb-8 leading-tight">
-              {content.heading} <br />
-              <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradient}`}>{content.headingHighlight}</span>
-            </h2>
-            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-4 md:mb-6">
-              {content.description1}
-            </p>
-            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-8 md:mb-10">
-              {content.description2}
-            </p>
+    <section id="about" className="py-24 md:py-36 bg-[#080808] relative overflow-hidden">
+      {/* Ambient Lighting */}
+      <div className={`absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] opacity-10 pointer-events-none ${isVideo ? 'bg-red-600' : 'bg-blue-600'}`}></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none"></div>
 
-            <div className="flex flex-wrap gap-8 md:gap-10 mb-8 md:mb-10 border-t border-white/5 pt-8">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+          
+          {/* LEFT COLUMN: Bio, Stats, CTA */}
+          <div className="flex flex-col justify-center">
+            {/* Header Group */}
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                 <span className={`h-[2px] w-10 ${accentBg}`}></span>
+                 <h3 className="text-white font-bold tracking-[0.2em] uppercase text-sm">ABOUT ME</h3>
+              </div>
+              
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-heading font-black text-white mb-4 leading-[1.1] tracking-tight">
+                {content.heading} <br />
+                <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradientText} animate-gradient`}>
+                  {content.headingHighlight}
+                </span>
+              </h2>
+            </div>
+
+            {/* Description */}
+            <div className="space-y-6 text-slate-400 text-lg leading-relaxed mb-10">
+              <p>{content.description1}</p>
+              <p>{content.description2}</p>
+            </div>
+
+            {/* Premium Stats Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
               {content.stats.map((stat, idx) => (
-                <div key={idx}>
-                  <span className="block text-3xl md:text-5xl font-heading font-bold text-white mb-1">{stat.value}</span>
-                  <span className="text-[10px] md:text-sm text-slate-500 uppercase tracking-widest font-semibold">{stat.label}</span>
+                <div key={idx} className={`group bg-white/[0.03] border border-white/5 p-5 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.05] ${borderColor}`}>
+                  <div className={`w-10 h-10 rounded-full bg-white/5 flex items-center justify-center mb-3 text-slate-300 transition-colors ${isVideo ? 'group-hover:text-cine-red group-hover:bg-cine-red/10' : 'group-hover:text-blue-500 group-hover:bg-blue-500/10'}`}>
+                    {getStatIcon(idx)}
+                  </div>
+                  <span className="block text-3xl font-heading font-bold text-white mb-1 group-hover:scale-105 transition-transform origin-left">{stat.value}</span>
+                  <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">{stat.label}</span>
                 </div>
               ))}
             </div>
             
-            <a href="#projects" className={`inline-block text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold transition-all transform hover:-translate-y-1 text-sm md:text-base ${buttonClass}`}>
-              View My Work
-            </a>
+            {/* CTA Button */}
+            <div>
+              <a href="#projects" className={`inline-flex items-center gap-3 px-8 py-4 rounded-full text-white font-bold text-sm uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl ${accentBg} ${glowShadow}`}>
+                 <Play size={16} fill="currentColor" /> 
+                 <span>View My Work</span>
+              </a>
+            </div>
           </div>
 
-          <div className="lg:w-1/2 w-full">
-            <div className="bg-card p-6 md:p-10 rounded-2xl md:rounded-3xl border border-white/5 h-full relative overflow-hidden group">
-               {/* Ambient Glow */}
-               <div className={`absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br ${isVideo ? 'from-red-600/10' : 'from-blue-600/10'} to-transparent rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`}></div>
-
-               <h4 className="text-xl md:text-2xl font-bold text-white mb-6 md:mb-8 relative z-10">{content.skillsTitle}</h4>
-               <div className="flex flex-wrap gap-2 md:gap-3 relative z-10">
+          {/* RIGHT COLUMN: Tools & Testimonial */}
+          <div className="flex flex-col gap-8 lg:mt-8">
+            
+            {/* Glassmorphism Tools Card */}
+            <div className="bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 relative overflow-hidden group">
+               {/* Shine Effect */}
+               <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+               
+               <h4 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                 <span className={`w-2 h-2 rounded-full ${accentBg} animate-pulse`}></span>
+                 {content.skillsTitle}
+               </h4>
+               
+               <div className="flex flex-wrap gap-3">
                  {content.skills.map((skill) => (
                    <span 
                     key={skill.name}
-                    className={`px-4 py-2 md:px-5 md:py-2.5 rounded-full bg-white/5 border border-white/5 text-slate-300 text-xs md:text-sm font-medium transition-all cursor-default ${skillHover}`}
+                    className={`px-4 py-2.5 rounded-lg bg-black/40 border border-white/5 text-slate-300 text-sm font-medium transition-all duration-300 hover:border-white/20 hover:text-white hover:shadow-lg flex items-center gap-2 cursor-default`}
                    >
+                     <span className={`w-1 h-1 rounded-full bg-white/20`}></span>
                      {skill.name}
                    </span>
                  ))}
                </div>
+            </div>
+
+            {/* Cinematic Testimonial Card */}
+            <div className={`relative bg-gradient-to-r from-[#111] to-[#0a0a0a] border-y border-r border-white/5 rounded-3xl p-8 overflow-hidden border-l-4 ${isVideo ? 'border-l-cine-red' : 'border-l-blue-500'}`}>
+               <Quote className={`absolute top-6 right-6 opacity-10 ${accentText}`} size={64} />
                
-               <div className="mt-8 md:mt-12 p-6 md:p-8 bg-black/40 rounded-xl md:rounded-2xl border border-white/5 relative z-10 backdrop-blur-sm">
-                  <p className="text-slate-300 italic text-base md:text-lg leading-relaxed">
-                    "{content.quote}"
-                  </p>
-                  <div className="mt-6 flex items-center gap-4">
-                    <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-lg md:text-xl ${quoteIconBg}`}>
-                      {content.quoteAuthor.charAt(0)}
-                    </div>
-                    <div>
-                      <div className="text-white font-bold text-sm md:text-base">{content.quoteAuthor}</div>
-                      <div className="text-xs md:text-sm text-slate-500">{content.quoteRole}</div>
-                    </div>
-                  </div>
+               <p className="text-lg md:text-xl text-slate-200 font-medium leading-relaxed italic mb-8 relative z-10">
+                 "{content.quote}"
+               </p>
+               
+               <div className="flex items-center gap-4 relative z-10 border-t border-white/5 pt-6">
+                 <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl text-white ${accentBg}`}>
+                    {content.quoteAuthor.charAt(0)}
+                 </div>
+                 <div>
+                   <div className="text-white font-bold">{content.quoteAuthor}</div>
+                   <div className={`text-xs font-medium uppercase tracking-wide ${accentText}`}>{content.quoteRole}</div>
+                 </div>
                </div>
             </div>
+
           </div>
         </div>
       </div>

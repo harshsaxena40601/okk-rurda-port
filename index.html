@@ -4,10 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rudra Saxena | Video Editor & Full Stack Developer</title>
+    <meta name="description" content="Professional Video Editor and Full Stack Developer. Specializing in cinematic storytelling, reels, and high-performance web development." />
+    <meta name="keywords" content="Video Editor, Cinematic Editor, React Developer, Full Stack, Portfolio" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
@@ -19,19 +21,34 @@
             colors: {
               primary: '#3b82f6', // Blue for Dev
               danger: '#dc2626',  // Red for Video
+              'cine-red': '#FF4A19', // New Premium Red-Orange
               dark: '#0a0a0a',    // Deep Black/Gray
               darker: '#000000',  // Pure Black
-              card: '#111111',    // Slightly lighter black
+              surface: '#111111', // Base Black
+              'surface-highlight': '#1A1A1A', // Secondary Dark
+              'text-main': '#F3F3F3',
+              'text-muted': '#9C9C9C',
+              card: '#111111',
               accent: '#06b6d4',  // Cyan accent
             },
             animation: {
               'marquee': 'marquee 25s linear infinite',
               'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'float': 'float 6s ease-in-out infinite',
             },
             keyframes: {
               marquee: {
                 '0%': { transform: 'translateX(0%)' },
                 '100%': { transform: 'translateX(-100%)' },
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
               }
             }
           }
@@ -44,19 +61,22 @@
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #000000;
+        background: #050505;
       }
       ::-webkit-scrollbar-thumb {
         background: #333;
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+        background: #FF4A19;
       }
       .glass-card {
         background: rgba(17, 17, 17, 0.7);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+      }
+      .text-glow {
+        text-shadow: 0 0 20px rgba(255, 74, 25, 0.3);
       }
     </style>
   <script type="importmap">
@@ -71,7 +91,7 @@
 }
 </script>
 </head>
-  <body class="bg-darker text-slate-300 antialiased">
+  <body class="bg-darker text-text-main antialiased overflow-x-hidden">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

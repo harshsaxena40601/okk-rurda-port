@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowRight, Terminal, Video, Code, Film, Figma, LayoutTemplate, FileText } from 'lucide-react';
+import React, { useState, MouseEvent } from 'react';
+import { ArrowRight, Code, Film, Star, CheckCircle, Award, Play } from 'lucide-react';
 import { HERO_DATA } from '../constants';
 import { AppMode } from '../types';
 
@@ -10,9 +10,9 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
   const isVideo = mode === 'video';
 
-  // Handle mode toggle with animation
   const handleToggle = (newMode: AppMode) => {
     if (mode === newMode) return;
     setIsAnimating(true);
@@ -20,192 +20,183 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
     setTimeout(() => setIsAnimating(false), 300);
   };
 
-  // Select content based on current mode
+  const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const box = card.getBoundingClientRect();
+    const x = e.clientX - box.left;
+    const y = e.clientY - box.top;
+    const centerX = box.width / 2;
+    const centerY = box.height / 2;
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+
+    setRotate({ x: rotateX, y: rotateY });
+  };
+
+  const onMouseLeave = () => {
+    setRotate({ x: 0, y: 0 });
+  };
+
   const content = HERO_DATA[mode];
 
-  // Theme Styles
-  const primaryText = isVideo ? 'text-red-600' : 'text-blue-500';
-  const primaryBg = isVideo ? 'bg-red-600' : 'bg-blue-600';
-  const glowColor = isVideo ? 'shadow-red-600/40' : 'shadow-blue-500/40';
+  // Cinematic Theme Styles
+  const primaryText = isVideo ? 'text-cine-red' : 'text-blue-500';
+  const primaryBg = isVideo ? 'bg-cine-red' : 'bg-blue-600';
+  const glowColor = isVideo ? 'shadow-cine-red/40' : 'shadow-blue-500/40';
   const gradientText = isVideo 
-    ? 'from-red-500 via-red-400 to-orange-500' 
+    ? 'from-cine-red via-orange-500 to-yellow-500' 
     : 'from-blue-500 via-blue-400 to-cyan-400';
-  const frameBorder = isVideo ? 'border-red-500/30' : 'border-blue-500/30';
 
   return (
-    <section id="home" className="relative pt-28 pb-16 md:pt-40 md:pb-24 overflow-hidden min-h-screen flex items-center transition-colors duration-700 bg-[#050505]">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-         {/* Dynamic Orbs */}
-         <div className={`absolute top-[5%] -right-[10%] md:top-[10%] md:right-[5%] w-64 h-64 md:w-96 md:h-96 rounded-full border border-white/[0.03] animate-[spin_30s_linear_infinite] transition-all duration-1000 opacity-60 ${isVideo ? 'border-red-500/10' : 'border-blue-500/10'}`}></div>
-         <div className="absolute top-[10%] right-[0%] md:top-[15%] md:right-[10%] w-48 h-48 md:w-72 md:h-72 rounded-full border border-white/[0.03] animate-[spin_35s_linear_infinite_reverse] opacity-50"></div>
-         
-         {/* Color Glows */}
-         <div className={`absolute top-0 left-0 md:left-1/4 w-[300px] md:w-[600px] h-[300px] md:h-[600px] rounded-full blur-[100px] md:blur-[140px] transition-colors duration-1000 opacity-20 ${isVideo ? 'bg-red-900' : 'bg-blue-900'}`}></div>
-         <div className={`absolute bottom-0 right-0 w-[300px] md:w-[700px] h-[300px] md:h-[700px] rounded-full blur-[100px] md:blur-[140px] transition-colors duration-1000 opacity-15 ${isVideo ? 'bg-orange-900' : 'bg-cyan-900'}`}></div>
-         
-         {/* Grid Pattern */}
-         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
+    <section id="home" className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden min-h-screen flex items-center bg-[#050505]">
+      {/* Cinematic Background Ambience - Low Saturation */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+         <div className={`absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[150px] opacity-10 transition-colors duration-1000 ${isVideo ? 'bg-cine-red' : 'bg-blue-900'}`}></div>
+         <div className={`absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full blur-[150px] opacity-5 transition-colors duration-1000 ${isVideo ? 'bg-orange-900' : 'bg-cyan-900'}`}></div>
+         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] mix-blend-overlay"></div>
       </div>
 
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
-          <div className="flex-1 space-y-6 md:space-y-8 z-10 w-full flex flex-col items-center lg:items-start text-center lg:text-left">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          
+          {/* Content Side */}
+          <div className="flex-1 w-full flex flex-col items-center lg:items-start text-center lg:text-left z-20">
             
-            {/* Toggle Switch */}
-            <div className="inline-flex items-center bg-[#0a0a0a] border border-white/[0.08] rounded-full p-1.5 relative shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]">
-              {/* Sliding Background */}
-              <div 
-                className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] rounded-full transition-all duration-300 ease-out shadow-lg ${mode === 'dev' ? 'left-1.5 bg-blue-600' : 'left-[calc(50%+3px)] bg-red-600'}`}
-              ></div>
-
-              <button 
-                onClick={() => handleToggle('dev')}
-                className={`relative z-10 flex items-center gap-2 px-5 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold transition-colors duration-300 ${mode === 'dev' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
-              >
-                <Code size={14} className="md:w-4 md:h-4" />
-                Dev
-              </button>
-              <button 
-                onClick={() => handleToggle('video')}
-                className={`relative z-10 flex items-center gap-2 px-5 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold transition-colors duration-300 ${mode === 'video' ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
-              >
-                <Film size={14} className="md:w-4 md:h-4" />
-                Video
-              </button>
+            {/* Mode Switcher */}
+            <div className="inline-flex items-center bg-surface-highlight border border-white/[0.08] rounded-full p-1.5 mb-8 shadow-inner relative overflow-hidden">
+               <div className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] rounded-full transition-all duration-500 ease-out shadow-lg ${mode === 'dev' ? 'left-1.5 bg-blue-600' : 'left-[calc(50%+3px)] bg-cine-red'}`}></div>
+               <button onClick={() => handleToggle('dev')} className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-colors ${mode === 'dev' ? 'text-white' : 'text-text-muted hover:text-white'}`}>
+                 <Code size={14} /> Dev
+               </button>
+               <button onClick={() => handleToggle('video')} className={`relative z-10 flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-colors ${mode === 'video' ? 'text-white' : 'text-text-muted hover:text-white'}`}>
+                 <Film size={14} /> Video
+               </button>
             </div>
 
-            {/* Status Badge */}
-            <div>
-              <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/[0.08] text-[10px] md:text-xs font-bold tracking-widest uppercase transition-colors duration-500 ${primaryText} backdrop-blur-md`}>
-                <span className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full animate-pulse ${isVideo ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]' : 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]'}`}></span>
-                Available for projects
-              </div>
-            </div>
-            
-            {/* Text Content */}
-            <div className={`space-y-2 md:space-y-4 transition-opacity duration-500 ${isAnimating ? 'opacity-50' : 'opacity-100'}`}>
-              <h2 className={`font-bold tracking-[0.25em] text-xs md:text-sm transition-colors duration-500 ${primaryText}`}>
-                {content.greeting}
+            {/* Typography */}
+            <div className={`transition-all duration-500 ${isAnimating ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+              <h2 className={`font-bold tracking-[0.3em] text-xs md:text-sm uppercase mb-4 flex items-center gap-2 ${primaryText} justify-center lg:justify-start`}>
+                 <span className="w-8 h-[2px] bg-current"></span>
+                 {content.greeting}
               </h2>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-black text-white tracking-tighter leading-[0.95] md:leading-[0.9] drop-shadow-2xl">
+              
+              <h1 className="text-4xl sm:text-6xl md:text-7xl font-heading font-black text-white tracking-tighter leading-[0.95] mb-4">
                 {content.titleLine1} <br />
-                <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradientText} transition-all duration-1000 pb-2 inline-block`}>
+                <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradientText} animate-text`}>
                   {content.titleLine2}
                 </span>
               </h1>
-            </div>
-
-            <h3 className={`text-xl md:text-2xl text-slate-400 font-light transition-opacity duration-500 leading-tight ${isAnimating ? 'opacity-50' : 'opacity-100'}`}>
-              {content.subtitle} <br className="hidden md:block" /> 
-              <span className="text-white font-medium block md:inline mt-1 md:mt-0">{content.subtitleHighlight}</span>
-            </h3>
-            
-            <p className={`text-slate-400 text-base md:text-lg max-w-lg leading-relaxed lg:border-l-2 lg:pl-6 transition-all duration-500 ${isAnimating ? 'opacity-50 translate-x-2' : 'opacity-100 translate-x-0'} ${isVideo ? 'border-red-600/40' : 'border-blue-500/40'}`}>
-              {content.description}
-            </p>
-            
-            {/* Buttons & Socials */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6 pt-4">
-              <a 
-                href="#contact" 
-                className={`text-white px-8 py-4 md:px-9 md:py-4.5 text-sm md:text-base rounded-full font-bold transition-all flex items-center gap-3 group shadow-xl hover:-translate-y-1 ${primaryBg} hover:brightness-110 ${glowColor}`}
-              >
-                {content.primaryButtonText}
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform md:w-5 md:h-5" />
-              </a>
               
-              <div className="flex items-center gap-3 md:gap-4">
-                {content.socials.map((social, idx) => (
-                  <a 
-                    key={idx}
-                    href={social.href} 
-                    className="p-3.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] rounded-full text-slate-400 hover:text-white transition-all hover:-translate-y-1 hover:border-white/20 hover:shadow-lg backdrop-blur-sm"
-                  >
-                    <social.icon size={18} className="md:w-5 md:h-5" />
-                  </a>
-                ))}
+              <h3 className="text-lg md:text-2xl text-text-muted font-light mb-8 max-w-xl mx-auto lg:mx-0">
+                {content.subtitle} <span className="text-white font-medium border-b border-white/20 pb-0.5">{content.subtitleHighlight}</span>
+              </h3>
+
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                <a 
+                  href="#projects" 
+                  className={`text-white px-8 py-3.5 rounded-full font-bold text-sm tracking-wide transition-all shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] hover:-translate-y-1 hover:shadow-2xl flex items-center gap-3 group ${primaryBg} ${glowColor}`}
+                >
+                  {content.primaryButtonText}
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+                
+                {isVideo && (
+                  <button className="px-8 py-3.5 rounded-full border border-white/10 text-white font-bold text-sm hover:bg-white/5 transition-all flex items-center gap-3">
+                    <Play size={16} fill="currentColor" /> Showreel
+                  </button>
+                )}
+              </div>
+
+              {/* Social Proof Bar */}
+              <div className="mt-10 pt-8 border-t border-white/5 w-full flex flex-wrap justify-center lg:justify-start gap-8 md:gap-12">
+                 <div className="flex flex-col items-center lg:items-start">
+                    <div className="flex items-center gap-1 text-yellow-500 mb-1">
+                       <Star size={14} fill="currentColor" />
+                       <Star size={14} fill="currentColor" />
+                       <Star size={14} fill="currentColor" />
+                       <Star size={14} fill="currentColor" />
+                       <Star size={14} fill="currentColor" />
+                    </div>
+                    <span className="text-xs text-text-muted font-medium">100% Client Satisfaction</span>
+                 </div>
+                 
+                 <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white">
+                       <CheckCircle size={20} className={isVideo ? 'text-cine-red' : 'text-blue-500'} />
+                    </div>
+                    <div className="flex flex-col">
+                       <span className="text-white font-bold text-lg leading-none">200+</span>
+                       <span className="text-[10px] text-text-muted uppercase tracking-wider">Projects Done</span>
+                    </div>
+                 </div>
+
+                 <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white">
+                       <Award size={20} className={isVideo ? 'text-cine-red' : 'text-blue-500'} />
+                    </div>
+                    <div className="flex flex-col">
+                       <span className="text-white font-bold text-lg leading-none">5+</span>
+                       <span className="text-[10px] text-text-muted uppercase tracking-wider">Years Exp.</span>
+                    </div>
+                 </div>
               </div>
             </div>
           </div>
 
-          {/* Visual/Image Side */}
-          <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-12 lg:mt-0">
-             {/* Profile Card / Illustration */}
-             <div className={`relative w-full max-w-sm lg:max-w-lg aspect-[4/5] bg-[#111]/80 backdrop-blur-sm border rounded-3xl md:rounded-[2.5rem] overflow-hidden shadow-2xl transform transition-all duration-700 group ${isVideo ? 'rotate-2 hover:rotate-0 shadow-red-900/20' : '-rotate-2 hover:rotate-0 shadow-blue-900/20'} ${frameBorder}`}>
+          {/* Visual Side with 3D Tilt */}
+          <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-12 lg:mt-0 z-10" style={{ perspective: '1000px' }}>
+             <div 
+                className="relative w-full max-w-[400px] lg:max-w-md aspect-[4/5] group transition-all duration-200 ease-out"
+                onMouseMove={onMouseMove}
+                onMouseLeave={onMouseLeave}
+                style={{
+                   transform: `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale3d(1, 1, 1)`
+                }}
+             >
+                {/* Glow Behind */}
+                <div className={`absolute inset-0 bg-gradient-to-tr ${isVideo ? 'from-cine-red to-orange-600' : 'from-blue-600 to-cyan-500'} rounded-[2.5rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700`}></div>
                 
-                {/* Image with blending and grayscale animation */}
-                <div className="absolute inset-0 z-0 bg-black">
-                  <img 
-                    src={content.profileImage} 
-                    alt="Profile" 
-                    key={mode} 
-                    className={`w-full h-full object-cover transition-all duration-1000 scale-105 group-hover:scale-100 opacity-90 group-hover:opacity-100 grayscale group-hover:grayscale-0`}
-                  />
-                </div>
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-10"></div>
-
-                {/* Overlay Scanline for Video Mode */}
-                {isVideo && <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none z-20 opacity-20"></div>}
-                
-                {/* Floating Info Card */}
-                <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-8 md:right-8 bg-black/80 backdrop-blur-2xl border border-white/10 p-5 md:p-6 rounded-2xl md:rounded-3xl z-30 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
-                   {content.floatingCard.type === 'code' ? (
-                     <>
-                       <div className="flex items-center gap-2 text-[10px] md:text-xs text-slate-400 mb-2 md:mb-3 border-b border-white/5 pb-2">
-                          <Terminal size={12} className="text-blue-400 md:w-[14px] md:h-[14px]" />
-                          <span className="uppercase tracking-wider font-bold">{content.floatingCard.title}</span>
-                       </div>
-                       <div className="text-[10px] md:text-xs font-mono text-slate-300 space-y-1.5">
-                          <p><span className="text-purple-400">const</span> <span className="text-yellow-300">developer</span> = <span className="text-purple-400">{`{`}</span></p>
-                          <p className="pl-4">name: <span className="text-green-400">'Rudra'</span>,</p>
-                          <p className="pl-4">skills: [<span className="text-green-400">'React'</span>, <span className="text-green-400">'Next.js'</span>],</p>
-                          <p><span className="text-purple-400">{`}`}</span>;</p>
-                       </div>
-                     </>
-                   ) : (
-                     <div className="flex flex-col items-center gap-4">
-                        {/* Badge */}
-                        <div className="px-3 py-1 rounded-full bg-black/80 border border-white/10 flex items-center gap-2 shadow-lg mb-1">
-                           <Video size={12} className="text-purple-500 fill-purple-500" />
-                           <span className="text-[10px] font-bold text-white tracking-wide uppercase">Video Editor</span>
+                {/* Main Card */}
+                <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl bg-[#0a0a0a]">
+                   <img 
+                      src={content.profileImage} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                   />
+                   
+                   {/* Vignette Overlay */}
+                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20 opacity-80 pointer-events-none"></div>
+                   
+                   {/* Rec Overlay for Video */}
+                   {isVideo && (
+                     <div className="absolute top-6 left-6 right-6 flex justify-between items-center pointer-events-none">
+                        <div className="flex items-center gap-2">
+                           <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
+                           <span className="text-white font-mono text-xs font-bold tracking-widest">REC</span>
                         </div>
-                        
-                        {/* Dock */}
-                        <div className="flex items-center gap-3 md:gap-4 p-2.5 bg-white/[0.07] rounded-2xl border border-white/[0.05] backdrop-blur-md shadow-inner">
-                           {/* Premiere */}
-                           <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-[#00005c] border border-white/10 flex items-center justify-center text-[#d29bf8] font-bold text-[10px] md:text-xs shadow-lg hover:scale-110 transition-transform cursor-default" title="Premiere Pro">Pr</div>
-                           {/* Photoshop */}
-                           <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-[#001e36] border border-white/10 flex items-center justify-center text-[#31a8ff] font-bold text-[10px] md:text-xs shadow-lg hover:scale-110 transition-transform cursor-default" title="Photoshop">Ps</div>
-                           {/* Media Encoder */}
-                           <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-[#00005c] border border-white/10 flex items-center justify-center text-[#d29bf8] font-bold text-[10px] md:text-xs shadow-lg hover:scale-110 transition-transform cursor-default" title="Media Encoder">Me</div>
-                           
-                           {/* Divider */}
-                           <div className="w-px h-6 bg-white/10 mx-1"></div>
-                           
-                           {/* Figma */}
-                           <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-black/50 border border-white/10 flex items-center justify-center hover:scale-110 transition-transform cursor-default group/icon hover:bg-white/5" title="Figma">
-                              <Figma size={16} className="text-white opacity-80 group-hover/icon:opacity-100 md:w-[20px] md:h-[20px]" />
-                           </div>
-                           {/* Framer */}
-                           <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-black/50 border border-white/10 flex items-center justify-center hover:scale-110 transition-transform cursor-default group/icon hover:bg-white/5" title="Framer">
-                              <LayoutTemplate size={16} className="text-white opacity-80 group-hover/icon:opacity-100 md:w-[20px] md:h-[20px]" />
-                           </div>
-                           {/* Notion */}
-                           <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-black/50 border border-white/10 flex items-center justify-center hover:scale-110 transition-transform cursor-default group/icon hover:bg-white/5" title="Notion">
-                              <FileText size={16} className="text-white opacity-80 group-hover/icon:opacity-100 md:w-[20px] md:h-[20px]" />
-                           </div>
-                        </div>
+                        <div className="text-white/80 font-mono text-xs">4K • 60FPS</div>
                      </div>
                    )}
+
+                   {/* Floating Stats Card */}
+                   <div className="absolute bottom-6 left-6 right-6 bg-white/5 backdrop-blur-xl border border-white/10 p-5 rounded-2xl transform transition-transform duration-300 group-hover:translate-z-10" style={{ transform: 'translateZ(20px)' }}>
+                      <div className="flex items-center justify-between">
+                         <div>
+                            <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Current Status</p>
+                            <div className="flex items-center gap-2">
+                               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                               <span className="text-white font-bold text-sm">Accepting New Projects</span>
+                            </div>
+                         </div>
+                         <div className={`w-10 h-10 rounded-full border border-white/10 flex items-center justify-center ${primaryBg}`}>
+                            {isVideo ? <Film size={18} className="text-white" /> : <Code size={18} className="text-white" />}
+                         </div>
+                      </div>
+                   </div>
                 </div>
              </div>
-             
-             {/* Abstract shapes behind */}
-             <div className={`absolute -top-6 -right-6 md:-top-10 md:-right-10 w-24 h-24 md:w-40 md:h-40 rounded-full blur-[50px] md:blur-[80px] opacity-40 transition-colors duration-1000 ${isVideo ? 'bg-red-600' : 'bg-blue-600'}`}></div>
-             <div className={`absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 w-24 h-24 md:w-40 md:h-40 rounded-full blur-[50px] md:blur-[80px] opacity-40 transition-colors duration-1000 ${isVideo ? 'bg-orange-600' : 'bg-cyan-600'}`}></div>
           </div>
+
         </div>
       </div>
     </section>

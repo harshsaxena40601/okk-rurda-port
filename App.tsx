@@ -12,6 +12,7 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AIChat from './components/AIChat';
+import SocialSidebar from './components/SocialSidebar';
 import { AppMode } from './types';
 
 const App: React.FC = () => {
@@ -34,6 +35,7 @@ const App: React.FC = () => {
   return (
     <div className={`min-h-screen bg-darker text-slate-300 selection:text-white ${mode === 'dev' ? 'selection:bg-primary/30' : 'selection:bg-pink-500/30'}`}>
       <Navbar mode={mode} />
+      <SocialSidebar mode={mode} />
       <main>
         <Hero mode={mode} setMode={handleModeChange} />
         <TechTicker mode={mode} />
