@@ -23,7 +23,7 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
   };
 
   return (
-    <section id="projects" className="py-20 md:py-28 bg-darker overflow-hidden">
+    <section id="projects" className="py-16 md:py-24 bg-darker overflow-hidden border-t border-white/5">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
           <div>
@@ -59,11 +59,11 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
 
         <div 
            ref={scrollContainerRef}
-           className="flex gap-5 md:gap-6 overflow-x-auto pb-10 snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
+           className="flex gap-4 md:gap-6 overflow-x-auto pb-8 snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {projects.map((project) => (
-            <div key={project.id} className="min-w-[80vw] md:min-w-[450px] lg:min-w-[550px] snap-start shrink-0 group cursor-pointer">
+            <div key={project.id} className="min-w-[85vw] md:min-w-[380px] lg:min-w-[420px] snap-start shrink-0 group cursor-pointer">
               {/* Image Container */}
               <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 bg-[#111] border border-white/5">
                  <img 
@@ -77,8 +77,8 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
                  {/* Play Button Overlay */}
                  {isVideo && (
                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transform scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 shadow-2xl">
-                         <Play fill="white" className="ml-1 text-white" size={24} />
+                      <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transform scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 shadow-2xl">
+                         <Play fill="white" className="ml-1 text-white" size={20} />
                       </div>
                    </div>
                  )}
@@ -93,12 +93,12 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
               {/* Text Content */}
               <div className="px-1">
                  <div className="flex justify-between items-start mb-1.5">
-                    <h3 className={`text-xl font-bold text-white ${hoverText} transition-colors`}>{project.title}</h3>
+                    <h3 className={`text-lg md:text-xl font-bold text-white ${hoverText} transition-colors`}>{project.title}</h3>
                     <a href={project.link} className="p-1.5 rounded-full hover:bg-white/5 transition-colors group/link">
-                      <ArrowUpRight size={18} className="text-text-muted group-hover/link:text-white transition-colors" />
+                      <ArrowUpRight size={16} className="text-text-muted group-hover/link:text-white transition-colors" />
                     </a>
                  </div>
-                 <p className="text-text-muted text-xs leading-relaxed mb-3 max-w-sm">{project.description}</p>
+                 <p className="text-text-muted text-xs leading-relaxed mb-3 max-w-sm line-clamp-2">{project.description}</p>
                  <div className="flex flex-wrap gap-2">
                     {project.tech.map(t => (
                        <span key={t} className="text-[10px] text-text-muted font-medium px-2 py-0.5 bg-white/5 rounded-md border border-white/5">#{t}</span>

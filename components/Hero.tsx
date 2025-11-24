@@ -48,7 +48,7 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
     : 'from-blue-500 via-blue-400 to-cyan-400';
 
   return (
-    <section id="home" className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden min-h-screen flex items-center bg-[#050505]">
+    <section id="home" className="relative pt-24 pb-12 md:pt-32 md:pb-16 overflow-hidden min-h-screen flex items-center bg-[#050505]">
       {/* Cinematic Background Ambience - Low Saturation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
          <div className={`absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] opacity-10 transition-colors duration-1000 ${isVideo ? 'bg-cine-red' : 'bg-blue-900'}`}></div>
@@ -63,7 +63,7 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
           <div className="flex-1 w-full flex flex-col items-center lg:items-start text-center lg:text-left z-20">
             
             {/* Mode Switcher */}
-            <div className="inline-flex items-center bg-surface-highlight border border-white/[0.08] rounded-full p-1 mb-6 shadow-inner relative overflow-hidden">
+            <div className="inline-flex items-center bg-surface-highlight border border-white/[0.08] rounded-full p-1 mb-5 shadow-inner relative overflow-hidden">
                <div className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full transition-all duration-500 ease-out shadow-lg ${mode === 'dev' ? 'left-1 bg-blue-600' : 'left-[calc(50%+2px)] bg-cine-red'}`}></div>
                <button onClick={() => handleToggle('dev')} className={`relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold transition-colors ${mode === 'dev' ? 'text-white' : 'text-text-muted hover:text-white'}`}>
                  <Code size={12} /> Dev
@@ -87,7 +87,7 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
                 </span>
               </h1>
               
-              <h3 className="text-base md:text-lg lg:text-xl text-text-muted font-light mb-8 max-w-lg mx-auto lg:mx-0">
+              <h3 className="text-sm md:text-base lg:text-lg text-text-muted font-light mb-8 max-w-lg mx-auto lg:mx-0">
                 {content.subtitle} <span className="text-white font-medium border-b border-white/20 pb-0.5">{content.subtitleHighlight}</span>
               </h3>
 
