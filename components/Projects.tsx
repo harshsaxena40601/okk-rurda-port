@@ -32,34 +32,37 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
             </h2>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
              <button 
                onClick={() => scroll('left')} 
-               className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 text-white transition-colors hover:border-white/30"
+               className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 text-white transition-colors hover:border-white/30 active:scale-95"
                aria-label="Scroll left"
              >
                <ChevronLeft size={24} />
              </button>
              <button 
                onClick={() => scroll('right')} 
-               className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 text-white transition-colors hover:border-white/30"
+               className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 text-white transition-colors hover:border-white/30 active:scale-95"
                aria-label="Scroll right"
              >
                <ChevronRight size={24} />
              </button>
-             <button className="hidden md:block text-white border border-white/10 px-6 py-3 rounded-full hover:bg-white/5 transition-colors text-sm font-bold ml-2">
+             <a 
+               href="#" 
+               className="hidden md:flex items-center justify-center h-12 px-6 rounded-full border border-white/10 hover:bg-white/5 text-white text-sm font-bold transition-all hover:border-white/30 ml-2"
+             >
                 View All Projects
-             </button>
+             </a>
           </div>
         </div>
 
         <div 
            ref={scrollContainerRef}
-           className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0"
+           className="flex gap-6 md:gap-8 overflow-x-auto pb-12 snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {projects.map((project) => (
-            <div key={project.id} className="min-w-[85vw] md:min-w-[45vw] lg:min-w-[600px] snap-center shrink-0 group cursor-pointer">
+            <div key={project.id} className="min-w-[90vw] md:min-w-[600px] snap-start shrink-0 group cursor-pointer">
               {/* Image Container */}
               <div className="relative aspect-video rounded-[2rem] overflow-hidden mb-6 bg-[#111] border border-white/5">
                  <img 
@@ -72,7 +75,7 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
                  
                  {/* Play Button Overlay */}
                  {isVideo && (
-                   <div className="absolute inset-0 flex items-center justify-center">
+                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transform scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 shadow-2xl">
                          <Play fill="white" className="ml-1 text-white" size={32} />
                       </div>
@@ -90,14 +93,14 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
               <div className="px-2">
                  <div className="flex justify-between items-start mb-2">
                     <h3 className="text-2xl font-bold text-white group-hover:text-cine-red transition-colors">{project.title}</h3>
-                    <a href={project.link} className="p-2 rounded-full hover:bg-white/5 transition-colors">
-                      <ArrowUpRight className="text-text-muted group-hover:text-white transition-colors" />
+                    <a href={project.link} className="p-2 rounded-full hover:bg-white/5 transition-colors group/link">
+                      <ArrowUpRight className="text-text-muted group-hover/link:text-white transition-colors" />
                     </a>
                  </div>
-                 <p className="text-text-muted text-sm leading-relaxed mb-4">{project.description}</p>
+                 <p className="text-text-muted text-sm leading-relaxed mb-4 max-w-xl">{project.description}</p>
                  <div className="flex flex-wrap gap-2">
                     {project.tech.map(t => (
-                       <span key={t} className="text-xs text-text-muted font-medium px-2 py-1 bg-white/5 rounded-md">#{t}</span>
+                       <span key={t} className="text-xs text-text-muted font-medium px-2 py-1 bg-white/5 rounded-md border border-white/5">#{t}</span>
                     ))}
                  </div>
               </div>
