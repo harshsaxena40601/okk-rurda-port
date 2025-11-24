@@ -1,4 +1,4 @@
-import { Project, Service, SpecializedProject, WorkflowStep, Testimonial, CaseStudy, HeroModeContent, DataByMode, AboutContent, ShortFormVideo, TimelineItem } from './types';
+import { Project, Service, SpecializedProject, WorkflowStep, Testimonial, CaseStudy, HeroModeContent, DataByMode, AboutContent, ShortFormVideo, TimelineItem, SkillCategory, ServiceDetail, SolutionDetail, ProjectDetail, FAQItem } from './types';
 import { 
   Code, 
   ShoppingBag, 
@@ -22,7 +22,17 @@ import {
   Aperture,
   Layers,
   Layout,
-  Rocket
+  Rocket,
+  Cpu,
+  Database,
+  PenTool,
+  CheckCircle2,
+  Clock,
+  TrendingUp,
+  Briefcase,
+  FileVideo,
+  Image,
+  Mic
 } from 'lucide-react';
 
 export const NAV_LINKS: DataByMode<{ name: string; href: string }[]> = {
@@ -137,27 +147,96 @@ export const ABOUT_DATA: DataByMode<AboutContent> = {
   }
 };
 
+// Short timeline for Homepage
 export const TIMELINE_DATA: TimelineItem[] = [
   {
     year: '2024',
     title: 'Senior Editor & Full Stack',
-    description: 'Scaled editing portfolio to 200+ projects while building complex web apps for enterprise clients.',
+    description: 'Scaled editing portfolio to 200+ projects while building complex web apps.',
     icon: 'award'
   },
   {
     year: '2023',
     title: 'Expanded into Development',
-    description: 'Started full stack journey, mastering React, Node.js, and Shopify development alongside editing.',
+    description: 'Started full stack journey, mastering React, Node.js, and Shopify.',
     icon: 'code'
   },
   {
     year: '2022',
     title: 'Professional Editing',
-    description: 'Began professional journey in cinematic editing, working with local brands and influencers.',
+    description: 'Began professional journey in cinematic editing working with local brands.',
     icon: 'video'
   }
 ];
 
+// Extended Timeline for About Page
+export const FULL_TIMELINE: TimelineItem[] = [
+  {
+    year: '2024 - Present',
+    title: 'Lead Editor & Full Stack Developer',
+    description: 'Managing high-ticket editing projects for international YouTubers and agencies. Developing enterprise-level React applications and custom Shopify solutions for e-commerce brands.',
+    icon: 'briefcase'
+  },
+  {
+    year: '2023',
+    title: 'Freelance Growth & Skill Expansion',
+    description: 'Transitioned into full-time freelancing. Mastered Next.js and Technical SEO to offer complete digital packages. Reached 150+ edited videos milestone.',
+    icon: 'award'
+  },
+  {
+    year: '2022',
+    title: 'Specialized in Cinematic Editing',
+    description: 'Focused deeply on color grading and sound design in DaVinci Resolve. Worked with travel influencers to create high-retention Instagram Reels.',
+    icon: 'video'
+  },
+  {
+    year: '2021',
+    title: 'The Beginning',
+    description: 'Started experimenting with Adobe Premiere Pro and HTML/CSS. Built first portfolio website and edited first commercial project.',
+    icon: 'code'
+  }
+];
+
+export const SKILLS_MATRIX: DataByMode<SkillCategory[]> = {
+  video: [
+    {
+      category: "Core Editing",
+      items: ["Adobe Premiere Pro", "Final Cut Pro", "DaVinci Resolve", "CapCut Pro"]
+    },
+    {
+      category: "Visual Effects",
+      items: ["Adobe After Effects", "Motion Graphics", "Compositing", "Rotoscoping"]
+    },
+    {
+      category: "Audio & Color",
+      items: ["Sound Design", "Audio Mixing", "Color Grading", "Color Correction", "LUT Creation"]
+    },
+    {
+      category: "Strategy",
+      items: ["Retention Optimization", "YouTube Analytics", "Storytelling", "Script Pacing"]
+    }
+  ],
+  dev: [
+    {
+      category: "Frontend",
+      items: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]
+    },
+    {
+      category: "Backend",
+      items: ["Node.js", "Express", "MongoDB", "Firebase", "Supabase"]
+    },
+    {
+      category: "E-Commerce",
+      items: ["Shopify Liquid", "Hydrogen", "Storefront API", "WooCommerce"]
+    },
+    {
+      category: "Marketing Tech",
+      items: ["Technical SEO", "Google Analytics 4", "PageSpeed Optimization", "A/B Testing"]
+    }
+  ]
+};
+
+// Simple services for Homepage
 export const SERVICES: DataByMode<Service[]> = {
   dev: [
     { id: '1', title: 'Web Development', description: 'Building responsive, high-performance web applications using modern technologies like React, Next.js, and Node.js.', icon: Globe },
@@ -174,6 +253,70 @@ export const SERVICES: DataByMode<Service[]> = {
     { id: 'v4', title: 'Brand Commercial Editing', description: 'Product promos, clothing brand videos, restaurant ads.', icon: ShoppingBag },
     { id: 'v5', title: 'Motion Graphics & Title Design', description: 'Lower thirds, animated text, clean title cards.', icon: Zap },
     { id: 'v6', title: 'Color Grading', description: 'Cinematic LUTs, mood-based tones, brand-consistent color styling.', icon: Palette },
+  ]
+};
+
+// Detailed Services for Services Page
+export const ALL_SERVICES: DataByMode<ServiceDetail[]> = {
+  video: [
+    {
+      id: 'vs1',
+      title: 'YouTube Documentary Editing',
+      description: 'High-retention editing style inspired by top creators. I focus on storytelling, pacing, and immersive sound design to keep viewers watching.',
+      icon: Youtube,
+      features: ['Script breakdown', 'Stock footage sourcing', 'Advanced sound design', 'Motion graphics integration']
+    },
+    {
+      id: 'vs2',
+      title: 'Short-Form Content (Reels/Shorts)',
+      description: 'Viral-ready vertical video editing. Fast cuts, engaging captions, and trending audio synchronization to maximize reach.',
+      icon: Smartphone,
+      features: ['Hooks & Retention editing', 'Dynamic captions', 'Trending audio sync', 'Platform-specific export']
+    },
+    {
+      id: 'vs3',
+      title: 'Cinematic Commercials',
+      description: 'Premium brand films that elevate your product or service. Cinematic color grading and high-end transitions.',
+      icon: Film,
+      features: ['4K workflow', 'Professional color grading', 'Custom transitions', 'Brand identity alignment']
+    },
+    {
+      id: 'vs4',
+      title: 'Travel & Lifestyle Films',
+      description: 'Turning raw footage into emotional visual journeys. Perfect for influencers and travel brands.',
+      icon: Globe, 
+      features: ['Narrative structuring', 'Atmospheric soundscapes', 'Mood-based color grading', 'Stabilization']
+    }
+  ],
+  dev: [
+    {
+      id: 'ds1',
+      title: 'Custom Web Application',
+      description: 'Scalable, secure, and high-performance web apps built with React and Next.js.',
+      icon: Code,
+      features: ['SPA/PWA architecture', 'API integration', 'Database design', 'Authentication systems']
+    },
+    {
+      id: 'ds2',
+      title: 'Shopify Store Development',
+      description: 'End-to-end e-commerce solutions. From custom theme development to app integration and checkout optimization.',
+      icon: ShoppingBag,
+      features: ['Liquid theme development', 'Store setup', 'App configuration', 'Conversion rate optimization']
+    },
+    {
+      id: 'ds3',
+      title: 'Technical SEO Audits',
+      description: 'Deep-dive analysis of your website to identify and fix ranking blockers.',
+      icon: Search,
+      features: ['Crawl error fixing', 'Core Web Vitals optimization', 'Schema markup', 'Site architecture']
+    },
+    {
+      id: 'ds4',
+      title: 'UI/UX Redesign',
+      description: 'Modernizing legacy interfaces for better user engagement and accessibility.',
+      icon: Layout,
+      features: ['Wireframing', 'Prototyping', 'User flow analysis', 'Responsive design']
+    }
   ]
 };
 
@@ -261,6 +404,49 @@ export const SPECIALIZED_SOLUTIONS: DataByMode<{ title: string; subtitle: string
   }
 };
 
+export const ALL_SOLUTIONS: DataByMode<SolutionDetail[]> = {
+  video: [
+    {
+      id: 'sol_v1',
+      title: 'The Retention Engine',
+      description: 'A proprietary editing framework designed to keep viewers watching past the 30-second mark. Uses pattern interrupts and audio cues.',
+      image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44c?q=80&w=1000&auto=format&fit=crop',
+      metrics: [{ label: 'Avg Retention', value: '+45%' }, { label: 'CTR Boost', value: '+12%' }],
+      features: ['Pacing Audit', 'Hook Optimization', 'Sound Design Layering'],
+      comparison: { before: 'Flat, linear storytelling with drop-offs.', after: 'Dynamic, multi-layered narrative with high retention.' }
+    },
+    {
+      id: 'sol_v2',
+      title: 'Brand Identity System',
+      description: 'Establishing a cohesive visual language for your brand through custom LUTs, motion graphics templates, and sound signatures.',
+      image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=1000&auto=format&fit=crop',
+      metrics: [{ label: 'Brand Recall', value: 'High' }, { label: 'Consistency', value: '100%' }],
+      features: ['Custom LUTs', 'Motion Templates', 'Sonic Branding'],
+      comparison: { before: 'Inconsistent visual style across videos.', after: 'Unified, instantly recognizable brand aesthetic.' }
+    }
+  ],
+  dev: [
+    {
+      id: 'sol_d1',
+      title: 'Shopify Speed & Conversion',
+      description: 'Optimization of Shopify stores to pass Core Web Vitals and reduce checkout friction.',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=1000&auto=format&fit=crop',
+      metrics: [{ label: 'Load Time', value: '< 2s' }, { label: 'Conversion', value: '+30%' }],
+      features: ['Code Splitting', 'Image Optimization', 'App Audit'],
+      comparison: { before: 'Slow load times and high bounce rates.', after: 'Blazing fast navigation and seamless checkout.' }
+    },
+    {
+      id: 'sol_d2',
+      title: 'Headless SEO Architecture',
+      description: 'Building SEO-first Next.js frontends for content-heavy sites to dominate search rankings.',
+      image: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1000&auto=format&fit=crop',
+      metrics: [{ label: 'Organic Traffic', value: '+200%' }, { label: 'Crawl Budget', value: 'Optimized' }],
+      features: ['SSR/SSG', 'Structured Data', 'Semantic HTML'],
+      comparison: { before: 'Invisible to search engines.', after: 'Ranking for high-intent keywords.' }
+    }
+  ]
+};
+
 export const WORKFLOW_PROCESS: DataByMode<{ title: string; subtitle: string; steps: WorkflowStep[] }> = {
   dev: {
     title: "My SEO Optimization Process",
@@ -286,6 +472,7 @@ export const WORKFLOW_PROCESS: DataByMode<{ title: string; subtitle: string; ste
   }
 };
 
+// Projects for Homepage
 export const PROJECTS: DataByMode<Project[]> = {
   dev: [
     {
@@ -356,6 +543,67 @@ export const PROJECTS: DataByMode<Project[]> = {
   ]
 };
 
+export const EXTENDED_PROJECTS: DataByMode<ProjectDetail[]> = {
+  video: [
+    ...PROJECTS.video.map(p => ({ ...p, type: 'video' as const, client: 'Client Name', role: 'Editor', year: '2024' })),
+    {
+      id: 'v5',
+      title: 'Documentary - The Lost Art',
+      category: 'Documentary',
+      image: 'https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?q=80&w=1000&auto=format&fit=crop',
+      description: 'A 20-minute documentary focusing on traditional craftsmanship. Color grading played a huge role.',
+      tech: ['DaVinci Resolve', 'Sound Design'],
+      link: '#',
+      type: 'video',
+      client: 'History Channel',
+      role: 'Lead Editor',
+      year: '2023'
+    },
+    {
+      id: 'v6',
+      title: 'Tech Review - Gadget Pro',
+      category: 'YouTube',
+      image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1000&auto=format&fit=crop',
+      description: 'Fast-paced tech review with motion graphics overlays for specs and comparisons.',
+      tech: ['Premiere Pro', 'After Effects'],
+      link: '#',
+      type: 'video',
+      client: 'Gadget Pro',
+      role: 'Editor',
+      year: '2024'
+    }
+  ],
+  dev: [
+    ...PROJECTS.dev.map(p => ({ ...p, type: 'dev' as const, client: 'Confidential', role: 'Full Stack Dev', year: '2024' })),
+    {
+      id: 'd4',
+      title: 'NLP AI Tool',
+      category: 'AI/SaaS',
+      image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop',
+      description: 'Natural Language Processing tool for sentiment analysis of customer reviews.',
+      tech: ['Python', 'React', 'FastAPI'],
+      link: '#',
+      type: 'dev',
+      client: 'DataCorp',
+      role: 'Backend Dev',
+      year: '2023'
+    },
+    {
+      id: 'd5',
+      title: 'Luxury Real Estate Portal',
+      category: 'Web App',
+      image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1000&auto=format&fit=crop',
+      description: 'High-end property listing site with virtual tour integration.',
+      tech: ['Next.js', 'Mapbox', 'Sanity CMS'],
+      link: '#',
+      type: 'dev',
+      client: 'Elite Homes',
+      role: 'Frontend Lead',
+      year: '2024'
+    }
+  ]
+};
+
 export const SHORT_FORM_VIDEOS: ShortFormVideo[] = [
   {
     id: 'sf1',
@@ -390,6 +638,8 @@ export const SHORT_FORM_VIDEOS: ShortFormVideo[] = [
     videoUrl: 'https://drive.google.com/file/d/1vg4CVhCiHBgKyN6QIHgQCSmusuqB2Vfo/view?usp=sharing', // User provided link
   }
 ];
+
+export const SHORTS_GALLERY = SHORT_FORM_VIDEOS; // Expanded later if needed
 
 export const TESTIMONIALS: DataByMode<Testimonial[]> = {
   dev: [
@@ -498,4 +748,28 @@ export const TICKER_ITEMS: DataByMode<string[]> = {
     "Video Editing", "Cinematic Storytelling", "Color Grading", "Motion Graphics",
     "Sound Design", "Premiere Pro", "After Effects", "DaVinci Resolve", "Visual Effects", "Visual Storytelling"
   ]
+};
+
+export const FAQ_DATA: FAQItem[] = [
+  {
+    question: "What is your typical turnaround time?",
+    answer: "For video projects, it depends on complexity. Reels typically take 24-48 hours, while long-form videos take 3-5 days. For development, landing pages take 1-2 weeks, while full sites can take 4-8 weeks."
+  },
+  {
+    question: "Do you offer revisions?",
+    answer: "Yes! I include up to 2 rounds of major revisions for every project to ensure the final result aligns perfectly with your vision."
+  },
+  {
+    question: "What files do I need to provide for editing?",
+    answer: "Raw footage, brand assets (logos, fonts), and a brief or example of the style you're looking for. I can handle large file transfers via Drive or Frame.io."
+  },
+  {
+    question: "Do you work with agencies?",
+    answer: "Absolutely. I often white-label my services for agencies needing reliable, high-quality overflow work for both editing and development."
+  }
+];
+
+export const AVAILABILITY_STATUS = {
+  available: true,
+  text: "Currently accepting new projects for next month."
 };

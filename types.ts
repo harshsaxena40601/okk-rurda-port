@@ -132,5 +132,40 @@ export interface TimelineItem {
   year: string;
   title: string;
   description: string;
-  icon: 'code' | 'video' | 'award';
+  icon: 'code' | 'video' | 'award' | 'briefcase';
+}
+
+export interface SkillCategory {
+  category: string;
+  items: string[];
+}
+
+export interface ServiceDetail {
+  id: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  features: string[];
+}
+
+export interface SolutionDetail {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  metrics: { label: string; value: string }[];
+  features: string[];
+  comparison: { before: string; after: string };
+}
+
+export interface ProjectDetail extends Project {
+  client?: string;
+  role?: string;
+  year?: string;
+  type: 'video' | 'dev';
+}
+
+export interface FAQItem {
+  question: string;
+  answer: string;
 }

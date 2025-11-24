@@ -1,7 +1,7 @@
 import React from 'react';
-import { ABOUT_DATA, TIMELINE_DATA } from '../constants';
+import { ABOUT_DATA, FULL_TIMELINE, SKILLS_MATRIX } from '../constants';
 import { AppMode } from '../types';
-import { Film, Calendar, Users, Code, Award, CheckCircle } from 'lucide-react';
+import { Film, Calendar, Users, Code, Award, CheckCircle, Briefcase } from 'lucide-react';
 
 interface AboutPageProps {
   mode: AppMode;
@@ -32,51 +32,85 @@ const AboutPage: React.FC<AboutPageProps> = ({ mode }) => {
       {/* Main Profile Content */}
       <section className="py-20">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
             
-            {/* Left: Bio & Timeline */}
-            <div className="space-y-12">
-              <div>
+            {/* Left: Bio & Timeline (8 cols) */}
+            <div className="lg:col-span-8 space-y-16">
+              
+              {/* Bio Section */}
+              <div className="space-y-6">
                 <h3 className={`text-sm font-bold tracking-[0.2em] uppercase mb-4 ${accentText}`}>THE STORY</h3>
-                <div className="prose prose-invert prose-lg text-slate-400">
-                  <p className="mb-4">{content.description1}</p>
+                <div className="prose prose-invert prose-lg text-slate-400 leading-relaxed">
+                  <p className="mb-4 text-xl text-white font-medium">{content.description1}</p>
                   <p>{content.description2}</p>
+                  <p>
+                    My mission is simple: to bridge the gap between raw ideas and polished digital reality. Whether it's cutting a high-pace retention reel or architecting a scalable React application, I bring the same level of obsession to detail and quality.
+                  </p>
                 </div>
               </div>
 
-              {/* Timeline */}
+              {/* Mission & Vision */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                 <div className="bg-[#0a0a0a] border border-white/5 p-8 rounded-3xl hover:border-white/10 transition-colors">
+                    <Award size={32} className={`mb-4 ${accentText}`} />
+                    <h4 className="text-white font-bold text-lg mb-2">My Vision</h4>
+                    <p className="text-slate-400 text-sm">To create digital experiences that don't just look good, but perform—driving real emotion and real metrics.</p>
+                 </div>
+                 <div className="bg-[#0a0a0a] border border-white/5 p-8 rounded-3xl hover:border-white/10 transition-colors">
+                    <Users size={32} className={`mb-4 ${accentText}`} />
+                    <h4 className="text-white font-bold text-lg mb-2">My Values</h4>
+                    <p className="text-slate-400 text-sm">Consistency, communication, and a relentless pursuit of "better than yesterday."</p>
+                 </div>
+              </div>
+
+              {/* Journey Timeline */}
               <div>
                 <h3 className={`text-sm font-bold tracking-[0.2em] uppercase mb-8 ${accentText}`}>JOURNEY</h3>
-                <div className="space-y-8 border-l border-white/10 ml-3 pl-8 relative">
-                  {TIMELINE_DATA.map((item, index) => (
-                    <div key={index} className="relative">
-                      <div className={`absolute -left-[39px] w-5 h-5 rounded-full border-2 border-[#050505] ${accentBg}`}></div>
-                      <span className={`block text-xs font-bold mb-1 ${accentText}`}>{item.year}</span>
-                      <h4 className="text-white font-bold text-lg mb-2">{item.title}</h4>
-                      <p className="text-sm text-slate-400">{item.description}</p>
+                <div className="space-y-12 border-l border-white/10 ml-3 pl-10 relative">
+                  {FULL_TIMELINE.map((item, index) => (
+                    <div key={index} className="relative group">
+                      <div className={`absolute -left-[49px] w-7 h-7 rounded-full border-4 border-[#050505] ${accentBg} flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.5)]`}></div>
+                      <span className={`block text-xs font-bold mb-2 px-3 py-1 rounded-full bg-white/5 w-max text-white`}>{item.year}</span>
+                      <h4 className="text-white font-bold text-xl mb-2 group-hover:text-slate-200 transition-colors">{item.title}</h4>
+                      <p className="text-base text-slate-400 leading-relaxed max-w-2xl">{item.description}</p>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Right: Skills & Tools */}
-            <div className="space-y-12">
+            {/* Right: Skills & Stats (4 cols) */}
+            <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-32">
+               
+               {/* Photo Card */}
+               <div className="relative rounded-3xl overflow-hidden aspect-[4/5] mb-8 group">
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10`}></div>
+                  <img src={HERO_DATA[mode].profileImage} alt="Rudra" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute bottom-6 left-6 z-20">
+                     <h3 className="text-white font-bold text-2xl">Rudra Saxena</h3>
+                     <p className={`text-sm font-medium ${accentText}`}>{HERO_DATA[mode].subtitle}</p>
+                  </div>
+               </div>
+
+               {/* Skills Matrix */}
                <div className="bg-[#0a0a0a] border border-white/5 rounded-3xl p-8 relative overflow-hidden">
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${isVideo ? 'from-red-500/10' : 'from-blue-500/10'} to-transparent rounded-full blur-2xl`}></div>
                   <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                     {isVideo ? <Film size={20} className={accentText} /> : <Code size={20} className={accentText} />}
-                    {content.skillsTitle}
+                    Skills Matrix
                   </h3>
                   
-                  <div className="flex flex-wrap gap-3">
-                    {content.skills.map((skill) => (
-                      <span 
-                        key={skill.name}
-                        className="px-4 py-2 bg-white/5 border border-white/5 rounded-lg text-sm text-slate-300 font-medium"
-                      >
-                        {skill.name}
-                      </span>
+                  <div className="space-y-6">
+                    {SKILLS_MATRIX[mode].map((cat, idx) => (
+                       <div key={idx}>
+                          <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">{cat.category}</h5>
+                          <div className="flex flex-wrap gap-2">
+                             {cat.items.map(skill => (
+                                <span key={skill} className="px-3 py-1.5 bg-white/5 border border-white/5 rounded-md text-xs text-slate-300 font-medium hover:bg-white/10 transition-colors cursor-default">
+                                   {skill}
+                                </span>
+                             ))}
+                          </div>
+                       </div>
                     ))}
                   </div>
                </div>
@@ -97,5 +131,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ mode }) => {
     </div>
   );
 };
+
+// Need to import HERO_DATA locally since it's used here
+import { HERO_DATA } from '../constants';
 
 export default AboutPage;

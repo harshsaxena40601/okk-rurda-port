@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { SHORT_FORM_VIDEOS } from '../constants';
-import { Play } from 'lucide-react';
+import { SHORTS_GALLERY } from '../constants'; // Ensure this is exported in constants
+import { Play, Eye, TrendingUp } from 'lucide-react';
 
 const ShortsPage: React.FC = () => {
   const [filter, setFilter] = useState('All');
-  const categories = ['All', 'Travel', 'Commercial', 'Educational', 'Motion Graphics'];
+  // Dynamically get categories
+  const categories = ['All', ...Array.from(new Set(SHORTS_GALLERY.map(v => v.category)))];
   
   const filteredVideos = filter === 'All' 
-    ? SHORT_FORM_VIDEOS 
-    : SHORT_FORM_VIDEOS.filter(v => v.category === filter);
+    ? SHORTS_GALLERY 
+    : SHORTS_GALLERY.filter(v => v.category === filter);
 
   return (
     <div className="min-h-screen bg-[#050505] pt-32 pb-20">
@@ -16,23 +17,23 @@ const ShortsPage: React.FC = () => {
         
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-heading font-black text-white mb-6">
-            Short Form <span className="text-cine-red">Mastery</span>
+            Short Form <span className="text-cine-red">Gallery</span>
           </h1>
-          <p className="text-slate-400 text-lg">
-             Viral edits engineered for retention.
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+             A collection of high-retention vertical videos optimized for Instagram Reels, TikTok, and YouTube Shorts.
           </p>
         </div>
 
         {/* Filter */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        <div className="flex flex-wrap justify-center gap-3 mb-16">
           {categories.map(cat => (
              <button 
                key={cat}
                onClick={() => setFilter(cat)}
-               className={`px-5 py-2 rounded-full text-sm font-bold transition-all border ${
+               className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all border ${
                  filter === cat 
-                   ? 'bg-cine-red border-cine-red text-white' 
-                   : 'bg-white/5 border-white/5 text-slate-400 hover:text-white'
+                   ? 'bg-cine-red border-cine-red text-white shadow-[0_0_20px_rgba(255,74,25,0.3)]' 
+                   : 'bg-white/5 border-white/5 text-slate-400 hover:text-white hover:bg-white/10'
                }`}
              >
                {cat}
@@ -41,22 +42,30 @@ const ShortsPage: React.FC = () => {
         </div>
 
         {/* 3-Column Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
            {filteredVideos.map((video) => (
-              <div key={video.id} className="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer border border-white/10 hover:border-cine-red/50 transition-colors">
-                 <img src={video.image} alt={video.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div key={video.id} className="relative aspect-[9/16] rounded-[2rem] overflow-hidden group cursor-pointer border border-white/5 hover:border-cine-red/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-[#0a0a0a]">
+                 <img src={video.image} alt={video.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
                  
-                 {/* Overlay */}
-                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform duration-300">
-                       <Play fill="currentColor" size={24} />
+                 {/* Overlay Gradient */}
+                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+
+                 {/* Center Play Button */}
+                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-90 group-hover:scale-100">
+                    <div className="w-20 h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white shadow-xl">
+                       <Play fill="white" size={32} className="ml-1" />
                     </div>
                  </div>
 
-                 <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent pt-12">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-cine-red bg-cine-red/10 px-2 py-0.5 rounded mb-2 inline-block">{video.category}</span>
-                    <h3 className="text-lg font-bold text-white">{video.title}</h3>
-                    <p className="text-xs text-slate-400 mt-1">{video.views}</p>
+                 {/* Info Card */}
+                 <div className="absolute bottom-0 left-0 w-full p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                    <div className="flex items-center justify-between mb-2">
+                       <span className="text-[10px] font-bold uppercase tracking-widest text-white bg-cine-red px-2 py-0.5 rounded shadow-lg">{video.category}</span>
+                       <div className="flex items-center gap-1 text-slate-300 text-xs font-bold">
+                          <Eye size={12} /> {video.views}
+                       </div>
+                    </div>
+                    <h3 className="text-xl font-bold text-white leading-tight group-hover:text-cine-red transition-colors">{video.title}</h3>
                  </div>
               </div>
            ))}
