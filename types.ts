@@ -16,7 +16,6 @@ export interface Project {
   description: string;
   tech: string[]; // Used for both Tech stack and Editing tools
   link: string;
-  results?: string; // Result metrics
 }
 
 export interface Service {
@@ -31,18 +30,25 @@ export interface Skill {
   level?: number;
 }
 
+export interface TimelineItem {
+  year: string;
+  title: string;
+  description: string;
+}
+
 export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
   isError?: boolean;
 }
 
+// Renamed from ShopifyProject to encompass both types
 export interface SpecializedProject {
   id: string;
   title: string;
   description: string;
   image: string;
-  technologies: string[]; 
+  technologies: string[]; // or Tags
   results: {
     metric: string;
     value: string;
@@ -50,6 +56,7 @@ export interface SpecializedProject {
   link?: string;
 }
 
+// Renamed from SEOStep
 export interface WorkflowStep {
   id: string;
   step: number;
@@ -72,9 +79,9 @@ export interface CaseStudy {
   title: string;
   client?: string;
   category: string;
-  problem: string; 
-  solution: string; 
-  impact: string; 
+  problem: string; // Used as "Before" for video
+  solution: string; // Used as "After" for video
+  impact: string; // Used as "Result" for video
 }
 
 export interface SocialLink {
@@ -90,17 +97,16 @@ export interface HeroModeContent {
   subtitleHighlight: string;
   description: string;
   primaryButtonText: string;
-  secondaryButtonText: string;
-  badges: string[];
-  stats: { value: string; label: string }[];
   socials: SocialLink[];
   profileImage: string;
-}
-
-export interface TimelineItem {
-  year: string;
-  title: string;
-  description: string;
+  floatingCard: {
+    type: 'code' | 'video';
+    title: string;
+    line1: string;
+    line2: string;
+    line3: string;
+    line4?: string;
+  };
 }
 
 export interface AboutContent {
@@ -108,9 +114,15 @@ export interface AboutContent {
   headingHighlight: string;
   description1: string;
   description2: string;
-  timeline: TimelineItem[];
+  stats: {
+    value: string;
+    label: string;
+  }[];
   skillsTitle: string;
   skills: Skill[];
+  quote: string;
+  quoteAuthor: string;
+  quoteRole: string;
 }
 
 export interface ShortFormVideo {
