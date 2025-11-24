@@ -30,12 +30,6 @@ export interface Skill {
   level?: number;
 }
 
-export interface TimelineItem {
-  year: string;
-  title: string;
-  description: string;
-}
-
 export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
@@ -132,4 +126,11 @@ export interface ShortFormVideo {
   videoUrl: string;
   views: string;
   category: string;
+}
+
+export interface TimelineItem {
+  year: string;
+  title: string;
+  description: string;
+  icon: 'code' | 'video' | 'award';
 }

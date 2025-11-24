@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { NAV_LINKS } from '../constants';
 import { Menu, X } from 'lucide-react';
 import { AppMode } from '../types';
-import { NavLink } from 'react-router-dom';
 
 interface NavbarProps {
   mode: AppMode;
@@ -11,13 +11,14 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ mode }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
   
   const links = NAV_LINKS[mode];
   const isVideo = mode === 'video';
   
   // Design System
   const linkHover = isVideo ? 'hover:text-cine-red' : 'hover:text-blue-400';
-  const activeLink = isVideo ? 'text-cine-red' : 'text-blue-400';
+  const activeLink = isVideo ? 'text-cine-red' : 'text-blue-500';
   const btnColor = isVideo 
     ? 'bg-gradient-to-r from-cine-red to-red-600 hover:from-red-500 hover:to-orange-500 shadow-[0_0_20px_rgba(255,74,25,0.4)]' 
     : 'bg-blue-600 hover:bg-blue-700 shadow-[0_0_20px_rgba(59,130,246,0.4)]';
@@ -37,6 +38,11 @@ const Navbar: React.FC<NavbarProps> = ({ mode }) => {
       document.body.style.overflow = 'unset';
     }
   }, [isMobileMenuOpen]);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
 
   return (
     <>
@@ -59,7 +65,7 @@ const Navbar: React.FC<NavbarProps> = ({ mode }) => {
                 <NavLink 
                   key={link.name} 
                   to={link.href} 
-                  className={({ isActive }) => `text-[11px] font-bold transition-all duration-300 uppercase tracking-[0.15em] ${isActive ? activeLink : 'text-text-muted hover:text-white'} ${linkHover}`}
+                  className={({ isActive }) => `text-[11px] font-bold transition-all duration-300 uppercase tracking-[0.15em] hover:text-white ${isActive ? activeLink : 'text-text-muted'} ${linkHover}`}
                 >
                   {link.name}
                 </NavLink>
@@ -101,7 +107,7 @@ const Navbar: React.FC<NavbarProps> = ({ mode }) => {
             <NavLink 
               key={link.name} 
               to={link.href} 
-              className={({ isActive }) => `text-3xl font-heading font-black transition-all duration-300 transform hover:scale-105 tracking-tight ${isActive ? activeLink : 'text-white'} ${linkHover}`}
+              className={({ isActive }) => `text-3xl font-heading font-black transition-all duration-300 transform hover:scale-105 tracking-tight ${isActive ? 'text-white' : 'text-white/50'} ${linkHover}`}
               style={{ transitionDelay: `${index * 50}ms`, opacity: isMobileMenuOpen ? 1 : 0, transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)' }}
               onClick={() => setIsMobileMenuOpen(false)}
             >

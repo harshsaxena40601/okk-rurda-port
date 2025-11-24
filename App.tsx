@@ -10,7 +10,7 @@ import ProjectsPage from './pages/Projects';
 import ContactPage from './pages/Contact';
 import { AppMode } from './types';
 
-// Scroll to top on route change
+// Scroll to top component
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -20,6 +20,8 @@ const ScrollToTop = () => {
 };
 
 const App: React.FC = () => {
+  // Default to video based on prompt request to "Create a Video Editor Portfolio"
+  // But check local storage first to persist choice
   const [mode, setMode] = useState<AppMode>('video');
 
   useEffect(() => {
@@ -37,15 +39,17 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Layout mode={mode}><Home mode={mode} setMode={handleModeChange} /></Layout>} />
-        <Route path="/about" element={<Layout mode={mode}><AboutPage mode={mode} /></Layout>} />
-        <Route path="/services" element={<Layout mode={mode}><ServicesPage mode={mode} /></Layout>} />
-        <Route path="/solutions" element={<Layout mode={mode}><SolutionsPage mode={mode} /></Layout>} />
-        <Route path="/shorts" element={<Layout mode={mode}><ShortsPage /></Layout>} />
-        <Route path="/projects" element={<Layout mode={mode}><ProjectsPage mode={mode} /></Layout>} />
-        <Route path="/contact" element={<Layout mode={mode}><ContactPage mode={mode} /></Layout>} />
-      </Routes>
+      <Layout mode={mode}>
+        <Routes>
+          <Route path="/" element={<Home mode={mode} setMode={handleModeChange} />} />
+          <Route path="/about" element={<AboutPage mode={mode} />} />
+          <Route path="/services" element={<ServicesPage mode={mode} />} />
+          <Route path="/solutions" element={<SolutionsPage mode={mode} />} />
+          <Route path="/shorts" element={<ShortsPage />} />
+          <Route path="/projects" element={<ProjectsPage mode={mode} />} />
+          <Route path="/contact" element={<ContactPage mode={mode} />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 };

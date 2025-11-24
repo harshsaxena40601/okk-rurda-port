@@ -19,7 +19,10 @@ import {
   Palette,
   MonitorPlay,
   Clapperboard,
-  Aperture
+  Aperture,
+  Layers,
+  Layout,
+  Rocket
 } from 'lucide-react';
 
 export const NAV_LINKS: DataByMode<{ name: string; href: string }[]> = {
@@ -41,12 +44,6 @@ export const NAV_LINKS: DataByMode<{ name: string; href: string }[]> = {
     { name: 'Contact', href: '/contact' },
   ]
 };
-
-export const TIMELINE_DATA: TimelineItem[] = [
-  { year: '2022', title: 'Started Editing', description: 'Began journey with basic cuts and storytelling, mastering Premiere Pro.' },
-  { year: '2023', title: 'Started Full Stack', description: 'Dove into React, Node.js, and web technologies to build digital products.' },
-  { year: '2024', title: 'Professional Growth', description: 'Completed 200+ projects combined across video and development.' }
-];
 
 export const HERO_DATA: DataByMode<HeroModeContent> = {
   dev: {
@@ -139,6 +136,27 @@ export const ABOUT_DATA: DataByMode<AboutContent> = {
     quoteRole: "Content Director, TravelCo"
   }
 };
+
+export const TIMELINE_DATA: TimelineItem[] = [
+  {
+    year: '2024',
+    title: 'Senior Editor & Full Stack',
+    description: 'Scaled editing portfolio to 200+ projects while building complex web apps for enterprise clients.',
+    icon: 'award'
+  },
+  {
+    year: '2023',
+    title: 'Expanded into Development',
+    description: 'Started full stack journey, mastering React, Node.js, and Shopify development alongside editing.',
+    icon: 'code'
+  },
+  {
+    year: '2022',
+    title: 'Professional Editing',
+    description: 'Began professional journey in cinematic editing, working with local brands and influencers.',
+    icon: 'video'
+  }
+];
 
 export const SERVICES: DataByMode<Service[]> = {
   dev: [
