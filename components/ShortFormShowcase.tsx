@@ -7,8 +7,8 @@ import { ShortFormVideo } from '../types';
 const getDriveId = (url: string) => {
   if (!url) return null;
   if (url.includes('drive.google.com')) {
-    const match = url.match(/\/d\/(.+?)\/|id=(.+?)&|id=(.+?)$/);
-    return match ? (match[1] || match[2] || match[3]) : null;
+    const match = url.match(/\/d\/(.+?)(\/|$)|id=(.+?)&|id=(.+?)$/);
+    return match ? (match[1] || match[3] || match[4]) : null;
   }
   return null;
 };

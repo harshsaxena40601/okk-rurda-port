@@ -48,7 +48,7 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
     : 'from-blue-500 via-blue-400 to-cyan-400';
 
   return (
-    <section id="home" className="relative pt-28 pb-12 md:pt-36 md:pb-20 overflow-hidden min-h-screen flex items-center bg-[#050505]">
+    <section id="home" className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden min-h-screen flex items-center bg-[#050505]">
       {/* Cinematic Background Ambience - Low Saturation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
          <div className={`absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] opacity-10 transition-colors duration-1000 ${isVideo ? 'bg-cine-red' : 'bg-blue-900'}`}></div>
@@ -87,7 +87,7 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
                 </span>
               </h1>
               
-              <h3 className="text-base md:text-xl text-text-muted font-light mb-8 max-w-lg mx-auto lg:mx-0">
+              <h3 className="text-base md:text-lg lg:text-xl text-text-muted font-light mb-8 max-w-lg mx-auto lg:mx-0">
                 {content.subtitle} <span className="text-white font-medium border-b border-white/20 pb-0.5">{content.subtitleHighlight}</span>
               </h3>
 
@@ -146,7 +146,7 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
           {/* Visual Side with 3D Tilt */}
           <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-8 lg:mt-0 z-10" style={{ perspective: '1000px' }}>
              <div 
-                className="relative w-full max-w-[320px] lg:max-w-sm aspect-[4/5] group transition-all duration-200 ease-out"
+                className="relative w-full max-w-[300px] lg:max-w-sm aspect-[4/5] group transition-all duration-200 ease-out"
                 onMouseMove={onMouseMove}
                 onMouseLeave={onMouseLeave}
                 style={{
