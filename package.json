@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "start:ai": "node server/ai-chat-api.mjs",
+    "dev:ai": "nodemon --watch server --ext js,mjs,cjs --exec node server/ai-chat-api.mjs",
     "start:server": "node server/index.cjs",
     "seed:server": "node server/seed.cjs"
   },
