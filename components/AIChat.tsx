@@ -96,7 +96,7 @@ const SuggestedPrompt = ({ text, onClick }) => {
 const AIChat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'model', text: '👋 I\'m Ansh\'s AI. How can I help?', id: 0 }
+    { role: 'assistant', text: "👋 I'm Rudra. How can I help?", id: 0 }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -220,7 +220,7 @@ const AIChat = () => {
                 <Sparkles size={16} className="text-white" />
               </div>
               <div className="min-w-0">
-                <h3 className="text-white font-bold text-xs leading-tight">Ansh's AI</h3>
+                <h3 className="text-white font-bold text-xs leading-tight">Rudra's AI</h3>
                 <div className="flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shrink-0"></span>
                   <span className="text-xs text-slate-400 truncate">Online</span>
