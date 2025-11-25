@@ -16,7 +16,7 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
    const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
       const { current } = scrollContainerRef;
-      const scrollAmount = isVideo ? 420 : 360; // Adjust scroll amount based on card size
+      const scrollAmount = isVideo ? 520 : 460; // Adjusted for new card sizes
       current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
     }
   };
@@ -60,8 +60,8 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
   return (
     <section id="projects" className="py-16 md:py-24 bg-darker overflow-hidden border-t border-white/5">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
-          <div>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+          <div className="flex-1">
             <h3 className={`${accentText} font-bold tracking-[0.2em] mb-3 uppercase text-xs md:text-sm`}>PORTFOLIO</h3>
             <h2 className="text-3xl md:text-5xl font-heading font-black text-white tracking-tight">
               Featured {isVideo ? 'Edits' : 'Work'}
@@ -106,7 +106,7 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
           {projects.map((project, idx) => (
             mode === 'dev' ? (
               // ================= DEV MODE CARD DESIGN (Reference Style) =================
-              <div key={project.id} className="min-w-[85vw] md:min-w-[360px] lg:min-w-[380px] snap-start shrink-0 h-full animate-scale-in" style={{ animationDelay: `${idx * 100}ms` }}>
+              <div key={project.id} className="min-w-[90vw] sm:min-w-[400px] md:min-w-[420px] lg:min-w-[440px] snap-start shrink-0 h-full animate-scale-in" style={{ animationDelay: `${idx * 100}ms` }}>
                  <div className="group h-full bg-[#0F1115] border border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 active:scale-95 flex flex-col">
                     {/* Top Image Section */}
                     <div className="relative h-52 overflow-hidden">
@@ -149,7 +149,7 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
               </div>
             ) : (
               // ================= VIDEO MODE CARD DESIGN (Cinematic Style) =================
-              <div key={project.id} className="min-w-[85vw] md:min-w-[420px] snap-start shrink-0 group cursor-pointer animate-scale-in" style={{ animationDelay: `${idx * 100}ms` }}>
+              <div key={project.id} className="min-w-[90vw] sm:min-w-[420px] md:min-w-[480px] lg:min-w-[500px] snap-start shrink-0 group cursor-pointer animate-scale-in" style={{ animationDelay: `${idx * 100}ms` }}>
                 {/* Image Container */}
                 <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 bg-[#111] border border-white/5 group-hover:border-red-500/50 transition-all duration-300 shadow-lg group-hover:shadow-red-500/20">
                    <img 
