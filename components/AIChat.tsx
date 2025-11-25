@@ -1,94 +1,207 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Bot, User, Loader2 } from 'lucide-react';
-import { getChatResponse } from '../services/geminiService';
-import { ChatMessage } from '../types';
+import { MessageSquare, X, Send, Bot, User, Copy, Check, Sparkles, Loader, ThumbsUp, ThumbsDown, Share2, RotateCcw } from 'lucide-react';
 
-const AIChat: React.FC = () => {
+const ChatMessage = ({ msg, idx, onFeedback }) => {
+  const [copied, setCopied] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const isUser = msg.role === 'user';
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(msg.text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className={`flex gap-2 ${isUser ? 'justify-end' : 'justify-start'} animate-fade-in-up group`} style={{ animationDelay: `${idx * 30}ms` }}>
+      {!isUser && (
+        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30">
+          <Bot size={14} className="text-white" />
+        </div>
+      )}
+      
+      <div className="flex flex-col gap-1 max-w-[70%]">
+        <div 
+          className={`px-3 py-2 rounded-lg text-xs leading-relaxed transition-all duration-200 backdrop-blur-sm
+            ${isUser 
+              ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-br-sm shadow-md shadow-blue-500/20' 
+              : 'bg-white/8 text-slate-100 rounded-bl-sm border border-white/10 hover:bg-white/12'
+            }
+          `}
+        >
+          {msg.text}
+        </div>
+        
+        {!isUser && (
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleCopy}
+              className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1 px-1.5 py-0.5 rounded hover:bg-white/5"
+            >
+              {copied ? <Check size={10} /> : <Copy size={10} />}
+              <span className="text-[10px]">{copied ? 'Copied' : 'Copy'}</span>
+            </button>
+            
+            <button
+              onClick={() => setShowFeedback(!showFeedback)}
+              className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-slate-400 hover:text-slate-200 flex items-center gap-0.5 px-1 py-0.5 rounded hover:bg-white/5"
+            >
+              <span className="text-[10px]">Helpful?</span>
+            </button>
+          </div>
+        )}
+        
+        {showFeedback && !isUser && (
+          <div className="flex gap-1 pt-1">
+            <button
+              onClick={() => { onFeedback(idx, 'helpful'); setShowFeedback(false); }}
+              className="p-1 rounded hover:bg-green-500/20 text-green-400 transition-colors"
+              title="Helpful"
+            >
+              <ThumbsUp size={12} />
+            </button>
+            <button
+              onClick={() => { onFeedback(idx, 'unhelpful'); setShowFeedback(false); }}
+              className="p-1 rounded hover:bg-red-500/20 text-red-400 transition-colors"
+              title="Not helpful"
+            >
+              <ThumbsDown size={12} />
+            </button>
+          </div>
+        )}
+      </div>
+
+      {isUser && (
+        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shrink-0 shadow-lg shadow-orange-500/30">
+          <User size={14} className="text-white" />
+        </div>
+      )}
+    </div>
+  );
+};
+
+const SuggestedPrompt = ({ text, onClick }) => {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 rounded-lg text-xs text-slate-300 hover:text-white transition-all text-left flex items-start gap-2 group"
+    >
+      <Sparkles size={12} className="text-blue-400 mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
+      <span className="flex-1 leading-snug">{text}</span>
+    </button>
+  );
+};
+
+const AIChat = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: 'Hey! How can I help you today?' }
+  const [messages, setMessages] = useState([
+    { role: 'model', text: '👋 I\'m Ansh\'s AI. How can I help?', id: 0 }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [recommendedButtons, setRecommendedButtons] = useState<Array<{ label: string; path: string }>>([]);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [sessionId] = useState(() => `session_${Date.now()}`);
+  const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
+  const messageIdRef = useRef(1);
+
+  const suggestedPrompts = [
+    'Show me your recent projects',
+    'What services do you offer?',
+    'How can I hire you?',
+    'Tell me about your skills'
+  ];
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages, isOpen]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (isOpen) inputRef.current?.focus();
+  }, [isOpen]);
+
+  const handleSubmit = async () => {
     if (!input.trim() || isLoading) return;
 
-    setError('');
-    const userMessage: ChatMessage = { role: 'user', text: input };
+    const userText = input;
+    const userMessage = { role: 'user', text: userText, id: messageIdRef.current++ };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
-
-    // compute recommended buttons immediately based on user's intent
-    const recs = getRecommendedButtons(userMessage.text);
-    setRecommendedButtons(recs);
+    setError('');
 
     try {
-      const responseText = await getChatResponse(userMessage.text);
-      setMessages(prev => [...prev, { role: 'model', text: responseText }]);
+      const response = await fetch('http://localhost:3002/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userText,
+          sessionId: sessionId,
+          conversationHistory: messages.map(m => ({
+            role: m.role === 'user' ? 'user' : 'assistant',
+            content: m.text
+          }))
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response');
+      }
+
+      const data = await response.json();
+      const aiMessage = { 
+        role: 'model', 
+        text: data.response || 'Sorry, I couldn\'t process that. Please try again.',
+        id: messageIdRef.current++
+      };
+      setMessages(prev => [...prev, aiMessage]);
     } catch (err) {
-      setError('Failed to get response. Please try again.');
       console.error('Chat error:', err);
+      setError('Connection error. Please try again.');
+      const errorMsg = { 
+        role: 'model', 
+        text: 'Sorry, I\'m having trouble connecting. Please try again in a moment.',
+        id: messageIdRef.current++
+      };
+      setMessages(prev => [...prev, errorMsg]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Return list of recommended buttons (exact labels as required)
-  const getRecommendedButtons = (text: string) => {
-    const msg = text.toLowerCase();
-    // call request -> show Contact + WhatsApp
-    if (msg.includes('call') || msg.includes('can i call') || msg.includes('phone call') || msg.includes('can we talk on call') || msg.includes('can you call me') || msg.includes('talk on phone')) {
-      return [
-        { label: '[ Visit Contact Me Page ]', path: '/contact' },
-        { label: '[ WhatsApp Me ]', path: '/contact' }
-      ];
-    }
+  const handleSuggestedPrompt = (text) => {
+    setInput(text);
+    setTimeout(() => inputRef.current?.focus(), 0);
+  };
 
-    if (msg.includes('hire') || msg.includes('work with') || msg.includes('hire you') || msg.includes('want website') || msg.includes('video edit') || msg.includes('price') || msg.includes('pricing') || msg.includes('collaborat') || msg.includes('start project')) {
-      return [
-        { label: '[ Visit Contact Me Page ]', path: '/contact' },
-        { label: '[ Hire Me ]', path: '/contact' }
-      ];
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
     }
+  };
 
-    if (msg.includes('show') && (msg.includes('work') || msg.includes('projects') || msg.includes('portfolio') || msg.includes('samples'))) {
-      return [ { label: '[ View My Projects ]', path: '/projects' } ];
+  const handleFeedback = (msgId, type) => {
+    console.log(`Message ${msgId} marked as ${type}`);
+    // Send feedback to backend
+    fetch('http://localhost:3002/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messageId: msgId, type, sessionId })
+    }).catch(err => console.error('Feedback error:', err));
+  };
+
+  const handleClearChat = () => {
+    if (window.confirm('Clear chat history?')) {
+      setMessages([{ role: 'model', text: '👋 I\'m Ansh\'s AI. How can I help?', id: 0 }]);
+      messageIdRef.current = 1;
     }
-
-    if (msg.includes('services') || msg.includes('what do you do') || msg.includes('your services')) {
-      return [ { label: '[ See My Services ]', path: '/services' }, { label: '[ Visit Contact Me Page ]', path: '/contact' } ];
-    }
-
-    if (msg.includes('skills') || msg.includes('resume') || msg.includes('cv') || msg.includes('background') || msg.includes('about')) {
-      return [ { label: '[ Open About Me ]', path: '/about' } ];
-    }
-
-    if (msg.includes('whatsapp') || msg.includes('whatsapp number') || msg.includes('talk on whatsapp') || msg.includes('text on whatsapp')) {
-      return [ { label: '[ WhatsApp Me ]', path: '/contact' } ];
-    }
-
-    // small talk -> suggest services/projects
-    if (msg.includes('how are you') || msg.includes("what's up") || msg.includes('who made you')) {
-      return [ { label: '[ See My Services ]', path: '/services' }, { label: '[ View My Projects ]', path: '/projects' } ];
-    }
-
-    // default: show projects so visitor can explore
-    return [ { label: '[ View My Projects ]', path: '/projects' } ];
   };
 
   return (
@@ -96,116 +209,151 @@ const AIChat: React.FC = () => {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-2xl transition-all duration-300 flex items-center justify-center
-          ${isOpen ? 'bg-card text-slate-400 hover:text-white border border-white/10' : 'bg-primary text-white hover:bg-blue-600 hover:scale-110'}
+        className={`fixed bottom-4 right-4 z-50 p-3 rounded-lg transition-all duration-300 flex items-center justify-center shadow-xl hover:scale-110
+          ${isOpen 
+            ? 'bg-slate-800/80 hover:bg-slate-700/80 border border-white/10 text-slate-300' 
+            : 'bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white border border-blue-400/50'
+          }
         `}
         aria-label="Toggle AI Chat"
       >
-        {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
+        {isOpen ? <X size={20} /> : <MessageSquare size={20} />}
       </button>
 
       {/* Chat Window */}
       <div 
-        className={`fixed bottom-24 right-6 w-[350px] max-w-[calc(100vw-3rem)] h-[500px] bg-card border border-white/10 rounded-2xl shadow-2xl flex flex-col transition-all duration-300 z-40 origin-bottom-right overflow-hidden
-          ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-10 pointer-events-none'}
+        className={`fixed bottom-20 right-4 w-80 h-[550px] bg-gradient-to-b from-slate-900 to-slate-950 border border-white/10 rounded-xl shadow-2xl flex flex-col transition-all duration-300 z-40 origin-bottom-right overflow-hidden backdrop-blur-xl
+          ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8 pointer-events-none'}
         `}
       >
         {/* Header */}
-        <div className="p-4 border-b border-white/10 bg-gradient-to-r from-blue-600/20 to-blue-500/10 rounded-t-2xl flex items-center gap-3">
-          <div className="w-8 h-8 bg-blue-600/30 rounded-full flex items-center justify-center text-blue-400 animate-pulse">
-            <Bot size={18} />
-          </div>
-          <div>
-            <h3 className="text-white font-bold text-sm">Ansh's AI Assistant</h3>
-            <div className="flex items-center gap-1.5">
-               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-               <span className="text-xs text-slate-400">Online & Ready</span>
+        <div className="px-3 py-2.5 border-b border-white/5 bg-gradient-to-r from-blue-600/20 via-blue-500/10 to-cyan-500/10">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30 shrink-0">
+                <Sparkles size={16} className="text-white" />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-white font-bold text-xs leading-tight">Ansh's AI</h3>
+                <div className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shrink-0"></span>
+                  <span className="text-xs text-slate-400 truncate">Online</span>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={handleClearChat}
+                className="p-1 hover:bg-white/10 rounded transition-colors shrink-0"
+                title="Clear chat"
+              >
+                <RotateCcw size={14} className="text-slate-400 hover:text-slate-200" />
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-1 hover:bg-white/10 rounded transition-colors shrink-0"
+              >
+                <X size={16} className="text-slate-400" />
+              </button>
             </div>
           </div>
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-          {messages.map((msg, idx) => (
-            <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in-up`} style={{ animationDelay: `${idx * 50}ms` }}>
-              {msg.role === 'model' && (
-                <div className="w-8 h-8 rounded-full bg-blue-600/30 flex items-center justify-center shrink-0 mt-1">
-                  <Bot size={14} className="text-blue-400" />
-                </div>
-              )}
+        <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+          {messages.length === 1 && (
+            <div className="mt-4 space-y-2.5">
+              <div className="text-center mb-3">
+                <h4 className="text-slate-300 font-semibold text-xs mb-0.5">How can I help?</h4>
+                <p className="text-xs text-slate-500">Try a suggestion or ask anything</p>
+              </div>
+              <div className="space-y-1.5">
+                {suggestedPrompts.map((prompt, i) => (
+                  <SuggestedPrompt
+                    key={i}
+                    text={prompt}
+                    onClick={() => handleSuggestedPrompt(prompt)}
+                  />
+                ))}
+              </div>
               
-              <div 
-                className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed transform transition-all
-                  ${msg.role === 'user' 
-                    ? 'bg-blue-600 text-white rounded-br-none hover:shadow-lg hover:shadow-blue-500/20' 
-                    : 'bg-white/5 text-slate-300 rounded-bl-none border border-white/5 hover:bg-white/10 hover:border-white/10'
-                  }
-                `}
-              >
-                {msg.text}
-              </div>
-
-              {msg.role === 'user' && (
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 mt-1">
-                  <User size={14} className="text-slate-400" />
+              <div className="mt-4 pt-3 border-t border-white/5 space-y-2">
+                <p className="text-xs text-slate-500 text-center">Features:</p>
+                <div className="space-y-1.5 text-xs text-slate-400">
+                  <div className="flex items-start gap-2">
+                    <span className="text-blue-400 mt-0.5">✓</span>
+                    <span>AI-powered responses</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-blue-400 mt-0.5">✓</span>
+                    <span>Context-aware assistance</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-blue-400 mt-0.5">✓</span>
+                    <span>Quick project inquiries</span>
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
+          )}
+          
+          {messages.map((msg, idx) => (
+            <ChatMessage 
+              key={msg.id} 
+              msg={msg} 
+              idx={idx}
+              onFeedback={handleFeedback}
+            />
           ))}
+          
           {isLoading && (
-            <div className="flex gap-3 animate-fade-in-up">
-              <div className="w-8 h-8 rounded-full bg-blue-600/30 flex items-center justify-center shrink-0 mt-1">
-                <Bot size={14} className="text-blue-400" />
+            <div className="flex gap-2 animate-fade-in-up">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30">
+                <Bot size={14} className="text-white" />
               </div>
-              <div className="bg-white/5 px-4 py-3 rounded-2xl rounded-bl-none border border-white/5 flex items-center gap-2">
-                <Loader2 size={16} className="animate-spin text-slate-400" />
-                <span className="text-xs text-slate-400">Thinking...</span>
+              <div className="bg-white/8 px-3 py-2 rounded-lg rounded-bl-sm border border-white/10 flex items-center gap-1">
+                <Loader size={12} className="animate-spin text-slate-400" />
+                <span className="text-xs text-slate-400">Processing...</span>
               </div>
             </div>
           )}
+
           {error && (
-            <div className="bg-red-600/20 border border-red-500/30 px-4 py-2 rounded-xl text-xs text-red-300">
-              {error}
+            <div className="bg-red-500/20 border border-red-500/50 px-3 py-2 rounded-lg text-xs text-red-300 flex items-start gap-2">
+              <span className="text-sm shrink-0">⚠️</span>
+              <span>{error}</span>
             </div>
           )}
+          
           <div ref={messagesEndRef} />
         </div>
 
         {/* Input Area */}
-        <div className="p-4 border-t border-white/10 bg-darker/50 rounded-b-2xl">
-          <form onSubmit={handleSubmit} className="relative flex gap-2">
+        <div className="px-3 py-2.5 border-t border-white/5 bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent space-y-2">
+          <div className="flex gap-2">
             <input
+              ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask me anything..."
-              className="flex-1 bg-white/5 border border-white/10 rounded-full pl-4 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all hover:bg-white/[7%]"
+              onKeyPress={handleKeyPress}
+              placeholder="Ask anything..."
+              className="flex-1 bg-white/5 border border-white/10 rounded-lg pl-3 pr-2 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 focus:ring-1 focus:ring-blue-500/20 transition-all hover:bg-white/[7%] hover:border-white/20"
             />
             <button
-              type="submit"
+              onClick={handleSubmit}
               disabled={!input.trim() || isLoading}
-              aria-label="Send message"
-              className="w-12 h-12 flex items-center justify-center rounded-full disabled:opacity-40 disabled:cursor-not-allowed transition-transform transform-gpu hover:-translate-y-0.5 active:scale-95 shadow-lg bg-gradient-to-br from-blue-700 to-indigo-600 border border-white/10"
-              title="Send message"
+              className="w-9 h-9 flex items-center justify-center rounded-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95 border border-blue-400/50 shrink-0"
             >
-              <Send size={16} className="text-sky-100" />
+              <Send size={14} className="text-white" />
             </button>
-          </form>
+          </div>
+          <p className="text-xs text-slate-500 text-center leading-tight">Enter to send</p>
+        </div>
 
-          {recommendedButtons.length > 0 && (
-            <div className="p-3 flex flex-wrap gap-2 justify-center">
-              {recommendedButtons.map((b, i) => (
-                <button
-                  key={i}
-                  onClick={() => { window.location.href = b.path }}
-                  className="px-3 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full text-sm hover:opacity-95 shadow-md"
-                  title={b.label}
-                >
-                  {b.label}
-                </button>
-              ))}
-            </div>
-          )}
+        {/* Footer Status */}
+        <div className="px-3 py-1.5 bg-white/5 border-t border-white/5 text-xs text-slate-400 text-center">
+          <span>Session: {sessionId.slice(-6)}</span>
         </div>
       </div>
     </>
