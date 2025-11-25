@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Bot, User, Copy, Check, Sparkles, Loader, ThumbsUp, ThumbsDown, Share2, RotateCcw } from 'lucide-react';
+import { getChatResponse } from '../services/geminiService';
 
 const ChatMessage = ({ msg, idx, onFeedback }) => {
   const [copied, setCopied] = useState(false);
@@ -135,38 +136,20 @@ const AIChat = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3002/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: userText,
-          sessionId: sessionId,
-          conversationHistory: messages.map(m => ({
-            role: m.role === 'user' ? 'user' : 'assistant',
-            content: m.text
-          }))
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to get response');
-      }
-
-      const data = await response.json();
-      const aiMessage = { 
-        role: 'model', 
-        text: data.response || 'Sorry, I couldn\'t process that. Please try again.',
+      // Use client-side service to get a response (no backend required)
+      const text = await getChatResponse(userText);
+      const aiMessage = {
+        role: 'model',
+        text: text || 'Sorry, I couldn\'t process that. Please try again.',
         id: messageIdRef.current++
       };
       setMessages(prev => [...prev, aiMessage]);
     } catch (err) {
       console.error('Chat error:', err);
       setError('Connection error. Please try again.');
-      const errorMsg = { 
-        role: 'model', 
-        text: 'Sorry, I\'m having trouble connecting. Please try again in a moment.',
+      const errorMsg = {
+        role: 'model',
+        text: 'Sorry, I\'m having trouble processing that. Please try again in a moment.',
         id: messageIdRef.current++
       };
       setMessages(prev => [...prev, errorMsg]);
@@ -188,13 +171,16 @@ const AIChat = () => {
   };
 
   const handleFeedback = (msgId, type) => {
+    // Local feedback handler — stores feedback client-side for now
     console.log(`Message ${msgId} marked as ${type}`);
-    // Send feedback to backend
-    fetch('http://localhost:3002/api/feedback', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messageId: msgId, type, sessionId })
-    }).catch(err => console.error('Feedback error:', err));
+    try {
+      const stored = window.localStorage.getItem('ai_feedback') || '[]';
+      const arr = JSON.parse(stored);
+      arr.push({ messageId: msgId, type, sessionId, timestamp: Date.now() });
+      window.localStorage.setItem('ai_feedback', JSON.stringify(arr));
+    } catch (e) {
+      console.warn('Could not store feedback locally', e);
+    }
   };
 
   const handleClearChat = () => {
