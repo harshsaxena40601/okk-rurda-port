@@ -56,29 +56,37 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
     : 'from-blue-500 via-blue-400 to-cyan-400';
 
   return (
-    <section id="home" className="relative pt-16 pb-8 md:pt-32 md:pb-16 overflow-hidden min-h-screen flex items-center bg-[#050505]">
-      {/* Cinematic Background Ambience - Low Saturation */}
+    <section id="home" className="relative pt-20 sm:pt-28 md:pt-32 pb-8 md:pb-16 overflow-hidden min-h-screen flex items-center bg-[#050505]">
+      {/* Background Ambience */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-         <div className={`absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] opacity-10 transition-colors duration-1000 ${isVideo ? 'bg-cine-red' : 'bg-blue-900'}`}></div>
-         <div className={`absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full blur-[120px] opacity-5 transition-colors duration-1000 ${isVideo ? 'bg-orange-900' : 'bg-cyan-900'}`}></div>
-         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] mix-blend-overlay"></div>
+        <div className={`absolute top-0 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] rounded-full blur-[80px] sm:blur-[120px] opacity-10 transition-colors duration-1000 ${isVideo ? 'bg-cine-red' : 'bg-blue-900'}`}></div>
+        <div className={`absolute bottom-0 left-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] rounded-full blur-[80px] sm:blur-[120px] opacity-5 transition-colors duration-1000 ${isVideo ? 'bg-orange-900' : 'bg-cyan-900'}`}></div>
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] mix-blend-overlay"></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-6 sm:gap-10 lg:gap-16">
+        <div className="flex flex-col lg:flex-row items-center gap-8 sm:gap-10 lg:gap-16">
           
           {/* Content Side */}
           <div className="flex-1 w-full flex flex-col items-center lg:items-start text-center lg:text-left z-20 animate-fade-in-up">
             
             {/* Mode Switcher */}
-            <div className="inline-flex items-center bg-surface-highlight border border-white/[0.08] rounded-full p-1 mb-5 shadow-inner relative overflow-hidden">
-               <div className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full transition-all duration-500 ease-out shadow-lg ${mode === 'dev' ? 'left-1 bg-blue-600' : 'left-[calc(50%+2px)] bg-cine-red'}`}></div>
-               <button onClick={() => handleToggle('dev')} className={`relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold transition-colors ${mode === 'dev' ? 'text-white' : 'text-text-muted hover:text-white'}`}>
-                 <Code size={12} /> Dev
-               </button>
-               <button onClick={() => handleToggle('video')} className={`relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold transition-colors ${mode === 'video' ? 'text-white' : 'text-text-muted hover:text-white'}`}>
-                 <Film size={12} /> Video
-               </button>
+            <div className="inline-flex items-center bg-surface-highlight border border-white/[0.08] rounded-full p-1 mb-4 sm:mb-5 shadow-inner relative overflow-hidden min-h-[40px] sm:min-h-[44px]">
+              <div className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full transition-all duration-500 ease-out shadow-lg ${mode === 'dev' ? 'left-1 bg-blue-600' : 'left-[calc(50%+2px)] bg-cine-red'}`}></div>
+              <button 
+                onClick={() => handleToggle('dev')} 
+                className={`relative z-10 flex items-center justify-center gap-1 px-3 sm:px-4 py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold transition-colors min-h-[36px] min-w-[36px] ${mode === 'dev' ? 'text-white' : 'text-text-muted hover:text-white'}`}
+              >
+                <Code size={14} /> 
+                <span className="hidden xs:inline">Dev</span>
+              </button>
+              <button 
+                onClick={() => handleToggle('video')} 
+                className={`relative z-10 flex items-center justify-center gap-1 px-3 sm:px-4 py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold transition-colors min-h-[36px] min-w-[36px] ${mode === 'video' ? 'text-white' : 'text-text-muted hover:text-white'}`}
+              >
+                <Film size={14} /> 
+                <span className="hidden xs:inline">Video</span>
+              </button>
             </div>
 
             {/* Typography */}
@@ -88,7 +96,7 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
                  {content.greeting}
               </h2>
               
-              <h1 className="hero-h1 text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white tracking-tighter leading-[1.3] md:leading-[1.2] lg:leading-[1.05] mb-4 md:mb-6 animate-fade-in-up">
+              <h1 className="hero-h1 text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white tracking-tighter leading-[1.3] md:leading-[1.2] lg:leading-[1.05] mb-4 md:mb-6 animate-fade-in-up">
                 {content.titleLine1} <br />
                 <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradientText} animate-gradient-shift`}>
                   {content.titleLine2}
@@ -100,14 +108,14 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 w-full sm:w-auto animate-slide-in-left" style={{ animationDelay: '200ms' }}>
                 <a 
                   href="#projects" 
-                  className={`cta-full w-full sm:w-auto text-white px-6 py-3 md:py-2.5 rounded-full font-bold text-sm md:text-base tracking-wide transition-all shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] hover:-translate-y-1 hover:shadow-2xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 group min-h-[44px] md:min-h-[40px] ${primaryBg} ${glowColor}`}
+                  className={`cta-full w-full sm:w-auto text-white px-6 py-3 sm:py-2.5 md:py-2.5 rounded-full font-bold text-sm md:text-base tracking-wide transition-all shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] hover:-translate-y-1 hover:shadow-2xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 group min-h-[44px] md:min-h-[40px] ${primaryBg} ${glowColor}`}
                 >
                   {content.primaryButtonText}
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </a>
                 
                 {isVideo && (
-                  <button className="w-full sm:w-auto px-6 py-3 md:py-2.5 rounded-full border border-white/10 text-white font-bold text-sm md:text-base hover:bg-white/5 hover:border-white/30 transition-all flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 min-h-[44px] md:min-h-[40px]">
+                  <button className="w-full sm:w-auto px-6 py-3 sm:py-2.5 md:py-2.5 rounded-full border border-white/10 text-white font-bold text-sm md:text-base hover:bg-white/5 hover:border-white/30 transition-all flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 min-h-[44px] md:min-h-[40px]">
                     <Play size={14} fill="currentColor" /> Showreel
                   </button>
                 )}
@@ -150,7 +158,7 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
           {/* Visual Side with 3D Tilt */}
           <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-6 sm:mt-8 lg:mt-0 z-10 animate-slide-in-right px-4 sm:px-0" style={{ perspective: '1000px' }}>
              <div 
-                className="relative w-full max-w-[280px] sm:max-w-[300px] lg:max-w-sm aspect-[4/5] group transition-all duration-200 ease-out hover:scale-105 active:scale-95"
+                className="relative w-full max-w-[240px] xs:max-w-[260px] sm:max-w-[300px] lg:max-w-sm aspect-[4/5] group transition-all duration-200 ease-out hover:scale-105 active:scale-95"
                 onMouseMove={onMouseMove}
                 onMouseLeave={onMouseLeave}
                 style={{
@@ -184,17 +192,17 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
                    )}
 
                    {/* Floating Stats Card */}
-                   <div className="absolute bottom-5 left-5 right-5 bg-white/5 backdrop-blur-xl border border-white/10 p-4 rounded-xl transform transition-transform duration-300 group-hover:translate-z-10" style={{ transform: 'translateZ(20px)' }}>
+                   <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 bg-white/5 backdrop-blur-xl border border-white/10 p-3 sm:p-4 rounded-lg sm:rounded-xl transform transition-transform duration-300 group-hover:translate-z-10" style={{ transform: 'translateZ(20px)' }}>
                       <div className="flex items-center justify-between">
                          <div>
-                            <p className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Current Status</p>
+                            <p className="text-[9px] sm:text-[10px] text-text-muted uppercase tracking-wider mb-1">Current Status</p>
                             <div className="flex items-center gap-2">
                                <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                               <span className="text-white font-bold text-xs">Accepting New Projects</span>
+                               <span className="text-white font-bold text-[11px] sm:text-xs">Accepting New Projects</span>
                             </div>
                          </div>
-                         <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center ${primaryBg}`}>
-                            {isVideo ? <Film size={16} className="text-white" /> : <Code size={16} className="text-white" />}
+                         <div className={`w-7 sm:w-8 h-7 sm:h-8 rounded-full border border-white/10 flex items-center justify-center ${primaryBg}`}>
+                            {isVideo ? <Film size={14} /> : <Code size={14} />}
                          </div>
                       </div>
                    </div>
