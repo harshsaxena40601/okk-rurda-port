@@ -30,36 +30,36 @@ const Services: React.FC<ServicesProps> = ({ mode }) => {
 
   return (
     <section id="services" className="py-16 md:py-24 lg:py-36 bg-surface relative">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-          <h3 className={`${accentText} font-bold tracking-[0.2em] mb-3 md:mb-4 uppercase text-xs`}>WHAT I DO</h3>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-heading font-black text-white mb-4 md:mb-6 tracking-tight leading-tight">
-            Premium {mode === 'dev' ? 'Development' : 'Editing'} <br />
+      <div className="container mx-auto px-3 sm:px-6">
+        <div className="text-center max-w-3xl mx-auto mb-8 xs:mb-10 sm:mb-12 md:mb-16">
+          <h3 className={`${accentText} font-bold tracking-[0.2em] mb-2 xs:mb-2.5 sm:mb-3 md:mb-4 uppercase text-[9px] xs:text-[10px] sm:text-xs`}>WHAT I DO</h3>
+          <h2 className="text-lg xs:text-xl sm:text-3xl md:text-4xl lg:text-6xl font-heading font-black text-white mb-3 xs:mb-3.5 sm:mb-4 md:mb-6 tracking-tight leading-tight">
+            Premium {mode === 'dev' ? 'Development' : 'Editing'} <br className="hidden xs:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">Services.</span>
           </h2>
-          <p className="text-text-muted text-sm md:text-base lg:text-lg">
+          <p className="text-text-muted text-xs xs:text-sm sm:text-base md:text-base lg:text-lg leading-relaxed">
             Specialized solutions tailored to your unique needs. From concept to final delivery, I ensure quality at every step.
           </p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-12">
+        <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 sm:gap-2 md:gap-3 mb-6 xs:mb-8 sm:mb-10 md:mb-12">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`px-4 md:px-5 py-1.5 md:py-2 rounded-full text-[11px] md:text-xs lg:text-sm font-bold transition-all border ${
+              className={`px-3 xs:px-4 sm:px-5 py-1.5 xs:py-1.5 sm:py-2 md:py-2 rounded-full text-[9px] xs:text-[10px] sm:text-[11px] md:text-xs lg:text-sm font-bold transition-all border ${
                 filter === cat 
                   ? `${accentBg} border-transparent text-white shadow-lg` 
                   : 'bg-white/5 border-white/5 text-text-muted hover:text-white hover:bg-white/10 min-h-[40px]'
-              } flex items-center justify-center`}
+              } flex items-center justify-center whitespace-nowrap`}
             >
               {cat}
             </button>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-3.5 sm:gap-4 md:gap-6 lg:gap-8">
           {filteredServices.map((service, idx) => (
             <div 
               key={service.id}
@@ -69,13 +69,13 @@ const Services: React.FC<ServicesProps> = ({ mode }) => {
               {/* Gradient Border */}
               <div className={`absolute inset-0 bg-gradient-to-br ${isVideo ? 'from-cine-red/50 to-orange-500/0' : 'from-blue-600/50 to-cyan-500/0'} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
               
-              <div className="relative h-full bg-[#131313] rounded-[1.2rem] md:rounded-[1.4rem] p-5 md:p-6 lg:p-8 flex flex-col items-start z-10">
-                <div className={`w-11 md:w-12 lg:w-14 h-11 md:h-12 lg:h-14 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 transition-all duration-300 transform group-hover:scale-110 group-hover:rotate-6 ${isVideo ? 'bg-white/5 text-white group-hover:bg-cine-red' : 'bg-white/5 text-white group-hover:bg-blue-600'}`}>
-                   <service.icon size={20} strokeWidth={1.5} />
+              <div className="relative h-full bg-[#131313] rounded-lg xs:rounded-xl sm:rounded-2xl md:rounded-[1.4rem] p-4 xs:p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col items-start z-10">
+                <div className={`w-9 xs:w-10 sm:w-11 md:w-12 lg:w-14 h-9 xs:h-10 sm:h-11 md:h-12 lg:h-14 rounded-lg xs:rounded-lg sm:rounded-xl md:rounded-2xl flex items-center justify-center mb-3 xs:mb-3.5 sm:mb-4 md:mb-6 transition-all duration-300 transform group-hover:scale-110 group-hover:rotate-6 ${isVideo ? 'bg-white/5 text-white group-hover:bg-cine-red' : 'bg-white/5 text-white group-hover:bg-blue-600'}`}>
+                   <service.icon size={16} className="xs:size-4 sm:size-5" strokeWidth={1.5} />
                 </div>
                 
-                <h4 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3 group-hover:text-white transition-colors leading-tight">{service.title}</h4>
-                <p className="text-text-muted text-xs md:text-sm leading-relaxed md:leading-relaxed mb-4 md:mb-6 flex-1">
+                <h4 className="text-base xs:text-lg sm:text-lg md:text-xl font-bold text-white mb-1.5 xs:mb-2 sm:mb-2 md:mb-3 group-hover:text-white transition-colors leading-tight">{service.title}</h4>
+                <p className="text-text-muted text-[11px] xs:text-xs sm:text-xs md:text-sm leading-relaxed md:leading-relaxed mb-3 xs:mb-3.5 sm:mb-4 md:mb-6 flex-1">
                   {service.description}
                 </p>
                 

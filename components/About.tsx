@@ -32,18 +32,18 @@ const About: React.FC<AboutProps> = ({ mode }) => {
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 lg:gap-24 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 sm:gap-10 md:gap-16 lg:gap-24 items-start">
           
           {/* LEFT COLUMN: Bio, Stats, CTA */}
           <div className="flex flex-col justify-center animate-fade-in-up">
             {/* Header Group */}
-            <div className="mb-6 md:mb-8">
-              <div className="flex items-center gap-3 mb-3 md:mb-4">
-                 <span className={`h-[2px] w-8 md:w-10 ${accentBg}`}></span>
-                 <h3 className="text-white font-bold tracking-[0.2em] uppercase text-[10px] md:text-sm">ABOUT ME</h3>
+            <div className="mb-5 xs:mb-6 sm:mb-6 md:mb-8">
+              <div className="flex items-center gap-2 xs:gap-2.5 sm:gap-3 mb-2 xs:mb-2.5 sm:mb-3 md:mb-4">
+                 <span className={`h-[2px] w-6 xs:w-7 sm:w-8 md:w-10 ${accentBg}`}></span>
+                 <h3 className="text-white font-bold tracking-[0.2em] uppercase text-[8px] xs:text-[9px] sm:text-[10px] md:text-sm">ABOUT ME</h3>
               </div>
               
-              <h2 className="hero-h2 text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-heading font-black text-white mb-3 md:mb-4 leading-tight md:leading-[1.1] tracking-tight">
+              <h2 className="hero-h2 text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-5xl font-heading font-black text-white mb-2 xs:mb-3 sm:mb-3 md:mb-4 leading-tight md:leading-[1.1] tracking-tight">
                 {content.heading} <br />
                 <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradientText} animate-gradient`}>
                   {content.headingHighlight}
@@ -52,7 +52,7 @@ const About: React.FC<AboutProps> = ({ mode }) => {
             </div>
 
             {/* Description */}
-            <div className="space-y-4 md:space-y-6 text-slate-400 text-sm md:text-base lg:text-lg leading-relaxed md:leading-relaxed mb-6 md:mb-10">
+            <div className="space-y-3 xs:space-y-3.5 sm:space-y-4 md:space-y-6 text-slate-400 text-xs xs:text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed md:leading-relaxed mb-4 xs:mb-5 sm:mb-6 md:mb-10">
               <p>{content.description1}</p>
               <p>{content.description2}</p>
             </div>
@@ -61,22 +61,22 @@ const About: React.FC<AboutProps> = ({ mode }) => {
             <hr className="block lg:hidden border-white/5 my-4 md:my-6" />
 
             {/* Premium Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-8 md:mb-12">
+            <div className="grid grid-cols-1 xs:grid-cols-3 sm:grid-cols-3 gap-2 xs:gap-2.5 sm:gap-3 md:gap-4 mb-6 xs:mb-7 sm:mb-8 md:mb-12">
               {content.stats.map((stat, idx) => (
-                <div key={idx} className={`group bg-white/[0.03] border border-white/5 p-4 md:p-5 rounded-lg md:rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.05] hover:scale-105 animate-scale-in ${borderColor}`} style={{ animationDelay: `${idx * 100}ms` }}>
-                  <div className={`w-9 md:w-10 h-9 md:h-10 rounded-full bg-white/5 flex items-center justify-center mb-2 md:mb-3 text-slate-300 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 ${isVideo ? 'group-hover:text-cine-red group-hover:bg-cine-red/10' : 'group-hover:text-blue-500 group-hover:bg-blue-500/10'}`}>
-                    {getStatIcon(idx)}
+                <div key={idx} className={`group bg-white/[0.03] border border-white/5 p-3 xs:p-3 sm:p-4 md:p-5 rounded-lg xs:rounded-lg sm:rounded-lg md:rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.05] hover:scale-105 animate-scale-in ${borderColor}`} style={{ animationDelay: `${idx * 100}ms` }}>
+                  <div className={`w-7 xs:w-8 sm:w-9 md:w-10 h-7 xs:h-8 sm:h-9 md:h-10 rounded-full bg-white/5 flex items-center justify-center mb-1.5 xs:mb-2 sm:mb-2 md:mb-3 text-slate-300 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 ${isVideo ? 'group-hover:text-cine-red group-hover:bg-cine-red/10' : 'group-hover:text-blue-500 group-hover:bg-blue-500/10'}`}>
+                    <span className="text-xs xs:text-sm sm:text-base">{getStatIcon(idx)}</span>
                   </div>
-                  <span className="block text-2xl md:text-3xl font-heading font-bold text-white mb-1 group-hover:scale-105 transition-transform origin-left">{stat.value}</span>
-                  <span className="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest font-semibold">{stat.label}</span>
+                  <span className="block text-lg xs:text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white mb-0.5 xs:mb-1 sm:mb-1 group-hover:scale-105 transition-transform origin-left">{stat.value}</span>
+                  <span className="text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs text-slate-500 uppercase tracking-widest font-semibold">{stat.label}</span>
                 </div>
               ))}
             </div>
             
             {/* CTA Button */}
             <div>
-              <a href="#projects" className={`cta-full flex md:inline-flex items-center justify-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 rounded-full text-white font-bold text-xs md:text-sm uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl ${accentBg} ${glowShadow} min-h-[44px]`}>
-                 <Play size={16} fill="currentColor" /> 
+              <a href="#projects" className={`cta-full flex md:inline-flex items-center justify-center gap-2 xs:gap-2 sm:gap-2 md:gap-3 px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 sm:py-3 md:py-4 rounded-full text-white font-bold text-[11px] xs:text-xs sm:text-xs md:text-sm uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl ${accentBg} ${glowShadow} min-h-[44px]`}>
+                 <Play size={13} className="xs:size-4 sm:size-4" fill="currentColor" /> 
                  <span>View My Work</span>
               </a>
             </div>

@@ -101,54 +101,54 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
                 <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradientText} animate-gradient-shift`}>
                   {content.titleLine2}
                 </span>
-              </h1>              <h3 className="text-base md:text-lg lg:text-xl text-text-muted font-light mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed animate-slide-in-right" style={{ animationDelay: '100ms' }}>
+              </h1>              <h3 className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-text-muted font-light mb-4 xs:mb-5 sm:mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed animate-slide-in-right" style={{ animationDelay: '100ms' }}>
                 {content.subtitle} <span className="text-white font-medium border-b border-white/20 pb-0.5">{content.subtitleHighlight}</span>
               </h3>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 w-full sm:w-auto animate-slide-in-left" style={{ animationDelay: '200ms' }}>
+              <div className="flex flex-col xs:flex-row sm:flex-row items-center justify-center lg:justify-start gap-2 xs:gap-3 sm:gap-4 w-full sm:w-auto animate-slide-in-left" style={{ animationDelay: '200ms' }}>
                 <a 
                   href="#projects" 
-                  className={`cta-full w-full sm:w-auto text-white px-6 py-3 sm:py-2.5 md:py-2.5 rounded-full font-bold text-sm md:text-base tracking-wide transition-all shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] hover:-translate-y-1 hover:shadow-2xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 group min-h-[44px] md:min-h-[40px] ${primaryBg} ${glowColor}`}
+                  className={`cta-full w-full xs:flex-1 sm:w-auto text-white px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-2.5 md:py-2.5 rounded-full font-bold text-xs xs:text-sm sm:text-sm md:text-base tracking-wide transition-all shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] hover:-translate-y-1 hover:shadow-2xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 group min-h-[44px] md:min-h-[40px] ${primaryBg} ${glowColor}`}
                 >
                   {content.primaryButtonText}
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={14} className="xs:size-4 sm:size-4 group-hover:translate-x-1 transition-transform" />
                 </a>
                 
                 {isVideo && (
-                  <button className="w-full sm:w-auto px-6 py-3 sm:py-2.5 md:py-2.5 rounded-full border border-white/10 text-white font-bold text-sm md:text-base hover:bg-white/5 hover:border-white/30 transition-all flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 min-h-[44px] md:min-h-[40px]">
-                    <Play size={14} fill="currentColor" /> Showreel
+                  <button className="w-full xs:flex-1 sm:w-auto px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-2.5 md:py-2.5 rounded-full border border-white/10 text-white font-bold text-xs xs:text-sm sm:text-sm md:text-base hover:bg-white/5 hover:border-white/30 transition-all flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 min-h-[44px] md:min-h-[40px]">
+                    <Play size={12} className="xs:size-3.5 sm:size-3.5" fill="currentColor" /> <span className="hidden xs:inline">Showreel</span>
                   </button>
                 )}
               </div>              {/* Social Proof Bar */}
-              <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/5 w-full flex flex-col sm:flex-row sm:flex-wrap justify-center lg:justify-start gap-4 md:gap-6 lg:gap-10 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+              <div className="mt-4 xs:mt-5 sm:mt-6 md:mt-8 pt-3 xs:pt-4 sm:pt-4 md:pt-6 border-t border-white/5 w-full flex flex-col xs:flex-col sm:flex-row sm:flex-wrap justify-center lg:justify-start gap-3 xs:gap-3 sm:gap-4 md:gap-6 lg:gap-10 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                  <div className="flex flex-col items-center sm:items-start">
-                    <div className="flex items-center gap-1 text-yellow-500 mb-1 justify-center sm:justify-start">
-                       <Star size={12} fill="currentColor" />
-                       <Star size={12} fill="currentColor" />
-                       <Star size={12} fill="currentColor" />
-                       <Star size={12} fill="currentColor" />
-                       <Star size={12} fill="currentColor" />
+                    <div className="flex items-center gap-0.5 xs:gap-1 text-yellow-500 mb-1 justify-center sm:justify-start">
+                       <Star size={10} className="xs:size-3" fill="currentColor" />
+                       <Star size={10} className="xs:size-3" fill="currentColor" />
+                       <Star size={10} className="xs:size-3" fill="currentColor" />
+                       <Star size={10} className="xs:size-3" fill="currentColor" />
+                       <Star size={10} className="xs:size-3" fill="currentColor" />
                     </div>
-                    <span className="text-[10px] md:text-xs text-text-muted font-medium">100% Client Satisfaction</span>
+                    <span className="text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs text-text-muted font-medium">100% Client Satisfaction</span>
                  </div>
                  
-                 <div className="flex items-center justify-center sm:justify-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white">
-                       <CheckCircle size={16} className={isVideo ? 'text-cine-red' : 'text-blue-500'} />
+                 <div className="flex items-center justify-center sm:justify-start gap-2 xs:gap-2.5 sm:gap-3">
+                    <div className="w-6 xs:w-7 sm:w-8 h-6 xs:h-7 sm:h-8 rounded-full bg-white/5 flex items-center justify-center text-white flex-shrink-0">
+                       <CheckCircle size={13} className={`xs:size-3.5 sm:size-4 ${isVideo ? 'text-cine-red' : 'text-blue-500'}`} />
                     </div>
                     <div className="flex flex-col">
-                       <span className="text-white font-bold text-sm md:text-base leading-none">200+</span>
-                       <span className="text-[10px] text-text-muted uppercase tracking-wider">Projects Done</span>
+                       <span className="text-white font-bold text-[10px] xs:text-xs sm:text-sm md:text-base leading-none">200+</span>
+                       <span className="text-[8px] xs:text-[9px] sm:text-[10px] text-text-muted uppercase tracking-widest">Projects</span>
                     </div>
                  </div>
 
-                 <div className="flex items-center justify-center sm:justify-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white">
-                       <Award size={16} className={isVideo ? 'text-cine-red' : 'text-blue-500'} />
+                 <div className="flex items-center justify-center sm:justify-start gap-2 xs:gap-2.5 sm:gap-3">
+                    <div className="w-6 xs:w-7 sm:w-8 h-6 xs:h-7 sm:h-8 rounded-full bg-white/5 flex items-center justify-center text-white flex-shrink-0">
+                       <Award size={13} className={`xs:size-3.5 sm:size-4 ${isVideo ? 'text-cine-red' : 'text-blue-500'}`} />
                     </div>
                     <div className="flex flex-col">
-                       <span className="text-white font-bold text-sm md:text-base leading-none">5+</span>
-                       <span className="text-[10px] text-text-muted uppercase tracking-wider">Years Exp.</span>
+                       <span className="text-white font-bold text-[10px] xs:text-xs sm:text-sm md:text-base leading-none">5+</span>
+                       <span className="text-[8px] xs:text-[9px] sm:text-[10px] text-text-muted uppercase tracking-widest">Years</span>
                     </div>
                  </div>
               </div>
