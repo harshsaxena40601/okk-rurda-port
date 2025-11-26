@@ -58,40 +58,40 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
    const reshuffle = () => setProjects(prev => shuffle(prev || []));
 
   return (
-    <section id="projects" className="py-16 md:py-24 bg-darker overflow-hidden border-t border-white/5">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-          <div className="flex-1">
-            <h3 className={`${accentText} font-bold tracking-[0.2em] mb-3 uppercase text-xs md:text-sm`}>PORTFOLIO</h3>
-            <h2 className="text-3xl md:text-5xl font-heading font-black text-white tracking-tight">
+    <section id="projects" className="py-12 md:py-16 lg:py-24 bg-darker overflow-hidden border-t border-white/5">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-8 md:mb-12 gap-4 md:gap-6">
+          <div className="flex-1 min-w-0">
+            <h3 className={`${accentText} font-bold tracking-[0.2em] mb-2 md:mb-3 uppercase text-xs`}>PORTFOLIO</h3>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-black text-white tracking-tight leading-tight">
               Featured {isVideo ? 'Edits' : 'Work'}
             </h2>
           </div>
           
-               <div className="flex items-center gap-3">
+               <div className="flex items-center gap-2 md:gap-3 overflow-x-auto sm:overflow-visible pb-2 sm:pb-0">
              <button 
                onClick={() => scroll('left')} 
-               className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 text-white transition-colors hover:border-white/30 active:scale-95"
+               className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 text-white transition-colors hover:border-white/30 active:scale-95 flex-shrink-0"
                aria-label="Scroll left"
              >
                <ChevronLeft size={20} />
              </button>
              <button 
                onClick={() => scroll('right')} 
-               className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 text-white transition-colors hover:border-white/30 active:scale-95"
+               className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 text-white transition-colors hover:border-white/30 active:scale-95 flex-shrink-0"
                aria-label="Scroll right"
              >
                <ChevronRight size={20} />
              </button>
                    <button
                       onClick={reshuffle}
-                      className="hidden md:inline-flex items-center justify-center h-10 px-4 rounded-full border border-white/10 hover:bg-white/5 text-white text-xs font-bold transition-all hover:border-white/30 ml-2"
+                      className="hidden md:inline-flex items-center justify-center h-10 px-4 rounded-full border border-white/10 hover:bg-white/5 text-white text-xs font-bold transition-all hover:border-white/30 ml-2 flex-shrink-0"
                    >
                       Shuffle
                    </button>
                    <a 
                       href="#" 
-                      className="hidden md:flex items-center justify-center h-10 px-5 rounded-full border border-white/10 hover:bg-white/5 text-white text-xs font-bold transition-all hover:border-white/30 ml-2"
+                      className="hidden md:flex items-center justify-center h-10 px-5 rounded-full border border-white/10 hover:bg-white/5 text-white text-xs font-bold transition-all hover:border-white/30 ml-2 flex-shrink-0"
                    >
                         View All Projects
                    </a>
@@ -100,16 +100,16 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
 
         <div 
            ref={scrollContainerRef}
-           className="flex gap-4 md:gap-6 overflow-x-auto pb-8 snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
+           className="flex gap-3 md:gap-4 lg:gap-6 overflow-x-auto pb-6 md:pb-8 snap-x snap-mandatory -mx-4 sm:-mx-6 px-4 sm:px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {projects.map((project, idx) => (
             mode === 'dev' ? (
               // ================= DEV MODE CARD DESIGN (Reference Style) =================
-              <div key={project.id} className="min-w-[90vw] sm:min-w-[400px] md:min-w-[420px] lg:min-w-[440px] snap-start shrink-0 h-full animate-scale-in" style={{ animationDelay: `${idx * 100}ms` }}>
-                 <div className="group h-full bg-[#0F1115] border border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 active:scale-95 flex flex-col">
+              <div key={project.id} className="min-w-[85vw] sm:min-w-[350px] md:min-w-[420px] lg:min-w-[440px] snap-start shrink-0 h-full animate-scale-in" style={{ animationDelay: `${idx * 100}ms` }}>
+                 <div className="group h-full bg-[#0F1115] border border-white/5 rounded-xl md:rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 active:scale-95 flex flex-col">
                     {/* Top Image Section */}
-                    <div className="relative h-52 overflow-hidden">
+                    <div className="relative h-40 md:h-52 overflow-hidden">
                        <img 
                           src={project.image} 
                           alt={project.title} 
@@ -118,40 +118,40 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
                        />
                        <div className="absolute inset-0 bg-blue-900/10 mix-blend-overlay"></div>
                        {project.category && (
-                          <span className="absolute top-4 right-4 bg-pink-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                          <span className="absolute top-3 md:top-4 right-3 md:right-4 bg-pink-600 text-white text-[10px] font-bold px-2.5 md:px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
                              {project.category}
                           </span>
                        )}
                     </div>
                     
                     {/* Content Section */}
-                    <div className="p-6 flex flex-col flex-1 bg-[#0b0c10]">
-                       <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-                       <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3 flex-1">{project.description}</p>
+                    <div className="p-4 md:p-6 flex flex-col flex-1 bg-[#0b0c10]">
+                       <h3 className="text-lg md:text-xl font-bold text-white mb-2 line-clamp-1">{project.title}</h3>
+                       <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-4 md:mb-6 line-clamp-2 flex-1">{project.description}</p>
                        
                        {/* Tags Pills */}
-                       <div className="flex flex-wrap gap-2 mb-6">
-                          {project.tech.map(t => (
-                             <span key={t} className="px-3 py-1.5 bg-[#1A2333] text-blue-400 border border-blue-500/10 text-[10px] font-bold rounded-full">
+                       <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
+                          {project.tech.slice(0, 3).map(t => (
+                             <span key={t} className="px-2 md:px-3 py-0.5 md:py-1.5 bg-[#1A2333] text-blue-400 border border-blue-500/10 text-[9px] md:text-[10px] font-bold rounded-full">
                                 {t}
                              </span>
                           ))}
                        </div>
                        
                        {/* Footer Link */}
-                       <a href={project.link} className="inline-flex items-center text-sm font-bold text-[#A78BFA] hover:text-white transition-colors mt-auto group/link">
-                          View Case Study <ArrowRight size={16} className="ml-1 transition-transform group-hover/link:translate-x-1" />
+                       <a href={project.link} className="inline-flex items-center text-xs md:text-sm font-bold text-[#A78BFA] hover:text-white transition-colors mt-auto group/link mb-3 md:mb-0">
+                          View Case Study <ArrowRight size={14} className="ml-1 transition-transform group-hover/link:translate-x-1" />
                        </a>
                       {/* Mobile full-width CTA */}
-                      <a href={project.link} className="mt-4 md:hidden block w-full text-center py-3 rounded-xl bg-[#6b46c1] text-white font-bold text-sm">View Project</a>
+                      <a href={project.link} className="mt-3 md:hidden block w-full text-center py-2.5 rounded-lg bg-[#6b46c1] text-white font-bold text-xs">View Project</a>
                     </div>
                  </div>
               </div>
             ) : (
               // ================= VIDEO MODE CARD DESIGN (Cinematic Style) =================
-              <div key={project.id} className="min-w-[90vw] sm:min-w-[420px] md:min-w-[480px] lg:min-w-[500px] snap-start shrink-0 group cursor-pointer animate-scale-in" style={{ animationDelay: `${idx * 100}ms` }}>
+              <div key={project.id} className="min-w-[85vw] sm:min-w-[360px] md:min-w-[480px] lg:min-w-[500px] snap-start shrink-0 group cursor-pointer animate-scale-in" style={{ animationDelay: `${idx * 100}ms` }}>
                 {/* Image Container */}
-                <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 bg-[#111] border border-white/5 group-hover:border-red-500/50 transition-all duration-300 shadow-lg group-hover:shadow-red-500/20">
+                <div className="relative aspect-video rounded-xl md:rounded-2xl overflow-hidden mb-3 md:mb-4 bg-[#111] border border-white/5 group-hover:border-red-500/50 transition-all duration-300 shadow-lg group-hover:shadow-red-500/20">
                    <img 
                       src={project.image} 
                       alt={project.title} 
@@ -163,35 +163,35 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
                    
                    {/* Play Button Overlay */}
                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="w-16 h-16 rounded-full bg-red-600/80 backdrop-blur-md border-2 border-white flex items-center justify-center transform scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 shadow-2xl shadow-red-600/50">
+                      <div className="w-14 md:w-16 h-14 md:h-16 rounded-full bg-red-600/80 backdrop-blur-md border-2 border-white flex items-center justify-center transform scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 shadow-2xl shadow-red-600/50">
                          <Play fill="white" className="ml-1 text-white" size={24} />
                       </div>
                    </div>
                    
-                   <div className="absolute top-4 left-4">
-                      <span className="bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-red-500/50 shadow-lg">
+                   <div className="absolute top-3 md:top-4 left-3 md:left-4">
+                      <span className="bg-red-600 text-white text-[9px] md:text-[10px] font-bold uppercase tracking-widest px-2.5 md:px-3 py-1 md:py-1.5 rounded-full border border-red-500/50 shadow-lg">
                          {project.category}
                       </span>
                    </div>
                 </div>
 
                 {/* Text Content */}
-                <div className="px-1">
-                   <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-red-400 transition-colors duration-300 leading-tight">{project.title}</h3>
-                      <a href={project.link} className="p-2 rounded-full hover:bg-red-600/20 transition-all duration-300 flex-shrink-0 group/link">
-                        <ArrowUpRight size={18} className="text-gray-400 group-hover/link:text-red-500 transition-colors" />
+                <div className="px-0.5 md:px-1">
+                   <div className="flex justify-between items-start mb-1 md:mb-2 gap-2">
+                      <h3 className="text-sm md:text-lg lg:text-xl font-bold text-white group-hover:text-red-400 transition-colors duration-300 leading-snug line-clamp-1">{project.title}</h3>
+                      <a href={project.link} className="p-1.5 md:p-2 rounded-full hover:bg-red-600/20 transition-all duration-300 flex-shrink-0 group/link">
+                        <ArrowUpRight size={16} className="text-gray-400 group-hover/link:text-red-500 transition-colors" />
                       </a>
                    </div>
-                   <p className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-2 group-hover:text-gray-300 transition-colors">{project.description}</p>
-                   <div className="flex flex-wrap gap-2.5 mb-4">
-                      {project.tech.map(t => (
-                         <span key={t} className="text-[11px] text-red-400 font-semibold px-2.5 py-1 bg-red-500/10 rounded-md border border-red-500/30 hover:border-red-500/60 transition-all">#{t}</span>
+                   <p className="text-gray-400 text-xs md:text-sm leading-relaxed mb-2 md:mb-4 line-clamp-2 group-hover:text-gray-300 transition-colors">{project.description}</p>
+                   <div className="flex flex-wrap gap-1.5 md:gap-2.5 mb-3 md:mb-4">
+                      {project.tech.slice(0, 3).map(t => (
+                         <span key={t} className="text-[10px] md:text-[11px] text-red-400 font-semibold px-2 md:px-2.5 py-0.5 md:py-1 bg-red-500/10 rounded-md border border-red-500/30 hover:border-red-500/60 transition-all">#{t}</span>
                       ))}
                    </div>
                    {/* Mobile full-width View button */}
-                   <div className="mt-4 md:hidden px-1">
-                      <a href={project.link} className="block w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white text-center font-bold text-sm transition-all duration-300 shadow-lg shadow-red-600/30">View Project</a>
+                   <div className="mt-3 md:hidden px-0.5">
+                      <a href={project.link} className="block w-full py-2.5 rounded-lg bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white text-center font-bold text-xs transition-all duration-300 shadow-lg shadow-red-600/30">View Project</a>
                    </div>
                 </div>
               </div>
@@ -200,7 +200,7 @@ const Projects: React.FC<ProjectsProps> = ({ mode }) => {
         </div>
         
         {/* Mobile Swipe Hint */}
-        <div className="md:hidden flex justify-center mt-[-10px] opacity-40">
+        <div className="md:hidden flex justify-center mt-2 opacity-40">
            <div className="flex items-center gap-2 text-[10px] text-slate-500 font-medium uppercase tracking-widest">
               Swipe to explore
            </div>

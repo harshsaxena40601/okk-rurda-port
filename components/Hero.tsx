@@ -56,7 +56,7 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
     : 'from-blue-500 via-blue-400 to-cyan-400';
 
   return (
-    <section id="home" className="relative pt-24 pb-12 md:pt-32 md:pb-16 overflow-hidden min-h-screen flex items-center bg-[#050505]">
+    <section id="home" className="relative pt-16 pb-8 md:pt-32 md:pb-16 overflow-hidden min-h-screen flex items-center bg-[#050505]">
       {/* Cinematic Background Ambience - Low Saturation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
          <div className={`absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] opacity-10 transition-colors duration-1000 ${isVideo ? 'bg-cine-red' : 'bg-blue-900'}`}></div>
@@ -64,8 +64,8 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] mix-blend-overlay"></div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-6 sm:gap-10 lg:gap-16">
           
           {/* Content Side */}
           <div className="flex-1 w-full flex flex-col items-center lg:items-start text-center lg:text-left z-20 animate-fade-in-up">
@@ -88,58 +88,58 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
                  {content.greeting}
               </h2>
               
-              <h1 className="hero-h1 text-[28px] sm:text-5xl lg:text-6xl font-heading font-black text-white tracking-tighter leading-[1.05] mb-4 animate-fade-in-up">
+              <h1 className="hero-h1 text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white tracking-tighter leading-[1.3] md:leading-[1.2] lg:leading-[1.05] mb-4 md:mb-6 animate-fade-in-up">
                 {content.titleLine1} <br />
                 <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradientText} animate-gradient-shift`}>
                   {content.titleLine2}
                 </span>
-              </h1>              <h3 className="text-sm md:text-base lg:text-lg text-text-muted font-light mb-8 max-w-lg mx-auto lg:mx-0 animate-slide-in-right" style={{ animationDelay: '100ms' }}>
+              </h1>              <h3 className="text-base md:text-lg lg:text-xl text-text-muted font-light mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed animate-slide-in-right" style={{ animationDelay: '100ms' }}>
                 {content.subtitle} <span className="text-white font-medium border-b border-white/20 pb-0.5">{content.subtitleHighlight}</span>
               </h3>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-slide-in-left" style={{ animationDelay: '200ms' }}>
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 w-full sm:w-auto animate-slide-in-left" style={{ animationDelay: '200ms' }}>
                 <a 
                   href="#projects" 
-                  className={`cta-full sm:w-auto text-white px-6 py-3 rounded-full font-bold text-sm tracking-wide transition-all shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] hover:-translate-y-1 hover:shadow-2xl hover:scale-105 active:scale-95 flex items-center gap-2 group ${primaryBg} ${glowColor}`}
+                  className={`cta-full w-full sm:w-auto text-white px-6 py-3 md:py-2.5 rounded-full font-bold text-sm md:text-base tracking-wide transition-all shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] hover:-translate-y-1 hover:shadow-2xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 group min-h-[44px] md:min-h-[40px] ${primaryBg} ${glowColor}`}
                 >
                   {content.primaryButtonText}
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </a>
                 
                 {isVideo && (
-                  <button className="w-full sm:w-auto px-6 py-3 rounded-full border border-white/10 text-white font-bold text-sm hover:bg-white/5 hover:border-white/30 transition-all flex items-center gap-2 justify-center transform hover:scale-105 active:scale-95">
+                  <button className="w-full sm:w-auto px-6 py-3 md:py-2.5 rounded-full border border-white/10 text-white font-bold text-sm md:text-base hover:bg-white/5 hover:border-white/30 transition-all flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 min-h-[44px] md:min-h-[40px]">
                     <Play size={14} fill="currentColor" /> Showreel
                   </button>
                 )}
               </div>              {/* Social Proof Bar */}
-              <div className="mt-8 pt-6 border-t border-white/5 w-full flex flex-wrap justify-center lg:justify-start gap-6 md:gap-10 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
-                 <div className="flex flex-col items-center lg:items-start">
-                    <div className="flex items-center gap-1 text-yellow-500 mb-1">
+              <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/5 w-full flex flex-col sm:flex-row sm:flex-wrap justify-center lg:justify-start gap-4 md:gap-6 lg:gap-10 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+                 <div className="flex flex-col items-center sm:items-start">
+                    <div className="flex items-center gap-1 text-yellow-500 mb-1 justify-center sm:justify-start">
                        <Star size={12} fill="currentColor" />
                        <Star size={12} fill="currentColor" />
                        <Star size={12} fill="currentColor" />
                        <Star size={12} fill="currentColor" />
                        <Star size={12} fill="currentColor" />
                     </div>
-                    <span className="text-[10px] text-text-muted font-medium">100% Client Satisfaction</span>
+                    <span className="text-[10px] md:text-xs text-text-muted font-medium">100% Client Satisfaction</span>
                  </div>
                  
-                 <div className="flex items-center gap-3">
+                 <div className="flex items-center justify-center sm:justify-start gap-3">
                     <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white">
                        <CheckCircle size={16} className={isVideo ? 'text-cine-red' : 'text-blue-500'} />
                     </div>
                     <div className="flex flex-col">
-                       <span className="text-white font-bold text-base leading-none">200+</span>
+                       <span className="text-white font-bold text-sm md:text-base leading-none">200+</span>
                        <span className="text-[10px] text-text-muted uppercase tracking-wider">Projects Done</span>
                     </div>
                  </div>
 
-                 <div className="flex items-center gap-3">
+                 <div className="flex items-center justify-center sm:justify-start gap-3">
                     <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white">
                        <Award size={16} className={isVideo ? 'text-cine-red' : 'text-blue-500'} />
                     </div>
                     <div className="flex flex-col">
-                       <span className="text-white font-bold text-base leading-none">5+</span>
+                       <span className="text-white font-bold text-sm md:text-base leading-none">5+</span>
                        <span className="text-[10px] text-text-muted uppercase tracking-wider">Years Exp.</span>
                     </div>
                  </div>
@@ -148,9 +148,9 @@ const Hero: React.FC<HeroProps> = ({ mode, setMode }) => {
           </div>
 
           {/* Visual Side with 3D Tilt */}
-          <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-8 lg:mt-0 z-10 animate-slide-in-right" style={{ perspective: '1000px' }}>
+          <div className="flex-1 w-full flex justify-center lg:justify-end relative mt-6 sm:mt-8 lg:mt-0 z-10 animate-slide-in-right px-4 sm:px-0" style={{ perspective: '1000px' }}>
              <div 
-                className="relative w-full max-w-[300px] lg:max-w-sm aspect-[4/5] group transition-all duration-200 ease-out hover:scale-105 active:scale-95"
+                className="relative w-full max-w-[280px] sm:max-w-[300px] lg:max-w-sm aspect-[4/5] group transition-all duration-200 ease-out hover:scale-105 active:scale-95"
                 onMouseMove={onMouseMove}
                 onMouseLeave={onMouseLeave}
                 style={{

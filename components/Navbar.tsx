@@ -53,8 +53,8 @@ const Navbar: React.FC<NavbarProps> = ({ mode }) => {
             : 'bg-transparent border-transparent py-6'
         }`}
       >
-        <div className="container mx-auto px-6 flex justify-between items-center">
-          <NavLink to="/" className="text-2xl font-heading font-black text-white tracking-tighter group flex items-center gap-1 relative z-[101]">
+        <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+          <NavLink to="/" className="text-xl md:text-2xl font-heading font-black text-white tracking-tighter group flex items-center gap-1 relative z-[101] min-h-[44px] flex items-center">
             RUDRA<span className={isVideo ? 'text-cine-red' : 'text-blue-500'}>.</span>
           </NavLink>
 
@@ -99,10 +99,10 @@ const Navbar: React.FC<NavbarProps> = ({ mode }) => {
         <aside className={`absolute top-0 right-0 h-full mobile-menu-panel glass-card shadow-xl pointer-events-auto transition-all duration-300 ${isMobileMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}>
           <div className="h-full flex flex-col justify-start items-stretch px-6 py-8">
             <div className="flex items-center justify-between mb-8">
-              <NavLink to="/" className="text-xl font-heading font-black text-white tracking-tighter flex items-center gap-1">
+              <NavLink to="/" className="text-lg md:text-xl font-heading font-black text-white tracking-tighter flex items-center gap-1">
                 RUDRA<span className={isVideo ? 'text-cine-red' : 'text-blue-500'}>.</span>
               </NavLink>
-              <button className="p-2 rounded-md text-white/70 hover:text-white hover:bg-white/5" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close Menu">
+              <button className="p-2 rounded-md text-white/70 hover:text-white hover:bg-white/5 min-h-[44px] min-w-[44px] flex items-center justify-center" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close Menu">
                 <X size={20} />
               </button>
             </div>
